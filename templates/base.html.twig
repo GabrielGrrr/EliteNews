@@ -78,16 +78,24 @@
                             <i class="fas fa-user"></i>
                         </a>
                         <div class="connexion-dropdown">
-                                <form action="{{ path('login') }}">
-                                        <label for="login-dpdwn">Login :</label>
-                                        <input name="login-dpdwn" type="text">
-                                        <label for="password-dpdwn">Mot de passe :</label>
-                                        <input name="password-dpdwn" type="password">
-                                        <button type="button" onclick="" class="bouton">
+                                {% if not app.user %}
+                                <form action="{{ path('login') }}" method="POST">
+                                        <label for="_username">Login :</label>
+                                        <input name="_username" type="text">
+                                        <label for="_password">Mot de passe :</label>
+                                        <input name="_password" type="password">
+                                        <button type="submit" onclick="" class="bouton">
                                             Connexion
                                         </button>
                                         <a href="{{ path('register') }}" class="register">S'inscrire</a>
                                     </form>
+                                {% else %}
+                                        <div class="dpdwn_profile">
+                                                <a href="{{ path('account') }}" class="account">Profil personnel</a>
+                                                <a href="{{ path('logout') }}" class="logout">Déconnexion</a>
+                                        </div>
+                                {% endif %}
+
                         </div>
                     </li>
                     <li>

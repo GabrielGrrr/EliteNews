@@ -1,14 +1,14 @@
 <section class="article-list">
 
         {% for article in articles %}
-        <article class="article-{{ texthandler.translateWeight(article.weight) }}">
+        <article class="article-listed article-{{ texthandler.translateWeight(article.weight) }}">
             <div class="article-category">
                 <a href="#" class="url-link">
                     {{ texthandler.reverseCategory(article.category) | raw }}</a>
             </div>
-            <div class="article-{{ texthandler.translateWeight(article.weight) }}-inside">
+            <div class="article-inside">
                 <div class="article-image">
-                    <img src="{{ article.image }}" class="img-centered" alt="">
+                    <img src="{{ article.image }}"  alt="">
                 </div>
                 <div class="article">
                     <h1 class="headingband">{{ article.titre }}</h1>

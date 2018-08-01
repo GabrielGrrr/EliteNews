@@ -1,8 +1,4 @@
-{% extends 'base.html.twig' %}
-
-{% block title %} {{ article.titre }}{% endblock %}
-
-{% block body %}
+{% extends 'base.html.twig' %} {% block title %} {{ article.titre }}{% endblock %} {% block body %}
 
 <!-- articles -->
 <section class="article-view">
@@ -25,12 +21,24 @@
                 </div>
                 <div class="article-footer resp-hsize">
                     <span>
-                            <span class="dispensable">COMMENTAIRES UTILISATEURS</span> <span id="comment-count" class="comment-count" onclick="showComments()">{{ comments | length }}</span>
+                        <span class="dispensable">COMMENTAIRES UTILISATEURS</span>
+                        <span id="comment-count" class="comment-count" onclick="showComments()">{{ comments | length }}</span>
                     </span>
-                    <span class="socialsharing"><span class="social-before">PARTAGER CET ARTICLE </span><a href="#" class="url-link"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="url-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-reddit-square"></i></a>
-                    <a href="#"><i class="fab fa-google-plus"></i></a></span>
+                    <span class="socialsharing">
+                        <span class="social-before">PARTAGER CET ARTICLE </span>
+                        <a href="#" class="url-link">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="url-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-reddit-square"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-google-plus"></i>
+                        </a>
+                    </span>
                 </div>
             </div>
         </div>
@@ -40,12 +48,16 @@
                 <div class="comment-leftpanel">
                     <span class="login">{{ comment.author.login }}</span>
                     <span class="subtitle">{{ comment.author.subtitle }}</span>
-                    <span><img class="avatar img-centered" src="{{ comment.author.avatar }}"></span>
+                    <span>
+                        <img class="avatar img-centered" src="{{ comment.author.avatar }}">
+                    </span>
                     <span class="localisation">{{ comment.author.localisation }}</span>
                 </div>
                 <div class="comment-rightpanel">
-                    <div class="comment-header"><span class="comment-date">Posté le {{ comment.datecreation | date('d/m/Y') }} à {{ comment.datecreation | date('H:i') }}.</span>
-                    <span class="comment-id">#{{ comment.id }}</span></div>
+                    <div class="comment-header">
+                        <span class="comment-date">Posté le {{ comment.datecreation | date('d/m/Y') }} à {{ comment.datecreation | date('H:i') }}.</span>
+                        <span class="comment-id">#{{ comment.id }}</span>
+                    </div>
                     <div class="comment-content">{{ comment.content }}</div>
                     <div class="comment-signature">{{ comment.author.signature }}</div>
                 </div>
@@ -58,22 +70,33 @@
     </article>
 
 </section>
-
-<section class ="commentaires">
+{% if app.user %}
+<section class="comment-form">
     <div>
-        
+        <form action="{{ path('comment', {'id' : article.id }) }}" method="POST">
+            <label for="content">Contenu</label>
+            <textarea name="content" type="textarea" required> </textarea>
+            <button type="submit" onclick="" class="bouton">
+            Répondre
+            </button>
+            <p>N'oubliez pas que les propos que vous publiez en ligne peuvent heurter votre audience, en publiant un commentaire vous acceptez
+                <a href="" class="register url-link">nos règles de modération.</a>
+            </p>
+        </form>
     </div>
 </section>
 
+{% endif %}
+
 
 <section class="articles-roll">
-        <a href="" class="nav-bouton previous-article"><i class="fas fa-arrow-left"></i> Article précédent</a>
-{% include 'articles/carousel.html.twig' %}
-<a href="" class="nav-bouton next-article">Article suivant <i class="fas fa-arrow-right"></i></a>
+    <a href="" class="nav-bouton previous-article">
+        <i class="fas fa-arrow-left"></i> Article précédent</a>
+    {% include 'articles/carousel.html.twig' %}
+    <a href="" class="nav-bouton next-article">Article suivant
+        <i class="fas fa-arrow-right"></i>
+    </a>
 </section>
 
-{% endblock %}
-
-{% block javascripts %}
-<script src="{{ asset('assets/js/article_read.js') }}"></script>
-{% endblock %}
+{% endblock %} {% block javascripts %}
+<script src="{{ asset('assets/js/article_read.js') }}"></script> {% endblock %}

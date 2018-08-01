@@ -383,15 +383,20 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--main-bgcolor);
 }
 
-/* Articles */
+/* ------ ARTICLES ------ */
 
 .article-list {
     display:flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: flex-start;
     margin-top : 50px;
     margin-bottom:50px;
+}
+
+.article-listed {
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 
@@ -402,17 +407,6 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--main-font), sans-serif;
     font-weight:bold;
     font-size:2.6em;
-}
-
-.article {
-    background:  var(--main-bgcolor);
-    color: var(--main-a-color);
-    font-family: var(--secondary-font);
-    margin-top:0px;
-}
-
-.article h1 {
-    background: var(--main-bgcolor);
 }
 
 .article .article-heading {
@@ -460,11 +454,15 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #fff transparent transparent;
 }
 
+.article .headingband {
+    margin-bottom:0;
+}
+
 .article .article-content {
     background:var(--secondary-bgcolor);
     color:black;
     padding: 3px;
-    margin-top: 2em;
+    margin-top: 2px;
     padding-bottom: 1em;
     padding-top: 1em;
 }
@@ -495,41 +493,32 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .article-short {
-    flex-basis: 350px;
-    flex-grow: 1;
+    flex-basis: 30%;
+    flex-grow: 0;
     flex-shrink:0;
-    margin:0px;
 }
 
 .article-long {
-    flex-basis :
-    800px;
-    flex-grow: 2;
-    padding-left:10px;
-    padding-right:10px;
+    flex-basis : 45%;
+    flex-grow: 0;
+    flex-shrink: 1;
 }
 
-.article-short-inside {
-    display:flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+.article-xl {
+    flex-basis : 80%;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.article-inside {
     justify-content: center;
-    align-items: flex-start;
+    display: block;
+    position:relative;
 }
 
-.article-short-inside .article-image {
-    flex-basis: 350px;
-    flex-grow: 1;
-    flex-shrink:1;
-    margin-bottom:0px;
-    margin-top: 0px;
-}
-
-.article-short-inside .article {
-    margin-right:10px;
-    margin-left:10px;
-    flex-basis: 250px;
-    flex-grow: 1;
+.article-inside .article-image img {
+    position:relative;
+    min-width: 100%;
 }
 
 /* Article viewed */
@@ -840,8 +829,8 @@ footer {
 
 @media screen and (min-width: 1300px) {
     .article-list {
-        margin-left:10%;
-        margin-right:10%;
+        margin-left:3%;
+        margin-right:3%;
     }
 
     #register form div input {

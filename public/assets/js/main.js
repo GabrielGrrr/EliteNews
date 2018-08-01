@@ -35,7 +35,7 @@ function autoslide() {
 function getslide(n) {
   var i;
   var slides = document.getElementsByClassName("carousel-slide");
-  clearTimeout(timeoutRef);
+  //clearTimeout(timeoutRef);
   //var dots = document.getElementsByClassName("demo");
   if (n > slides.length) {slideIndex = 1}    
   if (n < 1) {slideIndex = slides.length}
@@ -46,7 +46,7 @@ function getslide(n) {
      dots[i].className = dots[i].className.replace(" w3-red", "");
   }*/
   slides[slideIndex-1].style.display = "block";
-  timeoutRef = setTimeout(autoslide, 6000);
+  //timeoutRef = setTimeout(autoslide, 6000);
   //dots[slideIndex-1].className += " w3-red";
 }
 

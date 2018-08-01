@@ -86,4 +86,12 @@ class ArticleController extends Controller
     {
         return $this->render('articles/remove.html.twig');
     }
+
+    /**
+     * @Route("/thread/{id}/comment/", name="comment")
+     */
+    public function comment()
+    {
+        return $this->render('articles/read.html.twig');
+    }
 }
