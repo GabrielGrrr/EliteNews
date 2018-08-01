@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GG Weblog - {% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %} - GG Weblog</title>
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
@@ -123,12 +123,12 @@
                 <a href="{{ path('home') }}">
                 <img src="{{ asset('assets/images/banner_resized1300x222.png') }}" class="img-centered" alt="Bannière du site"></a>
                 <h1 class="banner-categories">
-                    <a href="{{ path('article_search', {'keyword' : 'it' }) }}">IT</a> -
-                    <a href="{{ path('article_search', {'keyword' : 'neuro' }) }}">Neuro</a> -
-                    <a href="{{ path('article_search', {'keyword' : 'socio' }) }}">Socio</a> -
-                    <a href="{{ path('article_search', {'keyword' : 'psycho' }) }}">Psycho</a> -
-                    <a href="{{ path('article_search', {'keyword' : 'cinema' }) }}">Cinéma</a>
-                    <a href="{{ path('article_search', {'keyword' : 'autres' }) }}">etc.</a>
+                    <a href="{{ path('article_search', {'keyword' : 'it' }) }}" class="url-link">IT</a> -
+                    <a href="{{ path('article_search', {'keyword' : 'neuro' }) }}" class="url-link">Neuro</a> -
+                    <a href="{{ path('article_search', {'keyword' : 'socio' }) }}" class="url-link">Socio</a> -
+                    <a href="{{ path('article_search', {'keyword' : 'psycho' }) }}" class="url-link">Psycho</a> -
+                    <a href="{{ path('article_search', {'keyword' : 'cinema' }) }}" class="url-link">Cinéma</a>
+                    <a href="{{ path('article_search', {'keyword' : 'autres' }) }}" class="url-link">etc.</a>
                 </h1>
             </div>
             <img src="{{ asset('assets/images/sep1.png') }}" class="img-centered" alt="Séparateur">

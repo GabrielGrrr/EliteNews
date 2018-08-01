@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Forum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\DependencyInjection\Tests\Compiler\PrivateConstructor;
 
 /**
  * @method Forum|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,26 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ForumRepository extends ServiceEntityRepository
 {
+    private $root;
+    private $news;
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Forum::class);
+    }
+
+    public function rootForum()
+    {
+        if(isset($root)) return $root;
+        $root = $this->findOneBy(['isRootForum' => 1]);
+        return $root;
+    }
+
+    public function newsForum()
+    {
+        if(isset($news)) return $news;
+        $news = $this->findOneBy(['isNewsForum' => 1]);
+        return $news;
     }
 
 //    /**

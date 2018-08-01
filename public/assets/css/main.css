@@ -36,49 +36,38 @@ a:hover {
     color: var(--main-a-color);
 }
 
-.nav-bouton {
-    background: #343a4096;
-    color: var(--main-a-color);
-    font-family: var(--main-font);
-    font-size: 20px;
-    border : 1px solid black;
-}
-
-.nav-bouton:hover
-{
-    background: var(--main-bgcolor);
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
-
-/* Top Carousel */
+/* Top Carousel, choisir des images de pas plus d'1/3 pour des raisons esthétiques */
 
 #carousel-maison {
     position:relative;
     text-align: center;
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
+}
+
+#carousel-maison .carousel-slide {
+    display: none;
+}
+
+#carousel-maison .carousel-slide img {
+    min-width: 100%;
 }
 
 .car-bouton {
     border-radius: 30%;
     border:none;
     background: none;
-    color: var(--main-bgcolor);
+    color: #282d31;
     font-size : 2em;
+    mix-blend-mode: hard-light;
 }
 
 .car-bouton:hover {
     cursor: pointer;
-    background: #343a4018;
     color: var(--main-a-color);
 }
 
 .car-bouton:active {
     color: var(--main-bgcolor);
 }
-
-/* */
 
 .bouton-gauche {
     position: absolute;
@@ -93,6 +82,18 @@ a:hover {
     top: 35%;
     left: 85%;
 }
+
+#carousel-maison .carousel-textcontent {
+    display: none;
+    position: absolute;
+    color: var(--main-bgcolor);
+    top: 35%;
+    right:50%;
+    mix-blend-mode: difference;
+    font-size:4vw;
+}
+
+/* */
 
 .interrupteur-active {
     color:white;
@@ -109,7 +110,12 @@ a:hover {
 
 .url-link {
     text-decoration:none;
-    color:rgb(0, 0, 0);
+    color:var(--main-a-bgcolor);
+}
+
+.url-link:hover {
+    color: var(--main-a-hovercolor);
+    cursor: pointer;    
 }
 
 .img-centered {
@@ -125,7 +131,7 @@ img {
 
 body {
     background-image: url('../images/diogenes_color.jpg');
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-attachment: scroll;
     background-position: top;
     padding-bottom:0px;
@@ -363,7 +369,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: rgba(255, 255, 255, 0.75);
     margin-top: 70px;
     position: relative;
-    margin-bottom:25px;
+    margin-bottom:0;
 }
 
 .banner .banner-content {
@@ -381,6 +387,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .banner .banner-content .banner-categories a {
     color: var(--main-bgcolor);
+}
+
+.banner .banner-content .banner-categories a:hover {
+    color: var(--main-a-hovercolor);
 }
 
 /* ------ ARTICLES ------ */
@@ -417,6 +427,10 @@ h1, h2, h3, h4, h5, h6 {
     padding-left:10px;
 }
 
+.article .article-heading span {
+    display:inline;
+}
+
 .article .article-heading .comment-count {
     background-color:white;
     color:black;
@@ -425,6 +439,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-right:10px;
     float: right;
     position: relative;
+    
     font-family: var(--main-font), sans-serif;
     font-weight: bold;
     font-size: 18px;
@@ -438,7 +453,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .article .article-heading .comment-count:hover {
-    color: var(--main-a-hovercolor);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
 .article .article-heading a::after
@@ -469,14 +484,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .article-more {
     text-align:center;
-    border: 1px solid black;
     position: relative;
-    bottom:-15px;
+    top:-15px;
     font-family: var(--main-font);
-    font-weight: bold;
-    font-size: 20px;
-    color:var(--main-bgcolor);
-    background: var(--main-a-color);
+    color:white;
+    font-size: 16px;
     width: 6em;
     margin-top: 0px;
     margin-bottom:0px;
@@ -487,26 +499,25 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .article-more:hover {
-    background: var(--main-bgcolor);
-    color: var(--main-a-color);
     cursor:pointer;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 .article-short {
-    flex-basis: 30%;
-    flex-grow: 0;
-    flex-shrink:0;
+    flex-basis: 25%;
+    flex-grow: 1;
+    flex-shrink:1;
 }
 
 .article-long {
-    flex-basis : 45%;
-    flex-grow: 0;
+    flex-basis : 30%;
+    flex-grow: 1;
     flex-shrink: 1;
 }
 
 .article-xl {
-    flex-basis : 80%;
-    flex-grow: 0;
+    flex-basis : 50%;
+    flex-grow: 1;
     flex-shrink: 0;
 }
 
@@ -532,6 +543,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .article-viewed {
     background: none;
+}
+
+.article-viewed .article-image img {
+    width: 100%;
 }
 
 .article-content h1, h2, h3, h4, h5, h6 {
@@ -584,7 +599,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .article-footer span span.comment-count:hover {
-    color: var(--main-a-hovercolor);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     cursor: pointer;
 }
 
@@ -602,36 +617,30 @@ h1, h2, h3, h4, h5, h6 {
     margin-left: 8px;
 }
 
+.article-footer .socialsharing a:hover {
+    color: var(--main-a-hovercolor);
+}
+
 .social-before {
     vertical-align: text-top;
     margin-right: 15px;
 }
 
-/* Articles Roll */
+/* Articles suivant / précéde,t */
 
-.articles-roll {
-    margin-top:30px;
-    margin-left:15px;
-    margin-right : 15px;
-    margin-bottom : 50px;
-    display:flex;
-    flex-wrap : nowrap;
-    flex-direction : row;
-    align-items: center;
-    text-align: center;
-    justify-content: space-between;
+#previous-or-next {
+    background: var(--secondary-bgcolor);
+    padding-bottom:20px;
 }
 
-.articles-roll .previous-article {
-    flex-basis: 10em;
-    flex-grow: 0;
-    flex-shrink:2;
+#previous-or-next .next-article {
+    float: right;
+    margin-right: 15px;
 }
 
-.articles-roll .next-article {
-    flex-basis: 10em;
-    flex-grow: 0;
-    flex-shrink:2;
+#previous-or-next .previous-article {
+    margin-left: 15px;
+    float:left;
 }
 
 /* Search Panel */
@@ -933,6 +942,18 @@ footer {
     #register form div input {
         position: absolute;
         left: 60%;
+    }
+
+    .article-short {
+        flex-basis: 100%;
+    }
+    
+    .article-long {
+        flex-basis : 100%;
+    }
+    
+    .article-xl {
+        flex-basis : 100%;
     }
 }
 

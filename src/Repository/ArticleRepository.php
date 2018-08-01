@@ -50,6 +50,25 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $qb->execute();
     }
+
+    //En l'absence de keyword LEAD et LAG, on fait comme on peut
+    public function getPreviousNext($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT max(id) as previous_row
+        FROM article
+        WHERE id < '.$id;
+        $previous = $conn->prepare($sql);
+        $previous->execute();
+
+        $sql = 'SELECT min(id) as next_row
+        FROM article
+        WHERE id > '.$id;
+        $next = $conn->prepare($sql);
+        $next->execute();
+
+    return [$previous->fetchAll(), $next->fetchall()];
+    }
     
 
 //    /**

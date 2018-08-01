@@ -33,6 +33,16 @@ class Forum
      */
     private $threads;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isNewsForum;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isRootForum;
+
     public function __construct()
     {
         $this->subforums = new ArrayCollection();
@@ -114,6 +124,30 @@ class Forum
                 $thread->setForum(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsNewsForum(): ?bool
+    {
+        return $this->isNewsForum;
+    }
+
+    public function setIsNewsForum(?bool $isNewsForum): self
+    {
+        $this->isNewsForum = $isNewsForum;
+
+        return $this;
+    }
+
+    public function getIsRootForum(): ?bool
+    {
+        return $this->isRootForum;
+    }
+
+    public function setIsRootForum(?bool $isRootForum): self
+    {
+        $this->isRootForum = $isRootForum;
 
         return $this;
     }

@@ -60,6 +60,20 @@ class Thread
         $this->comments = new ArrayCollection();
     }
 
+    public function __construct2($date, $viewcount, $forum, $article, $author, $titre)
+    {
+        $this->date_creation = $date;
+        $this->viewcount = $viewcount;
+        $this->forum = $forum;
+        $this->article = $article;
+        $this->author = $author;
+        $this->titre = $titre;
+        $this->comments = new ArrayCollection();
+
+        return $this;
+    }
+
+
     public function getId()
     {
         return $this->id;

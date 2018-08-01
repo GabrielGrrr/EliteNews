@@ -10,15 +10,30 @@
         </div>
         <div>
             <div class="article-image">
-                <img src="{{ article.image }}" class="img-centered" alt="">
+                <img src="{{ article.image }}" alt="">
             </div>
             <div class="article">
-                <div class="article-heading">Écrit le {{ article.datecreation | date('d/m/Y') }} à {{ article.datecreation | date('H:i') }}.
+                <div class="article-heading"><span class="list-authordate">Écrit le {{ article.datecreation | date('d/m/Y') }} 
+                        à {{ article.datecreation | date('H:i') }}, par {{ article.author.login }}. 
+                    </span>
                 </div>
                 <div class="article-content">
                     <h1>{{ article.titre }}</h1>
                     {{ article.content | raw }}
                 </div>
+
+                <div id="previous-or-next">
+                {% if previous is not null %}
+                <a href="{{ path('article_read', {'id' : previous })}}" class="bouton previous-article">
+                        <i class="fas fa-arrow-left"></i> Article précédent</a>
+                {% endif %}
+                {% if next is not null %}
+                <a href="{{ path('article_read', {'id' : next })}}" class="bouton next-article">Article suivant
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                {% endif %}
+                </div>
+
                 <div class="article-footer resp-hsize">
                     <span>
                         <span class="dispensable">COMMENTAIRES UTILISATEURS</span>
@@ -49,7 +64,11 @@
                     <span class="login">{{ comment.author.login }}</span>
                     <span class="subtitle">{{ comment.author.subtitle }}</span>
                     <span>
+                        {% if comment.author.signature is not null %}
                         <img class="avatar img-centered" src="{{ comment.author.avatar }}">
+                        {% else %}
+                        <img class="avatar img-centered" src="http://via.placeholder.com/90x90">
+                        {% endif %}
                     </span>
                     <span class="localisation">{{ comment.author.localisation }}</span>
                 </div>
@@ -59,7 +78,9 @@
                         <span class="comment-id">#{{ comment.id }}</span>
                     </div>
                     <div class="comment-content">{{ comment.content }}</div>
+                    {% if comment.author.signature is not null %}
                     <div class="comment-signature">{{ comment.author.signature }}</div>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
@@ -71,32 +92,25 @@
 
 </section>
 {% if app.user %}
+
 <section class="comment-form">
-    <div>
-        <form action="{{ path('comment', {'id' : article.id }) }}" method="POST">
-            <label for="content">Contenu</label>
-            <textarea name="content" type="textarea" required> </textarea>
+    <h1>Participer à la discussion</h1>
+{{ form_start(commentform) }}
+{{ form_row(commentform.content, {'attr' : {'placeholder' : "Insérez ici votre commentaire " }}) }}
             <button type="submit" onclick="" class="bouton">
-            Répondre
+                Répondre
             </button>
-            <p>N'oubliez pas que les propos que vous publiez en ligne peuvent heurter votre audience, en publiant un commentaire vous acceptez
-                <a href="" class="register url-link">nos règles de modération.</a>
-            </p>
-        </form>
-    </div>
+{{ form_end(commentform) }}
+<p>N'oubliez pas que les propos que vous publiez en ligne peuvent heurter votre audience, en publiant un commentaire
+        vous acceptez <a href="{{ path('rules') }}">nos règles de modération.</a>
+</p>
 </section>
 
-{% endif %}
+{% endif %} 
 
+{% include 'articles/carousel.html.twig' %}
 
-<section class="articles-roll">
-    <a href="" class="nav-bouton previous-article">
-        <i class="fas fa-arrow-left"></i> Article précédent</a>
-    {% include 'articles/carousel.html.twig' %}
-    <a href="" class="nav-bouton next-article">Article suivant
-        <i class="fas fa-arrow-right"></i>
-    </a>
-</section>
+{% endblock %} 
 
-{% endblock %} {% block javascripts %}
+{% block javascripts %}
 <script src="{{ asset('assets/js/article_read.js') }}"></script> {% endblock %}

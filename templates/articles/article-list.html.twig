@@ -12,7 +12,10 @@
                 </div>
                 <div class="article">
                     <h1 class="headingband">{{ article.titre }}</h1>
-                    <div class="article-heading">Écrit le {{ article.date_creation | date('d/m/Y') }} à {{ article.date_creation | date('H:i') }}, par {{ article.author }}.
+                    <div class="article-heading">
+                        <span class="list-authordate">Écrit le {{ article.date_creation | date('d/m/Y') }} 
+                            à {{ article.date_creation | date('H:i') }}, par {{ article.author }}. 
+                        </span>
                         <span class="comment-count" href="#">
                             <a href="{{ path('article_read', {'id' : article.id })}}#comment-count">{{ article.comment_count }}</a>
                         </span>
@@ -20,7 +23,7 @@
                     <div class="article-content">
                         {{ texthandler.raccourcir(article.content, article.weight) }}
                     </div>
-                    <a href="{{ path('article_read', {'id' : article.id })}}"> <div class="article-more">Lire la suite</div></a>
+                    <a href="{{ path('article_read', {'id' : article.id })}}"> <div class="bouton article-more">... Lire la suite</div></a>
                 </div>
             </div>
         </article>

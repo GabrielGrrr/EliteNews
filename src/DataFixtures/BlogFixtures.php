@@ -67,13 +67,23 @@ class BlogFixtures extends Fixture
         return $commentators;
     }
 
+    //Pas besoin de davantage pour l'instant
     public function generateForums(ObjectManager $manager, Faker\Generator $faker, $count)
     {
-        $forum = new Forum();
-        $forum->setDescription($faker->realText(100));
+        $forum2 = new Forum();
+        $forum2->setDescription("Forum dédié à regrouper les threads des articles");
+        $forum2->setIsNewsForum(1);
+        $forum2->setIsRootForum(0);
+        $manager->persist($forum2);
 
-        $manager->persist($forum);
-        return $forum;
+        $forum1 = new Forum();
+        $forum1->setDescription("Forum racine de l'application");
+        $forum1->setIsNewsForum(0);
+        $forum1->setIsRootForum(1);
+        $forum1->addSubforum($forum2);
+        $manager->persist($forum1);
+
+        return $forum2;
     }
 
     public function generateArticles(ObjectManager $manager, Faker\Generator $faker, Forum $forum, $commentators, $nbArticles, $nbUsers, $nbAVGComments)

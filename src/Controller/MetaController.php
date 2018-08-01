@@ -30,4 +30,28 @@ class MetaController extends Controller
     {
         return $this->render('meta/projects.html.twig');
     }
+
+    /**
+     * @Route("/rules", name="rules")
+     */
+    public function rules()
+    {
+        return $this->render('meta/rules.html.twig');
+    }
+
+    /**
+     * @Route("/legal", name="legal")
+     */
+    public function legal()
+    {
+        return $this->render('meta/legal.html.twig');
+    }
+
+    /**
+     * @Route("/notfound", name="404")
+     */
+    public function notfound()
+    {
+        return $this->render('meta/notfound.html.twig');
+    }
 }

@@ -3,6 +3,7 @@
     <div id="carousel-maison">
         {% for article in articles_star %}
         <a href="{{ path('article_read', {'id' : article.id })}}" class="carousel-slide"><img src="{{ article.getImage() }}" alt=""></a>
+        <h1 class="carousel-textcontent">{{ article.titre }}</h1>
         {% endfor %}
         <button class="car-bouton bouton-gauche" onclick="slide(-1)">&#10094;</button>
         <button class="car-bouton bouton-droit" onclick="slide(+1)">&#10095;</button>

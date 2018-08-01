@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 //Manipulated entities
 use App\Entity\Article;
+use App\Entity\User;
+use App\Entity\Comment;
+use App\Entity\Forum;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Service\ContentHandler;
@@ -14,7 +17,9 @@ use App\Service\ContentHandler;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 
-use App\Entity\Thread;
+use App\Entity\Thread as Sujet;
+use App\Form\CommentType;
+use App\Repository\UserRepository;
 
 class ArticleController extends Controller
 {
@@ -46,9 +51,36 @@ class ArticleController extends Controller
     /**
      * @Route("/read/{id}", name="article_read")
      */
-    public function read(Article $article, ArticleRepository $article_repo)
+    public function read(Article $article, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
     {
-        return $this->render('articles/read.html.twig', ['article' => $article, 'comments' => $article->getThread()->getComments(), 'articles_star' => $article_repo->getSlideArticles()]);
+
+        if (!$article) return $this->render('articles/home.html.twig');
+        if ($this->getUser()) {
+
+            $comment = new Comment();
+            $form = $this->createForm(CommentType::class, $comment);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if (!$comment->getId()) {
+                    $author = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
+                    $date = new \DateTime();
+                    $comment->setDateCreation($date);
+                    $comment->setThread($article->getThread());
+                    $comment->setLikeCounter(0);
+                    $comment->setAuthor($author);
+                }
+
+                $manager->persist($comment);
+                $manager->flush();
+            }
+        }
+        $previousnext = $article_repo->getPreviousNext($article->getId());
+        return $this->render('articles/read.html.twig', [
+            'article' => $article, 'comments' => $article->getThread()->getComments(),
+            'articles_star' => $article_repo->getSlideArticles(), 'commentform' => $form->createView(), 'previous' => $previousnext[0][0]['previous_row'],
+             'next' => $previousnext[1][0]['next_row']
+        ]);
     }
 
     /**
@@ -57,26 +89,36 @@ class ArticleController extends Controller
      */
     public function formArticle(Article $article = null, Request $request, ObjectManager $manager)
     {
-        if(!$article) $article = new Article();
+        if ($this->getUser()) {
+            if (!$article) $article = new Article();
 
-        $form = $this->createForm(ArticleType::class, $article);
-        $form->handleRequest($request);
+            $form = $this->createForm(ArticleType::class, $article);
+            $form->handleRequest($request);
+            //$date, 0, $this->getDoctrine()->getRepository(Forum::class)->rootForum(), $article, $author, $article->getTitre()
+            if ($form->isSubmitted() && $form->isValid()) {
+                if (!$article->getId()) {
+                    $date = new \DateTime();
+                    $author = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
+                    $thread = new Sujet();
+                    $thread->setArticle($article)->setAuthor($author)->setDateCreation($date)->setForum($this->getDoctrine()->getRepository(Forum::class)->rootForum())
+                    ->setTitre($article->getTitre())->setViewcount(0);
+                    $article->setDateCreation($date);
+                    $article->setAuthor($author);
+                    $article->setRemoved(0);
+                    $article->setThread($thread);
+                    $article->setViewcount(0);
+                    $manager->persist($thread);
+                }
+                //VERIFIER LA CORRESPONDANCE DES AUTEURS AVANT LA VALIDATION DE LEDITION
+                
+                $manager->persist($article);
+                $manager->flush();
 
-        if($form->isSubmitted() && $form->isValid()) {
-            if(!$article->getId()) {
-            $date = new \DateTime();
-            $article->setDateCreation($date); 
-            $article->setRemoved(0);
-            $article->setThread(new Thread($date, 0, $articleForum, $article, $author, $article->getTitre()));
-            $article->setViewcount(0); }
-
-            $manager->persist($article);
-            $manager->flush();
-
-            return $this->redirectToRoute('read', ['id' => $article->getId()]);
+                return $this->redirectToRoute('article_read', ['id' => $article->getId()]);
+            }
         }
 
-        return $this->render('articles/create.html.twig', ['redacform' => $form->createView(), 'editmode' => $article->getId() ? TRUE : FALSE]);
+        return $this->render('articles/create.html.twig', ['redacform' => $form->createView(), 'editmode' => $article->getId() ? true : false]);
     }
 
     /**
@@ -90,8 +132,8 @@ class ArticleController extends Controller
     /**
      * @Route("/thread/{id}/comment/", name="comment")
      */
-    public function comment()
+    public function comment(Article $article, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
     {
-        return $this->render('articles/read.html.twig');
+        return $this->render('articles/remove.html.twig');
     }
 }
