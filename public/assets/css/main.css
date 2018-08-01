@@ -804,25 +804,48 @@ h1, h2, h3, h4, h5, h6 {
 .comment-rightpanel .comment-content {
     margin-top:3px;
     margin-bottom:5px;
+    padding-bottom: 5em;
 }
 
 .comment-rightpanel .comment-signature {
     position: absolute;
+    display:block;
     bottom:0;
     width: 100%;
-    padding-top: 1em;
+    background: var(--main-bgcolor);
+    color: var(--main-a-color);
 }
 
 .comment-rightpanel .comment-signature::before {
     content: 'Signature : ';
     font-family: var(--secondary-font);
-    color: #858d96;
+    color: #969ba0;
     font-size: 0.8em;
     position : absolute;
-    top:0;
+    top:-1.3em;
     left: 0;
 }
 
+.comment-form {
+    background : var(--main-bgcolor);
+    color: white;
+    padding-bottom: 2em;
+    padding-left: 2em;
+    padding-top: 2em;
+}
+
+.comment-form form {
+    text-align: center;
+}
+
+.comment-form .bouton {
+    margin-top : 15px;
+}
+
+/*workaround : broken feature */
+.comment-form form label {
+    display:none;
+}
 
 /* Footer */
 
