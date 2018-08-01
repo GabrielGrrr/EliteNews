@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Créer un nouvel article {% endblock %}
+
+{% block body %}
+
+  <!-- Formulaire de rédaction des articles -->
+  <section id="form-article" class="main-section">
+    <h1 class="headingband">Créer un nouvel article</h1>
+    {{ form_start(redacform) }}
+    {{ form_row(redacform.titre, {'attr' : {'placeholder' : "Titre de l'article" }}) }}
+    {{ form_row(redacform.category, {'attr' : {'placeholder' : "Catégorie de l'article" }}) }}
+    {{ form_row(redacform.weight, {'attr' : {'placeholder' : "Importance de l'article" }}) }}
+    {{ form_row(redacform.image, {'attr' : {'placeholder' : "Image de l'article"  }}) }}
+    {{ form_row(redacform.content, {'attr' : {'placeholder' : "Contenu de l'article" }}) }}
+    <button type="submit" class="bouton">
+      {% if editmode %}
+      Enregistrer
+      {% else %}
+      Publier
+      {% endif %}
+    </button>
+    {{ form_end(redacform) }}
+
+
+        <a href="" class="infobulle-bbcode">Récapitulatif des codes de formatages des publications</a>
+</section>
+
+{% endblock %}

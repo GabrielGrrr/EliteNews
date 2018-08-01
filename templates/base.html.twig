@@ -1,0 +1,142 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GG Weblog - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arizonia" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
+    {% block stylesheets %}{% endblock %}
+
+
+
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <ul class="header-logo">
+                <li>
+                    <a href="{{ path('home') }}" class="url-link">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+                <li class="search-icon">
+                    <a href="{{ path('article_search') }}" class="url-link">
+                        <i class="fas fa-search"></i>
+                    </a>
+                    <ul class="search-form-sm">
+                        <form action="#" novalidate>
+                            <label for="searchbar-dpdwn">Rechercher un article :</label>
+                            <input name="searchbar-dpdwn" type="search">
+                            <button type="submit" onclick="" class="bouton">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <nav role="navigation">
+                <ul class="header-menu">
+                    <li class="burger">
+                        <a href="#">
+                            <i class="fas fa-bars"></i>
+                        </a>
+                        <ul class="burger-content">
+                            <li>
+                                <a href="{{ path('account') }}">
+                                    <i class="fas fa-user"></i> Connexion</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-github-square"></i> Github
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('projects') }}">Mes travaux</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('about') }}">A propos</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('contact') }}">Contact</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-itm-xl connexion-icon">
+                        <a href="{{ path('account') }}">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <div class="connexion-dropdown">
+                                <form action="{{ path('login') }}">
+                                        <label for="login-dpdwn">Login :</label>
+                                        <input name="login-dpdwn" type="text">
+                                        <label for="password-dpdwn">Mot de passe :</label>
+                                        <input name="password-dpdwn" type="password">
+                                        <button type="button" onclick="" class="bouton">
+                                            Connexion
+                                        </button>
+                                        <a href="{{ path('register') }}" class="register">S'inscrire</a>
+                                    </form>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fab fa-github-square"></i>
+                        </a>
+                    </li>
+                    <li class="menu-itm-xl">
+                        <a href="{{ path('projects') }}">Mes travaux</a>
+                    </li>
+                    <li class="menu-itm-xl">
+                        <a href="{{ path('about') }}">A propos</a>
+                    </li>
+                    <li class="menu-itm-xl">
+                        <a href="{{ path('contact') }}">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Banner -->
+        <div class="banner">
+            <img src="{{ asset('assets/images/sep1.png') }}" class="img-centered" alt="Séparateur">
+            <div class="banner-content">
+                <a href="{{ path('home') }}">
+                <img src="{{ asset('assets/images/banner_resized1300x222.png') }}" class="img-centered" alt="Bannière du site"></a>
+                <h1 class="banner-categories">
+                    <a href="{{ path('article_search', {'keyword' : 'it' }) }}">IT</a> -
+                    <a href="{{ path('article_search', {'keyword' : 'neuro' }) }}">Neuro</a> -
+                    <a href="{{ path('article_search', {'keyword' : 'socio' }) }}">Socio</a> -
+                    <a href="{{ path('article_search', {'keyword' : 'psycho' }) }}">Psycho</a> -
+                    <a href="{{ path('article_search', {'keyword' : 'cinema' }) }}">Cinéma</a>
+                    <a href="{{ path('article_search', {'keyword' : 'autres' }) }}">etc.</a>
+                </h1>
+            </div>
+            <img src="{{ asset('assets/images/sep1.png') }}" class="img-centered" alt="Séparateur">
+        </div>
+    </header>
+
+    {% block body %}{% endblock %}
+
+    <footer>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet totam inventore ratione modi voluptatibus cupiditate debitis
+        reprehenderit facilis quo autem iure delectus eaque veritatis maiores libero, voluptate architecto sapiente culpa.
+    </footer>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+<script src="{{ asset('assets/js/main.js') }}"></script>
+{% block javascripts %}{% endblock %}
+
+</html>

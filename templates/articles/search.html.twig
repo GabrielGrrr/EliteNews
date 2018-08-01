@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rechercher un article{% endblock %}
+
+{% block body %}
+
+<section class="search-panel">
+    <form action="#" novalidate>
+        <input name="searchbar" type="text">
+        <button type="submit" onclick="" class="bouton">
+            <i class="fas fa-search"></i>
+        </button>
+        <div id="message-serveur">Votre requête n'a pas pu aboutir</div>
+    </form>
+    <div class="category-list resp-hsize">
+        Catégories : 
+        <div class="category-bouton interrupteur-active" onclick="coche_categorie(this, 'it')"><i class="fas fa-code"></i></div>
+        <div class="category-bouton interrupteur-active" onclick="coche_categorie(this, 'neuro')"><i class="fas fa-flask"></i></div>
+        <div class="category-bouton interrupteur-active" onclick="coche_categorie(this, 'socio')"><i class="fas fa-users"></i></div>
+        <div class="category-bouton interrupteur-active" onclick="coche_categorie(this, 'psycho')"><i class="fas fa-couch"></i></div>
+        <div class="category-bouton interrupteur-active" onclick="coche_categorie(this, 'cine')"><i class="fas fa-film"></i></div>
+        <div class="category-bouton interrupteur-active" onclick="coche_categorie(this, 'autre')"><i class="fas fa-book"></i></div>
+    </div>
+</section>
+
+{% include 'articles/article-list.html.twig' %}
+
+{% endblock %}

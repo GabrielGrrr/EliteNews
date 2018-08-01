@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Login {% endblock %}
+
+{% block body %}
+
+<section id="connexion-form" class="main-section">
+        <form action="{{ path('login') }}" method="POST">
+                <label for="_username">E-mail :</label>
+                <input name="_username" type="text" required>
+                <label for="_password">Mot de passe :</label>
+                <input name="_password" type="password" required>
+                <button type="submit" onclick="" class="bouton">
+                    Connexion
+                </button>
+                <p>Pas encore d'identifiants ?<a href="{{ path('register') }}" class="register url-link">S'inscrire</a></p>
+                <p>Oublié votre mot de passe ?<a href="{{ path('new_password') }}" class="register url-link">En demander un nouveau</a></p>
+                </form>
+                <div class="icon-form"><i class="fas fa-user"></i> </div>
+</section>
+
+{% endblock %}
