@@ -847,6 +847,23 @@ h1, h2, h3, h4, h5, h6 {
     display:none;
 }
 
+body:nth-of-type(1) input[type="checkbox"] { display: none; }
+body:nth-of-type(1) input[type="checkbox"] + label:before {
+    content: "\00a0"; /* character: space */
+    background: #999;
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 16px;
+    margin-right: 10px;
+    padding: 0 0 0 0px;
+    text-align: center;
+}   
+body:nth-of-type(1) input[type="checkbox"]:checked + label:before {
+    content: "\00D7"; /* character: "times" symbol (and "x") */
+}
+
 /* Footer */
 
 footer {

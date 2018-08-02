@@ -29,6 +29,11 @@ class Forum
     private $subforums;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Forum", inversedBy="subforums")
+     */
+    private $parent;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Thread", mappedBy="forum")
      */
     private $threads;
@@ -66,6 +71,20 @@ class Forum
         return $this;
     }
 
+    public function getParent(): Forum
+    {
+        return $this->parent;
+    }
+
+    public function setParent(Forum $parent): self
+    {
+        if (!isset($this->parent)) {
+            $this->parent = $parent;
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection|Forum[]
      */
@@ -96,6 +115,8 @@ class Forum
 
         return $this;
     }
+
+
 
     /**
      * @return Collection|Thread[]

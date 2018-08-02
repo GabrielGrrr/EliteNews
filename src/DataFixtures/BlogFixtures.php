@@ -88,6 +88,7 @@ class BlogFixtures extends Fixture
 
     public function generateArticles(ObjectManager $manager, Faker\Generator $faker, Forum $forum, $commentators, $nbArticles, $nbUsers, $nbAVGComments)
     {
+        $categories = ['IT', 'Neuro', 'Socio', 'Psycho', 'Cinéma', 'Autres'];
         //On génère des images relatives au poids (randomisé) de l'article. Elles sont elles-même randomisées, malheureusement selon un facteur temporel
         for ($i = 0; $i < $nbArticles; $i++) {
             $weight = mt_rand(0,2);
@@ -97,10 +98,10 @@ class BlogFixtures extends Fixture
                 $image = "https://picsum.photos/".(mt_rand(3,5)*100)."/300?random";
                 break;
                 case 1:
-                $image = "https://picsum.photos/".(mt_rand(6,10)*100)."/400?random";
+                $image = "https://picsum.photos/".(mt_rand(6,8)*100)."/350?random";
                 break;
                 case 2:
-                $image = "https://picsum.photos/".(mt_rand(7,16)*100)."/500?random";
+                $image = "https://picsum.photos/".(mt_rand(9,11)*100)."/400?random";
                 break;
             }
 
@@ -108,7 +109,7 @@ class BlogFixtures extends Fixture
             $author = $commentators[array_rand($commentators)];
             $article = new Article();
             $article->setAuthor($author);
-            $article->setCategory(array_rand(['IT', 'Neuro', 'Socio', 'Psycho', 'Cinéma', 'Autres']));
+            $article->setCategory($categories[array_rand($categories)]);
             $article->setContent($faker->Text($maxNbChars = 3000));
             $article->setDateCreation($faker->dateTimeAD($max = 'now', $timezone = 'Europe/Paris'));
             $article->setImage($image);

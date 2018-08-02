@@ -26,24 +26,25 @@ class ContentHandler
     //Renvoie l'icône correspondante à une catégorie ... Pour accéder / modifier les énums de catégorie, consulter la classe Article
     public function reverseCategory($i)
     {
+        $categories = ['IT', 'Neuro', 'Socio', 'Psycho', 'Cinéma', 'Autres'];
         $string = '';
         switch ($i) {
-            case 0:
+            case  $categories[0] :
                 $string = '<i class="fas fa-code"></i>';
                 break;
-            case 1:
+            case $categories[1]:
                 $string = '<i class="fas fa-flask"></i>';
                 break;
-            case 2:
+            case $categories[2]:
                 $string = '<i class="fas fa-users"></i>';
                 break;
-            case 3:
+            case $categories[3]:
                 $string = '<i class="fas fa-couch"></i>';
                 break;
-            case 4:
+            case $categories[4]:
                 $string = '<i class="fas fa-film"></i>';
                 break;
-            case 5:
+            case $categories[5] :
                 $string = '<i class="fas fa-book"></i>';
                 break;
         }
@@ -68,6 +69,22 @@ class ContentHandler
         }
 
         return $string;
+    }
+
+    public function convertArrayOfEnum($tableau)
+    {
+        $resultat = NULL;
+
+        if($tableau['IT']) $resultat[] = 'IT';
+        if($tableau['Neuro']) $resultat[] = 'Neuro';
+        if($tableau['Socio']) $resultat[] = 'Socio';
+        if($tableau['Psycho']) $resultat[] = 'Psycho';
+        if($tableau['cinema']) $resultat[] = 'Cinéma';
+        if($tableau['Autres']) $resultat[] = 'Autres';
+
+        dump($tableau);
+
+        return $resultat;
     }
 }
 

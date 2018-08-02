@@ -2,24 +2,26 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Entity\User;
+use App\Entity\Forum;
 
 //Manipulated entities
 use App\Entity\Article;
-use App\Entity\User;
 use App\Entity\Comment;
-use App\Entity\Forum;
 use App\Form\ArticleType;
-use App\Repository\ArticleRepository;
+use App\Form\CommentType;
+use App\Entity\Thread as Sujet;
+use App\Form\SearchArticleType;
 use App\Service\ContentHandler;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use App\Repository\UserRepository;
+use App\Repository\ArticleRepository;
 use Symfony\Component\HttpFoundation\Request;
 
-use App\Entity\Thread as Sujet;
-use App\Form\CommentType;
-use App\Repository\UserRepository;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ArticleController extends Controller
 {
@@ -29,22 +31,37 @@ class ArticleController extends Controller
     public function index(ArticleRepository $article_repo)
     {
         $texhandler = new ContentHandler;
+
         $articles = $article_repo->listArticles();
         return $this->render('articles/home.html.twig', [
-            'controller_name' => 'ArticleController', 'articles' => $articles, 'texthandler' => $texhandler, 'articles_star' => $article_repo->getSlideArticles()
+            'controller_name' => 'ArticleController', 'articles' => $articles, 'texthandler' => $texhandler, 'articles_star' => $article_repo->getSlideArticles()   
         ]);
     }
 
     /**
      * @Route("/articles/search", name="article_search")
      * @Route("/articles/search/{keyword}", name="article_find")
+     * @Route("/articles/search/{keyword}/{category}", name="article_find2")
+     * @Route("/articles/search/{keyword}/{category}/{content}", name="article_find3")
      */
-    public function search(string $keyword = null, ArticleRepository $article_repo)
+    public function search(ArticleRepository $article_repo, Request $request, string $keyword = null, string $categories = null, bool $contentToo = null)
     {
-        $texhandler = new ContentHandler;
-        $articles = $article_repo->listArticles();
+        $texthandler = new ContentHandler;
+        $form = $this->createForm(SearchArticleType::class);
+
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $articles = $article_repo->search($data['keywords'], $texthandler->convertArrayOfEnum($data), $data['contentToo']);
+        }
+        else if (isset($keyword) || isset($categories))
+            $articles = $article_repo->search($keyword, $categories, $contentToo);
+        else
+            $articles = $article_repo->listArticles();
+            
         return $this->render('articles/search.html.twig', [
-            'controller_name' => 'ArticleController', 'articles' => $articles, 'texthandler' => $texhandler
+             'articles' => $articles, 'texthandler' => $texthandler, 'searchForm' => $form->createView()
         ]);
     }
 
