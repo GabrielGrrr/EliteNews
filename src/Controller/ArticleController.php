@@ -66,7 +66,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/read/{id}", name="article_read")
+     * @Route("/lire/{id}", name="article_read")
      */
     public function read(Article $article, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
     {
@@ -80,6 +80,7 @@ class ArticleController extends Controller
 
             if ($form->isSubmitted() && $form->isValid()) {
                 if (!$comment->getId()) {
+                    $this->denyAccessUnlessGranted('send', $comment);
                     $author = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
                     $date = new \DateTime();
                     $comment->setDateCreation($date);
@@ -87,7 +88,7 @@ class ArticleController extends Controller
                     $comment->setLikeCounter(0);
                     $comment->setAuthor($author);
                 }
-
+                $this->denyAccessUnlessGranted('edit', $comment);
                 $manager->persist($comment);
                 $manager->flush();
             }
@@ -107,14 +108,14 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/admin/rediger", name="article_create")
-     * @Route("/admin/editer/{id}", name="article_edit")
+     * @Route("/articles/rediger", name="article_create")
+     * @Route("/articles/editer/{id}", name="article_edit")
      */
     public function formArticle(Article $article = null, Request $request, ObjectManager $manager)
     {
         if ($this->getUser()) {
             if (!$article) $article = new Article();
-
+            $this->denyAccessUnlessGranted('send', $article);
             $form = $this->createForm(ArticleType::class, $article);
             $form->handleRequest($request);
             //$date, 0, $this->getDoctrine()->getRepository(Forum::class)->rootForum(), $article, $author, $article->getTitre()
@@ -132,6 +133,7 @@ class ArticleController extends Controller
                     $article->setViewcount(0);
                     $manager->persist($thread);
                 }
+                $this->denyAccessUnlessGranted('edit', $article);
                 //VERIFIER LA CORRESPONDANCE DES AUTEURS AVANT LA VALIDATION DE LEDITION
                 
                 $manager->persist($article);
@@ -145,21 +147,15 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/admin/remove/{id}", name="article_remove")
+     * @Route("/articles/effacer/{id}", name="article_remove")
      */
-    public function remove(Article $article, ObjectManager $manager)
+    public function removeArticle(Article $article, ObjectManager $manager)
     {
-        $manager->remove($article);
+        $this->denyAccessUnlessGranted('edit', $article);
+        $article->setRemoved(true); // No it's not ah ah
+        $manager->persist($article);
         $manager->flush();
 
         return $this->render('articles/home.html.twig');
-    }
-
-    /**
-     * @Route("/thread/{id}/comment/", name="comment")
-     */
-    public function comment(Article $article, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
-    {
-        return $this->render('articles/remove.html.twig');
     }
 }

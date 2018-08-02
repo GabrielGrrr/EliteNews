@@ -14,14 +14,18 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class UserController extends Controller
 {
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, AuthorizationCheckerInterface $authChecker)
     {
+        if($authChecker->isGranted('ROLE_USER')) 
+            return $this->redirectToRoute('account');
+        
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
 
@@ -45,8 +49,11 @@ class UserController extends Controller
     /**
      * @Route("/login", name="login")
      */
-    public function login()
+    public function login(AuthorizationCheckerInterface $authChecker)
     {
+        if($authChecker->isGranted('ROLE_USER')) 
+            return $this->redirectToRoute('account');
+        
         return $this->render('user/login.html.twig');
     }
 
@@ -58,8 +65,10 @@ class UserController extends Controller
     /**
      * @Route("/account", name="account")
      */
-    public function account()
+    public function account(AuthorizationCheckerInterface $authChecker)
     {
+        if(!$authChecker->isGranted('ROLE_USER')) 
+            return $this->redirectToRoute('login');
         return $this->render('user/account.html.twig');
     }
 
