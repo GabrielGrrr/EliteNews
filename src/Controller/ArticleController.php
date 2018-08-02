@@ -91,18 +91,24 @@ class ArticleController extends Controller
                 $manager->persist($comment);
                 $manager->flush();
             }
+            $previousnext = $article_repo->getPreviousNext($article->getId());
+            return $this->render('articles/read.html.twig', [
+            'article' => $article, 'comments' => $article->getThread()->getComments(),
+            'articles_star' => $article_repo->getSlideArticles(), 'commentform' => $form->createView(), 'previous' => $previousnext[0][0]['previous_row'],
+             'next' => $previousnext[1][0]['next_row']]);
         }
+
         $previousnext = $article_repo->getPreviousNext($article->getId());
         return $this->render('articles/read.html.twig', [
             'article' => $article, 'comments' => $article->getThread()->getComments(),
-            'articles_star' => $article_repo->getSlideArticles(), 'commentform' => $form->createView(), 'previous' => $previousnext[0][0]['previous_row'],
+            'articles_star' => $article_repo->getSlideArticles(), 'commentform' => NULL, 'previous' => $previousnext[0][0]['previous_row'],
              'next' => $previousnext[1][0]['next_row']
         ]);
     }
 
     /**
-     * @Route("/rediger", name="article_create")
-     * @Route("/editer/{id}", name="article_edit")
+     * @Route("/admin/rediger", name="article_create")
+     * @Route("/admin/editer/{id}", name="article_edit")
      */
     public function formArticle(Article $article = null, Request $request, ObjectManager $manager)
     {
@@ -139,11 +145,14 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/articles/remove/{id}", name="article_remove")
+     * @Route("/admin/remove/{id}", name="article_remove")
      */
-    public function remove()
+    public function remove(Article $article, ObjectManager $manager)
     {
-        return $this->render('articles/remove.html.twig');
+        $manager->remove($article);
+        $manager->flush();
+
+        return $this->render('articles/home.html.twig');
     }
 
     /**

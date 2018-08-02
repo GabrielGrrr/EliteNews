@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity( fields = {"email"},
  * message= "L'email ou le login indiqué est déjà utilisé")
@@ -55,9 +56,9 @@ class User implements UserInterface
     public $confirm_email;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $user_status;
+    private $user_role;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -120,11 +121,19 @@ class User implements UserInterface
      */
     private $articles;
 
+   /**
+    * @ORM\Column(name="is_active", type="boolean")
+    */
+    private $isActive;
+
     public function __construct()
     {
         $this->threads = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->user_role = 'ROLE_USER';
+        $this->moderation_status = 0;
+        $this->isActive = FALSE;
     }
 
     public function getId()
@@ -166,6 +175,8 @@ class User implements UserInterface
         return $this->confirm_password;
     }
 
+    
+
     /*public function setConfirmPassword()
     {
         return $this->confirm_password;
@@ -188,14 +199,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getUserStatus(): ?int
+    public function getUserRole(): ?string
     {
-        return $this->user_status;
+        return $this->user_role;
     }
 
-    public function setUserStatus(int $user_status): self
+    public function setUserRole(int $user_role): string
     {
-        $this->user_status = $user_status;
+        $this->user_role = $user_role;
 
         return $this;
     }
@@ -308,7 +319,31 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        return [$this->user_role];
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+
+            // $this->salt
+        ) = unserialize($serialized, array('allowed_classes' => false));
     }
 
     /**

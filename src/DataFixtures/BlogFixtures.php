@@ -3,20 +3,28 @@
 // src/DataFixtures/AppFixtures.php
 namespace App\DataFixtures;
 
-use App\Entity\Article;
+use Faker;
 use App\Entity\User;
-use App\Entity\Comment;
 use App\Entity\Forum;
 use App\Entity\Thread;
+use App\Entity\Article;
+use App\Entity\Comment;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Faker;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 
 class BlogFixtures extends Fixture
 {
+
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
 
     public function load(ObjectManager $manager)
     {
@@ -52,12 +60,12 @@ class BlogFixtures extends Fixture
 
             $user->setEmail($faker->unique()->email());
             $user->setLocalisation($faker->country());
-            $user->setPassword($faker->password());
+
+            $hash = $this->encoder->encodePassword($user, $faker->password());
+            $user->setPassword($hash);
             //Le sous-titre de l'user sur la forum view est un nom de compagnie ou une devise de compagnie
             $user->setSubtitle(mt_rand(0, 1) ? $faker->company() : $faker->catchphrase());
             $user->setSignature($faker->Text(200));
-            $user->setModerationStatus(0);
-            $user->setUserStatus(0);
 
             $commentators[] = $user;
 

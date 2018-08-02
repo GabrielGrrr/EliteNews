@@ -26,7 +26,7 @@ class ArticleRepository extends ServiceEntityRepository
 
     //Plain old sql ici, pour des raisons d'optimisation
     $sql = 'SELECT a.id, a.titre, a.category, a.date_creation, a.content, a.weight, a.image, u.login as author, COUNT(c.id) as comment_count 
-    FROM article a, thread t, user u, comment c
+    FROM article a, thread t, app_users u, comment c
     WHERE a.author_id = u.id 
     AND t.article_id = a.id 
     AND c.thread_id = t.id 
@@ -56,17 +56,17 @@ class ArticleRepository extends ServiceEntityRepository
     public function getPreviousNext($id)
     {
         $conn = $this->getEntityManager()->getConnection();
-        $sql = 'SELECT max(id) as previous_row
-        FROM article
+        $sql = 'SELECT max(a.id) as previous_row
+        FROM article a
         WHERE a.removed = 0
-        AND id < '.$id;
+        AND a.id < '.$id;
         $previous = $conn->prepare($sql);
         $previous->execute();
 
-        $sql = 'SELECT min(id) as next_row
-        FROM article
+        $sql = 'SELECT min(a.id) as next_row
+        FROM article a
         WHERE a.removed = 0
-        AND id > '.$id;
+        AND a.id > '.$id;
         $next = $conn->prepare($sql);
         $next->execute();
 
@@ -84,7 +84,7 @@ class ArticleRepository extends ServiceEntityRepository
         $c = count($discrim); }
         $conn = $this->getEntityManager()->getConnection();
         $sql = 'SELECT a.id, a.titre, a.category, a.date_creation, a.content, a.weight, a.image, u.login as author, COUNT(c.id) as comment_count 
-        FROM article a, thread t, user u, comment c
+        FROM article a, thread t, app_users u, comment c
         WHERE a.author_id = u.id 
         AND t.article_id = a.id 
         AND c.thread_id = t.id 
@@ -114,6 +114,11 @@ class ArticleRepository extends ServiceEntityRepository
 
     return $resultat->fetchAll();
     return NULL;
+    }
+
+    public function checkRWRights()
+    {
+
     }
     
 

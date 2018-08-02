@@ -1,4 +1,6 @@
-{% extends 'base.html.twig' %} {% block title %} {{ article.titre }}{% endblock %} {% block body %}
+{% extends 'base.html.twig' %} {% block title %} {{ article.titre }}{% endblock %}
+{% block stylesheets %} <link rel="stylesheet" href="{{ asset('assets/css/article_view.css') }}"> {% endblock %}
+{% block body %}
 
 <!-- articles -->
 <section class="article-view">
@@ -91,7 +93,7 @@
     </article>
 
 </section>
-{% if app.user %}
+{% if commentform is not null %}
 
 <section class="comment-form">
     <h1>Participer à la discussion</h1>

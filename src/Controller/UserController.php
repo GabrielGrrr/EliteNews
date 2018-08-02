@@ -30,8 +30,6 @@ class UserController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $user->setDateInscription(new \DateTime());
             if($user->getNewsletterSubscriber())$user->setDateSubscription(new \DateTime());
-            $user->setModerationStatus(0);
-            $user->setUserStatus(0);
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
             $manager->persist($user);

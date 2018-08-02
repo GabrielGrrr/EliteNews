@@ -54,7 +54,7 @@
                         <ul class="burger-content">
                             <li>
                                 <a href="{{ path('account') }}">
-                                    <i class="fas fa-user"></i> Connexion</a>
+                                    <i class="fas fa-user"></i> {% if not app.user %} Connexion {% else %} Profil {% endif %}</a>
                             </li>
                             <li>
                                 <a href="#">

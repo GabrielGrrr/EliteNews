@@ -82,8 +82,6 @@ class ContentHandler
         if($tableau['cinema']) $resultat[] = 'Cinéma';
         if($tableau['Autres']) $resultat[] = 'Autres';
 
-        dump($tableau);
-
         return $resultat;
     }
 }
