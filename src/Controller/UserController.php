@@ -69,13 +69,19 @@ class UserController extends Controller
     {
         if(!$authChecker->isGranted('ROLE_USER')) 
             return $this->redirectToRoute('login');
-        return $this->render('user/account.html.twig');
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        return $this->render('user/account.html.twig', ['user' => $user]);
     }
 
     /**
      * @Route("/renew_password", name="new_password")
      */
     public function renew_password()
+    {
+        return $this->render('  ');
+    }
+
+    public function profile()
     {
         return $this->render('  ');
     }

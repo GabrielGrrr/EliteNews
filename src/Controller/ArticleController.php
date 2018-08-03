@@ -27,25 +27,28 @@ class ArticleController extends Controller
 {
     /**
      * @Route("/", name="home")
+     * @Route("/browse/{index}", name="browse")
      */
-    public function index(ArticleRepository $article_repo)
+    public function index(ArticleRepository $article_repo, $index = null)
     {
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
         $texhandler = new ContentHandler;
 
-        $articles = $article_repo->listArticles();
+        $articles = $article_repo->listArticles(isset($index) && $index > 0 ? $index -1 : 0);
         return $this->render('articles/home.html.twig', [
-            'controller_name' => 'ArticleController', 'articles' => $articles, 'texthandler' => $texhandler, 'articles_star' => $article_repo->getSlideArticles()   
+            'controller_name' => 'ArticleController', 'articles' => $articles, 'texthandler' => $texhandler, 'articles_star' => $article_repo->getSlideArticles(),
+            'user' => $user, 'pagenavigation' => [1, $index ? $index : 1, ceil($article_repo->getArticlePageCount())]
         ]);
     }
 
     /**
      * @Route("/articles/search", name="article_search")
      * @Route("/articles/search/{keyword}", name="article_find")
-     * @Route("/articles/search/{keyword}/{category}", name="article_find2")
-     * @Route("/articles/search/{keyword}/{category}/{content}", name="article_find3")
+     * @Route("/articles/search/{keyword}/{categories}", name="article_thorough")
      */
-    public function search(ArticleRepository $article_repo, Request $request, string $keyword = null, string $categories = null, bool $contentToo = null)
+    public function search(ArticleRepository $article_repo, Request $request, string $keyword = null, string $categories = null)
     {
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
         $texthandler = new ContentHandler;
         $form = $this->createForm(SearchArticleType::class);
 
@@ -56,12 +59,13 @@ class ArticleController extends Controller
             $articles = $article_repo->search($data['keywords'], $texthandler->convertArrayOfEnum($data), $data['contentToo']);
         }
         else if (isset($keyword) || isset($categories))
-            $articles = $article_repo->search($keyword, $categories, $contentToo);
+            $articles = $article_repo->search($keyword, [0 => $categories]);
         else
             $articles = $article_repo->listArticles();
             
         return $this->render('articles/search.html.twig', [
-             'articles' => $articles, 'texthandler' => $texthandler, 'searchForm' => $form->createView()
+             'articles' => $articles, 'texthandler' => $texthandler, 'searchForm' => $form->createView(),
+             'user' => $user
         ]);
     }
 
@@ -70,10 +74,11 @@ class ArticleController extends Controller
      */
     public function read(Article $article, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
     {
-
-        if (!$article) return $this->render('articles/home.html.twig');
+        $texthandler = new ContentHandler;
+        $user = NULL;
+        if (!$article) return $this->redirectToRoute('home');
         if ($this->getUser()) {
-
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
             $comment = new Comment();
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
@@ -81,7 +86,7 @@ class ArticleController extends Controller
             if ($form->isSubmitted() && $form->isValid()) {
                 if (!$comment->getId()) {
                     $this->denyAccessUnlessGranted('send', $comment);
-                    $author = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
+                    $author = $user;
                     $date = new \DateTime();
                     $comment->setDateCreation($date);
                     $comment->setThread($article->getThread());
@@ -96,24 +101,29 @@ class ArticleController extends Controller
             return $this->render('articles/read.html.twig', [
             'article' => $article, 'comments' => $article->getThread()->getComments(),
             'articles_star' => $article_repo->getSlideArticles(), 'commentform' => $form->createView(), 'previous' => $previousnext[0][0]['previous_row'],
-             'next' => $previousnext[1][0]['next_row']]);
+             'next' => $previousnext[1][0]['next_row'],
+             'user' => $user, 'texthandler' => $texthandler, ]);
         }
 
         $previousnext = $article_repo->getPreviousNext($article->getId());
         return $this->render('articles/read.html.twig', [
             'article' => $article, 'comments' => $article->getThread()->getComments(),
             'articles_star' => $article_repo->getSlideArticles(), 'commentform' => NULL, 'previous' => $previousnext[0][0]['previous_row'],
-             'next' => $previousnext[1][0]['next_row']
+             'next' => $previousnext[1][0]['next_row'],
+             'user' => $user, 'texthandler' => $texthandler, 
         ]);
     }
 
     /**
-     * @Route("/articles/rediger", name="article_create")
-     * @Route("/articles/editer/{id}", name="article_edit")
+     * @Route("/articles/rediger", name="create_article")
+     * @Route("/articles/editer/{id}", name="edit_article")
      */
     public function formArticle(Article $article = null, Request $request, ObjectManager $manager)
     {
-        if ($this->getUser()) {
+        $user = NULL;
+        if($this->getUser()) { 
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
+
             if (!$article) $article = new Article();
             $this->denyAccessUnlessGranted('send', $article);
             $form = $this->createForm(ArticleType::class, $article);
@@ -122,12 +132,11 @@ class ArticleController extends Controller
             if ($form->isSubmitted() && $form->isValid()) {
                 if (!$article->getId()) {
                     $date = new \DateTime();
-                    $author = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
                     $thread = new Sujet();
                     $thread->setArticle($article)->setAuthor($author)->setDateCreation($date)->setForum($this->getDoctrine()->getRepository(Forum::class)->rootForum())
                     ->setTitre($article->getTitre())->setViewcount(0);
                     $article->setDateCreation($date);
-                    $article->setAuthor($author);
+                    $article->setAuthor($user);
                     $article->setRemoved(0);
                     $article->setThread($thread);
                     $article->setViewcount(0);
@@ -143,11 +152,11 @@ class ArticleController extends Controller
             }
         }
 
-        return $this->render('articles/create.html.twig', ['redacform' => $form->createView(), 'editmode' => $article->getId() ? true : false]);
+        return $this->render('articles/create.html.twig', ['redacform' => $form->createView(), 'editmode' => $article->getId() ? true : false, 'user' => $user ]);
     }
 
     /**
-     * @Route("/articles/effacer/{id}", name="article_remove")
+     * @Route("/articles/effacer/{id}", name="remove_article")
      */
     public function removeArticle(Article $article, ObjectManager $manager)
     {
@@ -156,6 +165,6 @@ class ArticleController extends Controller
         $manager->persist($article);
         $manager->flush();
 
-        return $this->render('articles/home.html.twig');
+        return $this->redirectToRoute('home');
     }
 }

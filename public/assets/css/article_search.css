@@ -1,0 +1,31 @@
+
+/* Search Panel */
+
+.search-panel{
+    background : var(--main-bgcolor);
+    color : var(--main-a-color);
+    padding-right: 10%;
+    padding-left: 10%;
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content : space-around;
+    align-items: center;
+}
+
+.category-list {
+    font-size: 30px;
+    align-self: center;
+    margin-bottom:1em;
+}
+
+.category-bouton {
+    display: inline-block;
+    margin-right:8px;
+    margin-left : 8px;
+}
+
+.category-bouton:hover {
+    cursor: pointer;
+}
+

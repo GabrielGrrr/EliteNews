@@ -10,8 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Arizonia" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
-    {% block stylesheets %}{% endblock %}
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet"> {% block stylesheets %}{% endblock %}
 
 
 
@@ -36,7 +35,7 @@
                         <form action="#" novalidate>
                             <label for="searchbar-dpdwn">Rechercher un article :</label>
                             <input name="searchbar-dpdwn" type="search">
-                            <button type="submit" onclick="" class="bouton">
+                            <button type="submit" onclick="{{ path('article_find') }}" class="bouton">
                                 <i class="fas fa-search"></i>
                             </button>
                         </form>
@@ -56,6 +55,14 @@
                                 <a href="{{ path('account') }}">
                                     <i class="fas fa-user"></i> {% if not app.user %} Connexion {% else %} Profil {% endif %}</a>
                             </li>
+                            {% if is_granted('ROLE_PUBLISHER') %}
+                            <li>
+                                    <a href="{{ path('create_article') }}">
+                                        <i class="far fa-edit"></i> Rédiger
+                                    </a>
+                            </li>
+                            {% endif %}
+
                             <li>
                                 <a href="#">
                                     <i class="fab fa-github-square"></i> Github
@@ -78,26 +85,37 @@
                             <i class="fas fa-user"></i>
                         </a>
                         <div class="connexion-dropdown">
-                                {% if not app.user %}
-                                <form action="{{ path('login') }}" method="POST">
-                                        <label for="_username">Login :</label>
-                                        <input name="_username" type="text">
-                                        <label for="_password">Mot de passe :</label>
-                                        <input name="_password" type="password">
-                                        <button type="submit" onclick="" class="bouton">
-                                            Connexion
-                                        </button>
-                                        <a href="{{ path('register') }}" class="register">S'inscrire</a>
-                                    </form>
-                                {% else %}
-                                        <div class="dpdwn_profile">
-                                                <a href="{{ path('account') }}" class="account">Profil personnel</a>
-                                                <a href="{{ path('logout') }}" class="logout">Déconnexion</a>
-                                        </div>
-                                {% endif %}
+                            {% if not app.user %}
+                            <form action="{{ path('login') }}" method="POST">
+                                <label for="_username">Login :</label>
+                                <input name="_username" type="text">
+                                <label for="_password">Mot de passe :</label>
+                                <input name="_password" type="password">
+                                <button type="submit" onclick="" class="bouton">
+                                    Connexion
+                                </button>
+                                <a href="{{ path('register') }}" class="register">S'inscrire</a>
+                            </form>
+                            {% else %}
+                            Bienvenue, {{ user.login }}
+                            <div class="dpdwn-profile">
+                            <a href="{{ path('account') }}" class="account">
+                            <img src="{{ user.avatar }}" id="user_avatar" alt="">
+                                    <i class="fas fa-user-edit"></i>
+                                    Profil</a>
+                                <a href="{{ path('logout') }}" class="logout">Déconnexion</a>
+                            </div>
+                            {% endif %}
 
                         </div>
                     </li>
+                    {% if is_granted('ROLE_PUBLISHER') %}
+                    <li>
+                        <a href="{{ path('create_article') }}" class="dispensable">
+                            <i class="far fa-edit"></i>
+                        </a>
+                    </li>
+                    {% endif %}
                     <li>
                         <a href="#">
                             <i class="fab fa-github-square"></i>
@@ -121,14 +139,15 @@
             <img src="{{ asset('assets/images/sep1.png') }}" class="img-centered" alt="Séparateur">
             <div class="banner-content">
                 <a href="{{ path('home') }}">
-                <img src="{{ asset('assets/images/banner_resized1300x222.png') }}" class="img-centered" alt="Bannière du site"></a>
+                    <img src="{{ asset('assets/images/banner_resized1300x222.png') }}" class="img-centered" alt="Bannière du site">
+                </a>
                 <h1 class="banner-categories">
-                    <a href="{{ path('article_search', {'keyword' : 'it' }) }}" class="url-link">IT</a> -
-                    <a href="{{ path('article_search', {'keyword' : 'neuro' }) }}" class="url-link">Neuro</a> -
-                    <a href="{{ path('article_search', {'keyword' : 'socio' }) }}" class="url-link">Socio</a> -
-                    <a href="{{ path('article_search', {'keyword' : 'psycho' }) }}" class="url-link">Psycho</a> -
-                    <a href="{{ path('article_search', {'keyword' : 'cinema' }) }}" class="url-link">Cinéma</a>
-                    <a href="{{ path('article_search', {'keyword' : 'autres' }) }}" class="url-link">etc.</a>
+                    <a href="{{ path('article_thorough', { 'categories' : 'IT', 'keyword' : '*' }) }}" class="url-link">IT</a> -
+                    <a href="{{ path('article_thorough', { 'keyword' : '*' , 'categories' : 'Neuro' }) }}" class="url-link">Neuro</a> -
+                    <a href="{{ path('article_thorough', { 'keyword' : '*' , 'categories' : 'Socio' }) }}" class="url-link">Socio</a> -
+                    <a href="{{ path('article_thorough', { 'keyword' : '*' , 'categories' : 'Psycho' }) }}" class="url-link">Psycho</a> -
+                    <a href="{{ path('article_thorough', { 'keyword' : '*' , 'categories' : 'Cinéma' }) }}" class="url-link">Cinéma</a>
+                    <a href="{{ path('article_thorough', { 'keyword' : '*' , 'categories' : 'Autres' }) }}" class="url-link">etc.</a>
                 </h1>
             </div>
             <img src="{{ asset('assets/images/sep1.png') }}" class="img-centered" alt="Séparateur">
@@ -140,11 +159,22 @@
     <footer>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet totam inventore ratione modi voluptatibus cupiditate debitis
         reprehenderit facilis quo autem iure delectus eaque veritatis maiores libero, voluptate architecto sapiente culpa.
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veniam quaerat sint amet voluptate sunt dolores fuga omnis ex incidunt minus enim quas, illum ipsam ut nemo? Rerum sed earum adipisci?</p>
+        <p>Dolore temporibus minima iusto inventore maiores, exercitationem quasi natus maxime cumque et nam quibusdam nemo dolores magnam aliquid recusandae iste consequuntur. Illo dicta eius id consequatur asperiores autem atque aperiam.</p>
+        <p>Ea, necessitatibus. Ipsam, in nihil! Ipsum illo rem veritatis quo totam. Voluptas tempora rerum cumque ex cupiditate. Laborum quas ipsam omnis mollitia molestias blanditiis tenetur, pariatur excepturi cupiditate iure. Placeat.</p>
+        <p>Quam asperiores corporis illum ratione assumenda, hic ex quo aperiam quibusdam enim labore fugiat, inventore corrupti? Necessitatibus eaque eveniet nemo exercitationem repellat reiciendis amet consequatur corrupti, eum aut quaerat ipsam?</p>
+        <p>Nisi sapiente incidunt ea voluptatibus facere placeat aut vero, inventore quidem ex quia doloribus commodi obcaecati alias vitae! Laborum corporis aperiam aspernatur molestiae sint iusto nihil ex non accusantium ab.</p>
+        <p>Ipsam soluta, enim neque repellat odio nulla, animi aspernatur obcaecati omnis quo nam cumque eligendi! Esse tempore sapiente minima quos quidem aperiam ullam non, corporis illo odio quas, voluptate tenetur.</p>
+        <p>Quibusdam, nostrum. Ut itaque ipsam tempora praesentium possimus totam nesciunt quisquam dolorem quibusdam vero sapiente asperiores, quis in rerum quidem. Minima qui dignissimos quidem maxime voluptatum corrupti nam sit vitae!</p>
+        <p>Quae recusandae ad minus velit cupiditate, quidem quia veritatis qui officiis hic unde, facilis optio, dolorem sapiente reiciendis labore consequatur distinctio numquam facere reprehenderit est ipsum iste quibusdam? Explicabo, quam.</p>
+        <p>Quasi quisquam officia mollitia accusamus sint ducimus accusantium voluptates eaque at quia, quis voluptatibus provident autem voluptatum, modi iste minima ipsam nam odit quidem laudantium corrupti? Doloribus doloremque magni delectus.</p>
+        <p>Dignissimos maxime fugiat eligendi saepe, consectetur voluptate quo consequuntur quasi placeat aut alias animi sequi sint quod repellat eveniet obcaecati rem doloremque aspernatur aperiam vero! Ipsam aut magni possimus similique?</p>
     </footer>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
+
 {% block javascripts %}{% endblock %}
 
 </html>

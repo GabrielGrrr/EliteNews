@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %} S'inscrire {% endblock %}
+{% block stylesheets %} <link rel="stylesheet" href="{{ asset('assets/css/full_page_form.css') }}"> {% endblock %}
 
 {% block body %}
 
-<section id="register" class="main-section">
-        <h1 class="headingband resp-hsize">S'inscrire sur le weblog de Gabriel G. pour pouvoir poster des commentaires</h1>
+<section class="full-page-form" class="main-section">
+        <h1 class="headingband">Formulaire d'inscription</h1>
         {{ form_start(registerform) }}
         {{ form_row(registerform.login, {'attr' : {'placeholder' : "Login " }}) }}
         {{ form_row(registerform.password, {'attr' : {'placeholder' : "Mot de passe " }}) }}

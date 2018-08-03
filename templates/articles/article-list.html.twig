@@ -1,3 +1,5 @@
+{% block stylesheets %} <link rel="stylesheet" href="{{ asset('assets/css/article_list.css') }}"> {% endblock %}
+
 <section class="article-list">
 
         {% for article in articles %}
@@ -7,11 +9,14 @@
                     {{ texthandler.reverseCategory(article.category) | raw }}</a>
             </div>
             <div class="article-inside">
-                <div class="article-image">
+                    <a href="{{ path('article_read', {'id' : article.id })}}">
+                        <div class="article-image">
                     <img src="{{ article.image }}"  alt="">
+
                 </div>
                 <div class="article">
-                    <h1 class="headingband">{{ article.titre }}</h1>
+                    <a href="{{ path('article_read', {'id' : article.id })}}">
+                    <h1 class="headingband">{{ article.titre }}</h1></a>
                     <div class="article-heading">
                         <span class="list-authordate">Écrit le {{ article.date_creation | date('d/m/Y') }} 
                             à {{ article.date_creation | date('H:i') }}, par {{ article.author }}. 

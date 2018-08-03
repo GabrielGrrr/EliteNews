@@ -1,0 +1,76 @@
+/* Register */
+
+.full-page-form {
+    background: var(--main-bgcolor);
+    padding-bottom:3em;
+    padding-top: 2em;
+}
+
+.full-page-form h1 {
+    margin-bottom: 1.5em;
+    margin-top:0;
+}
+
+.full-page-form form div {
+    display: block;
+    position:relative;
+    left:40%;
+    margin:5px;
+}
+
+.full-page-form form div textarea {
+    width:40%;
+    margin-left:auto;
+    max-width:30em;
+}
+
+.full-page-form form div label {
+    display: inline;
+    position:relative;
+    right:5em;
+    margin:5px;
+    color: white;
+}
+
+.full-page-form form button {
+    display:block;
+    position: relative;
+    left:50%;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+@media screen and (min-width: 1300px) {
+    .full-page-form form div input, .full-page-form form div select {
+        position: absolute;
+        left:10%;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .full-page-form form div input, .full-page-form form div select {
+        position: absolute;
+        left: 15%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .full-page-form form div input, .full-page-form form div select {
+        position: absolute;
+        left: 20%;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .full-page-form form div input, .full-page-form form div select {
+        display:block;
+        position: relative;
+        left:0;
+    }
+
+    .full-page-form form div label {
+        display:block;
+        position: relative;
+        left:0;
+    }
+}

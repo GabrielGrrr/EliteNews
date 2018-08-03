@@ -8,4 +8,13 @@
 
 {% include 'articles/article-list.html.twig' %}
 
+<div class="list-navigation"> 
+        {% for i in pagenavigation.0 .. pagenavigation.2 %}
+            {% if pagenavigation.1 == i %}
+            <span class = "current-page"> {{ i }}</span>
+            {% else %}
+            <a href="{{ path('browse', {'index' : i }) }}"> {{ i }}</a>
+            {% endif %}
+        {% endfor %}
+</div>
 {% endblock %}

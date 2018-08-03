@@ -1,5 +1,6 @@
 /* Article viewed */
 
+
 .article-viewed .article .article-content {
     padding-left : 5%;
     padding-right : 5%;
@@ -7,13 +8,30 @@
     padding-bottom : 35px;
 }
 
-.article-viewed {
-    background: none;
+.article-heading {
+    background: var(--main-bgcolor);
+    color: var(--main-a-color);
+}
+
+.article-heading .admin-edit-tools {
+    float:right;
+    margin-right:3em;
+    font-size: 18px;;
+}
+
+.article-heading .admin-edit-tools a {
+    margin-left:10px;
 }
 
 .article-viewed .article-image img {
     width: 100%;
 }
+
+.article-viewed .article-category {
+    margin-bottom : 0.6em;
+    margin-bottom : 0.3em;
+}
+
 
 .article-content h1, h2, h3, h4, h5, h6 {
     text-align : left;
@@ -214,4 +232,30 @@
 /*workaround : broken feature */
 .comment-form form label {
     display:none;
+}
+
+#down-carousel {
+    margin-top : 3em;
+}
+
+#connect-to-comment {
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+}
+
+
+@media screen and (max-width: 900px)
+{
+    .article-footer .socialsharing a {
+        font-size : 4vw;
+    }
+
+    .article-footer span span.comment-count
+    {
+        font-size: 5vw;
+        padding-left:0.5em;
+        padding-right:0.5em;
+    }
+
 }

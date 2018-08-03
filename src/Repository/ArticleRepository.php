@@ -7,6 +7,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
+define('ARTICLES_PAR_PAGE', '20');
+
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
  * @method Article|null findOneBy(array $criteria, array $orderBy = null)
@@ -20,7 +22,7 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    public function listArticles() : array
+    public function listArticles($index = 0) : array
     {
     $conn = $this->getEntityManager()->getConnection();
 
@@ -33,11 +35,19 @@ class ArticleRepository extends ServiceEntityRepository
     AND a.removed = 0
     GROUP BY a.id
     ORDER BY a.date_creation DESC
-    LIMIT 20';
+    LIMIT '.($index * ARTICLES_PAR_PAGE).', '.ARTICLES_PAR_PAGE;
     $stmt = $conn->prepare($sql);
     $stmt->execute();
 
     return $stmt->fetchAll();
+    }
+
+    public function getArticlePageCount()
+    {
+        return ($this->createQueryBuilder('a')
+        ->select('COUNT(a)')
+         ->getQuery()
+        ->getSingleScalarResult() / ARTICLES_PAR_PAGE);
     }
 
     //Faire une rqst personnalisée plus tard pour minimiser les appels base quand on boucle dans la vue
@@ -75,11 +85,12 @@ class ArticleRepository extends ServiceEntityRepository
 
     //A optimiser impérativement lol, à la fois SQL et code (obtenir compteurs et validation en ammont) et prendre en compte regexp
     //Ajouter options sélection inclusive ou exclusive
-    public function search($input, $categories, $contentToo)
+    public function search($input, $categories, $contentToo = null)
     {
+        if($input == '*') $input = NULL;
         $discrim = NULL;
         $c = NULL;
-
+        
         if(isset($input)) { $discrim = explode(' ', $input);
         $c = count($discrim); }
         $conn = $this->getEntityManager()->getConnection();
@@ -91,34 +102,31 @@ class ArticleRepository extends ServiceEntityRepository
         AND a.removed = 0 ';
         if(isset($categories)) {
             $catIndex = count($categories);
-            $sql .= ' AND a.category = "'.$categories[0].'"';
+            $sql .= ' AND a.category = "'.$categories[0].'" ';
             if($catIndex > 1) {
                 for ($i = 1; $i < $catIndex; $i++) {
-                    $sql.=' OR a.category = "'.$categories[$i].'"'; }
+                    $sql.=' OR a.category = "'.$categories[$i].'" '; }
             }
         }
 
-        if($c)  { $sql .= ' AND a.titre like "%'.$discrim[0].'%"';
+        if($c)  { $sql .= ' AND a.titre like "%'.$discrim[0].'%" ';
             for($i = 1; $i < $c; $i++) 
-                $sql .= ' OR a.titre like "%'.$discrim[0].'%"'; }
+                $sql .= ' OR a.titre like "%'.$discrim[0].'%" '; }
         if($contentToo)
             for($i = 0; $i++; $i < $c)
-            $sql .= ' OR a.content like "%'.$discrim[0].'%"';
+            $sql .= ' OR a.content like "%'.$discrim[0].'%" ';
 
-            $sql .= 'GROUP BY a.id
-            ORDER BY a.date_creation DESC
-            LIMIT 20';
+            $sql .= ' GROUP BY a.id
+            ORDER BY a.date_creation DESC ';
+            dump($input);
+        dump($discrim);
+        dump($sql);
         
         $resultat = $conn->prepare($sql);
         $resultat->execute();
 
     return $resultat->fetchAll();
     return NULL;
-    }
-
-    public function checkRWRights()
-    {
-
     }
     
 

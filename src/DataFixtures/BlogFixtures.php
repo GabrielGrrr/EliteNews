@@ -103,13 +103,13 @@ class BlogFixtures extends Fixture
             $image = "";
             switch ($weight) {
                 case 0:
-                $image = "https://picsum.photos/".(mt_rand(3,5)*100)."/300?random";
+                $image = "https://picsum.photos/".(mt_rand(3,7)*100)."/150?random";
                 break;
                 case 1:
-                $image = "https://picsum.photos/".(mt_rand(6,8)*100)."/350?random";
+                $image = "https://picsum.photos/".(mt_rand(6,8)*100)."/200?random";
                 break;
                 case 2:
-                $image = "https://picsum.photos/".(mt_rand(9,11)*100)."/400?random";
+                $image = "https://picsum.photos/".(mt_rand(9,11)*100)."/250?random";
                 break;
             }
 
