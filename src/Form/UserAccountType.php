@@ -6,25 +6,21 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class UserAccountType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('login')
-            ->add('password')
-            ->add('email')
-            ->add('user_role')
-            ->add('avatar')
-            ->add('subtitle')
-            ->add('signature')
-            ->add('localisation')
-            ->add('moderation_status')
-            ->add('date_inscription')
-            ->add('newsletter_subscriber')
-            ->add('date_subscription')
-            ->add('isActive')
+            ->add('login', TextType::class, ['label' => 'Nom d\'utilisateur :', 'required' => true])
+            ->add('avatar', UrlType::class, ['label' => 'Avatar (URL) :', 'required' => false])
+            ->add('subtitle', TextType::class, ['label' => 'Courte description :', 'required' => false])
+            ->add('signature', TextType::class, ['label' => 'Signature :', 'required' => false])
+            ->add('localisation', TextType::class, ['label' => 'Lieu/Ville :', 'required' => false])
+            ->add('newsletter_subscriber', CheckboxType::class, ['label' => 'Souscrire ) la newsletter :', 'required' => false])
         ;
     }
 

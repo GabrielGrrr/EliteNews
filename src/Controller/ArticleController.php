@@ -71,15 +71,19 @@ class ArticleController extends Controller
 
     /**
      * @Route("/lire/{id}", name="article_read")
+     * @Route("/lire/{id}/com/{commentid}", name="edit_comment")
      */
-    public function read(Article $article, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
+    public function read(Article $article, $commentid = null, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
     {
         $texthandler = new ContentHandler;
         $user = NULL;
+        $form = NULL;
+
         if (!$article) return $this->redirectToRoute('home');
         if ($this->getUser()) {
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
-            $comment = new Comment();
+            $comment = $commentid ? $this->getDoctrine()->getRepository(Comment::class)->find($commentid) : new Comment();
+
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
 
@@ -93,22 +97,22 @@ class ArticleController extends Controller
                     $comment->setLikeCounter(0);
                     $comment->setAuthor($author);
                 }
-                $this->denyAccessUnlessGranted('edit', $comment);
-                $manager->persist($comment);
-                $manager->flush();
+                else
+                {
+                    $this->denyAccessUnlessGranted('edit', $comment);
+                }
+                    $form = $this->createForm(CommentType::class, new Comment());
+                    $manager->persist($comment);
+                    $manager->flush();
             }
-            $previousnext = $article_repo->getPreviousNext($article->getId());
-            return $this->render('articles/read.html.twig', [
-            'article' => $article, 'comments' => $article->getThread()->getComments(),
-            'articles_star' => $article_repo->getSlideArticles(), 'commentform' => $form->createView(), 'previous' => $previousnext[0][0]['previous_row'],
-             'next' => $previousnext[1][0]['next_row'],
-             'user' => $user, 'texthandler' => $texthandler, ]);
         }
 
         $previousnext = $article_repo->getPreviousNext($article->getId());
         return $this->render('articles/read.html.twig', [
             'article' => $article, 'comments' => $article->getThread()->getComments(),
-            'articles_star' => $article_repo->getSlideArticles(), 'commentform' => NULL, 'previous' => $previousnext[0][0]['previous_row'],
+            'articles_star' => $article_repo->getSlideArticles(), 
+            'commentform' => $form === NULL ? NULL : $form->createView(), 
+            'previous' => $previousnext[0][0]['previous_row'],
              'next' => $previousnext[1][0]['next_row'],
              'user' => $user, 'texthandler' => $texthandler, 
         ]);
@@ -166,5 +170,17 @@ class ArticleController extends Controller
         $manager->flush();
 
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/comment/effacer/{id}/{commentid}", name="remove_comment")
+     */
+    public function removeComment($id, $commentid, ObjectManager $manager)
+    {
+        $comment = $this->getDoctrine()->getRepository(Comment::class)->find($commentid);
+        $this->denyAccessUnlessGranted('edit', $comment);
+        $manager->remove($comment);
+        $manager->flush();
+        return $this->redirectToRoute('article_read', [ 'id' => $id]);
     }
 }

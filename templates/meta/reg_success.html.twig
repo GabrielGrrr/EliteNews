@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Inscriptions réussie ! {% endblock %}
+
+{% block body %}
+
+<section class="main-section simple-message">
+    <div>
+        <h1 class="headingband">Bravo ! Vous vous êtes inscrit avec succès !</h1>
+        <p>Vous avez bien été enregistré comme nouvel utilisateur sur ce blog.</p>
+        <p>Vous pouvez désormais publier des commentaires en réaction à nos articles, mais n'oubliez pas de respecter
+        <a href="{{ path('rules') }}">nos règles de modération.</a></p>
+    </div>
+</section>
+
+{% endblock %}

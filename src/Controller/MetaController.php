@@ -47,11 +47,24 @@ class MetaController extends Controller
         return $this->render('meta/legal.html.twig');
     }
 
-    /**
-     * @Route("/notfound", name="404")
-     */
     public function notfound()
     {
         return $this->render('meta/notfound.html.twig');
+    }
+
+    /**
+     * @Route("/registered", name="reg_success")
+     */
+    public function registered()
+    {
+        return $this->render('meta/reg_success.html.twig');
+    }
+
+    /**
+     * @Route("/unregistered", name="unreg_success")
+     */
+    public function unregistered()
+    {
+        return $this->render('meta/unreg_success.html.twig');
     }
 }

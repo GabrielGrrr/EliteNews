@@ -356,6 +356,19 @@ h1, h2, h3, h4, h5, h6 {
     color: black;
 }
 
+/* Simple message */
+
+.simple-message{
+    padding-left:3em;
+    color:white;
+    padding-top:1em;
+}
+
+.black
+{
+    color:var(--main-a-hovercolor);
+}
+
 /* Footer */
 
 footer {
@@ -398,7 +411,7 @@ footer {
         margin-right:2%;
     }
 
-    .category-list {
+    .Commentlist {
         font-size : 2.6vw;
     }
 

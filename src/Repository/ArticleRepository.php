@@ -118,9 +118,6 @@ class ArticleRepository extends ServiceEntityRepository
 
             $sql .= ' GROUP BY a.id
             ORDER BY a.date_creation DESC ';
-            dump($input);
-        dump($discrim);
-        dump($sql);
         
         $resultat = $conn->prepare($sql);
         $resultat->execute();

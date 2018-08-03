@@ -6,13 +6,16 @@ use App\Entity\User;
 use App\Form\LoginType;
 
 use App\Form\RegisterType;
+use App\Form\UserAccountType;
+
 use App\Repository\UserRepository;
-
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -39,7 +42,7 @@ class UserController extends Controller
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('account');
+            return $this->redirectToRoute('reg_success');
         }
 
         return $this->render('user/register.html.twig', 
@@ -65,12 +68,21 @@ class UserController extends Controller
     /**
      * @Route("/account", name="account")
      */
-    public function account(AuthorizationCheckerInterface $authChecker)
+    public function account(AuthorizationCheckerInterface $authChecker, Request $request, ObjectManager $manager)
     {
         if(!$authChecker->isGranted('ROLE_USER')) 
             return $this->redirectToRoute('login');
-        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
-        return $this->render('user/account.html.twig', ['user' => $user]);
+
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
+        $form = $this->createForm(UserAccountType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($user);
+            $manager->flush();
+        }
+        $commentcount = $this->getDoctrine()->getRepository(User::class)->getCommentCount($user);
+        return $this->render('user/account.html.twig', ['user' => $user, 'accountForm' => $form->createView(),
+         "commentCount" => $commentcount? $commentcount : 0 ]);
     }
 
     /**
@@ -81,8 +93,22 @@ class UserController extends Controller
         return $this->render('  ');
     }
 
-    public function profile()
+    /**
+     * @Route("/remove_account/{id}", name="remove_user")
+     */
+    public function remove_user($id, ObjectManager $manager, Request $request)
     {
-        return $this->render('  ');
+        if(!$this->isGranted('ROLE_USER')) 
+            return $this->redirectToRoute('login');
+        
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
+        if($user == $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $id]))
+        {
+            $request->getSession()->invalidate();
+            $manager->remove($user);
+            $manager->flush();
+            return $this->redirectToRoute('unreg_success');
+        }
+        else throw new \AccessDeniedHttpException ('Vous n\'avez pas de droits sur ce compte.');
     }
 }

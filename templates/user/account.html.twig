@@ -1,7 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Profil {% endblock %}
+{% block title %} Profil Personnel {% endblock %}
+{% block stylesheets %} 
+<link rel="stylesheet" href="{{ asset('assets/css/full_page_form.css') }}"> 
+<link rel="stylesheet" href="{{ asset('assets/css/account.css') }}"> 
+{% endblock %}
 
 {% block body %}
+
+<section class="full-page-form main-section">
+        <h1 class="headingband">Modifier vos informations personnelles</h1>
+        {{ form_start(accountForm) }}
+        {{ form_row(accountForm.login) }}
+        {{ form_row(accountForm.avatar) }}
+        {{ form_row(accountForm.subtitle) }}
+        {{ form_row(accountForm.signature) }}
+        {{ form_row(accountForm.localisation) }}
+        {{ form_row(accountForm.newsletter_subscriber) }}
+        <button type="submit" onclick="" class="bouton">
+        Modifier
+        </button>
+        {{ form_end(accountForm) }}
+
+        <div id ="user-infos">
+        <img src="{{ user.avatar }}" id="user-avatar" alt="">
+        <p>Inscrit depuis le {{ user.getDateInscription | date('d/m/Y') }}</p>
+        <p>A posté {{ commentCount }} commentaires.</p>
+        {% if user.getModerationStatus == 1 %}
+        <p>Statut de modération : 1 avertissement.</p>
+        {% else %} 
+        {% if user.getModerationStatus == 2 %}
+        <p>Statut de modération : 2 avertissement,<br/> attention, le prochain sera le dernier.</p>
+        {% else %}
+        <p>Compte en règle.</p>
+        {% endif %}
+        {% endif %}
+        <a class="bouton" href="{{ path('remove_user', { 'id' : user.id }) }}">Supprimer le compte</a>
+        </div>
+        
+</section>
 
 {% endblock %}

@@ -19,6 +19,18 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function getCommentCOunt(User $user)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT COUNT(c.id), u.id as comment_count 
+    FROM app_users u, comment c
+    WHERE c.author_id = u.id
+    AND u.id = '.$user->getId().' 
+    GROUP BY u.id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
@@ -34,7 +46,7 @@ class UserRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+     */
 
     /*
     public function findOneBySomeField($value): ?User
@@ -46,5 +58,5 @@ class UserRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+     */
 }

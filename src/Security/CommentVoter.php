@@ -1,5 +1,5 @@
 <?php
-// src/Security/PostVoter.php
+
 namespace App\Security;
 
 use App\Entity\User;
@@ -24,7 +24,7 @@ class CommentVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::VIEW, self::EDIT))) {
+        if (!in_array($attribute, array(self::VIEW, self::EDIT, self::SEND))) {
             return false;
         }
 
