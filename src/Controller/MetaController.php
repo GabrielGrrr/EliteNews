@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -12,7 +13,8 @@ class MetaController extends Controller
      */
     public function about()
     {
-        return $this->render('meta/about.html.twig');
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        return $this->render('meta/about.html.twig', ['user' => $user] );
     }
 
     /**
@@ -20,7 +22,8 @@ class MetaController extends Controller
      */
     public function contact()
     {
-        return $this->render('meta/contact.html.twig');
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        return $this->render('meta/contact.html.twig', ['user' => $user] );
     }
 
     /**
@@ -28,7 +31,8 @@ class MetaController extends Controller
      */
     public function projects()
     {
-        return $this->render('meta/projects.html.twig');
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        return $this->render('meta/projects.html.twig', ['user' => $user] );
     }
 
     /**
@@ -36,7 +40,8 @@ class MetaController extends Controller
      */
     public function rules()
     {
-        return $this->render('meta/rules.html.twig');
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        return $this->render('meta/rules.html.twig', ['user' => $user] );
     }
 
     /**
@@ -44,12 +49,15 @@ class MetaController extends Controller
      */
     public function legal()
     {
-        return $this->render('meta/legal.html.twig');
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        return $this->render('meta/legal.html.twig', ['user' => $user] );
     }
 
     public function notfound()
     {
-        return $this->render('meta/notfound.html.twig');
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        return $this->render('meta/notfound.html.twig', ['user' => $user] );
     }
 
     /**
@@ -57,7 +65,8 @@ class MetaController extends Controller
      */
     public function registered()
     {
-        return $this->render('meta/reg_success.html.twig');
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        return $this->render('meta/reg_success.html.twig', ['user' => $user] );
     }
 
     /**
@@ -65,6 +74,7 @@ class MetaController extends Controller
      */
     public function unregistered()
     {
-        return $this->render('meta/unreg_success.html.twig');
+        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        return $this->render('meta/unreg_success.html.twig', ['user' => $user] );
     }
 }

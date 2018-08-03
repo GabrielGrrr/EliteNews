@@ -203,6 +203,7 @@ h1, h2, h3, h4, h5, h6 {
     min-width : 90px;
     margin:auto;
     display:block;
+    border:1px solid black;
 }
 
 .dpdwn-profile {
@@ -296,6 +297,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size:16px;
     top:70px;
     padding-top : 0;
+    text-align:center;
 }
 
 .connexion-dropdown form {

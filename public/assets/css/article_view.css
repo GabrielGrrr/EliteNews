@@ -26,12 +26,8 @@
     width: 100%;
 }
 
-.article-category {
-    text-align: center;
-    background:var(--secondary-bgcolor);
-    color: var(--main-bgcolor);
-    font-size:2.5em;
-    margin-bottom : 0;
+article.article-viewed.main-section {
+    background:none;
 }
 
 

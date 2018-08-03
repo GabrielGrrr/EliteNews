@@ -21,11 +21,12 @@
                 <div class="article-heading"><span class="list-authordate">Écrit le {{ article.datecreation | date('d/m/Y') }} 
                         à {{ article.datecreation | date('H:i') }}, par {{ article.author.login }}. 
                     </span>
-
+                    {% if is_granted('edit', article) %}
                     <span class="admin-edit-tools">
                         <a href="{{ path( 'edit_article', { 'id' :  article.id  }) }}"><i class="far fa-edit"></i></a>
                         <a href="{{ path('remove_article', { 'id' : article.id }) }}"><i class="fas fa-trash-alt"></i></a>
-                        </span>
+                    </span>
+                    {% endif %}
                 </div>
                 <div class="article-content">
                     <h1>{{ article.titre }}</h1>
@@ -85,15 +86,15 @@
                 <div class="comment-rightpanel">
                     <div class="comment-header">
                         <span class="comment-date">Posté le {{ comment.datecreation | date('d/m/Y') }} à {{ comment.datecreation | date('H:i') }}.</span>
+                        {% if is_granted('edit', comment) %}
+                        <span class="comment-edit-tools">
+                            <a href="{{ path( 'edit_comment', { 'id' :  article.id, 'commentid' : comment.id  }) }}"><i class="far fa-edit"></i></a>
+                            <a href="{{ path( 'remove_comment', { 'id' :  article.id, 'commentid' : comment.id }) }}"><i class="fas fa-trash-alt"></i></a>
+                        </span>
+                        {% endif %}
                         <span class="comment-id">#{{ comment.id }}</span>
                     </div>
                     <div class="comment-content">{{ comment.content }}</div>
-                    {% if is_granted('edit', comment) %}
-                    <div class="comment-edit-tools">
-                        <a href="{{ path( 'edit_comment', { 'id' :  article.id, 'commentid' : comment.id  }) }}"><i class="far fa-edit"></i></a>
-                        <a href="{{ path( 'remove_comment', { 'id' :  article.id, 'commentid' : comment.id }) }}"><i class="fas fa-trash-alt"></i></a>
-                    </div>
-                    {% endif %}
                     {% if comment.author.signature is not null %}
                     <div class="comment-signature">{{ comment.author.signature }}</div>
                     {% endif %}
@@ -110,7 +111,7 @@
 
 {% if commentform is not null %}
 
-<section class="comment-form">
+<section class="comment-form main-section">
     <h1>Partager votre réaction à cet article </h1>
 {{ form_start(commentform) }}
 {{ form_row(commentform.content, {'attr' : {'placeholder' : "Exprimez-vous ! :) ", 'label' : "TESTYTEST" }}) }}
