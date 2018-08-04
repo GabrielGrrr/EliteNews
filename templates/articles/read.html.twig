@@ -10,7 +10,7 @@
 
     <article class="article-viewed main-section">
         <div class="article-category">
-            <a href="{{ path('article_find', { 'categories' : article.category }) }}" class="url-link">
+            <a href="{{ path('article_thorough', { 'keyword' : '*', 'categories' : article.category }) }}" class="url-link">
                     {{ texthandler.reverseCategory(article.category) | raw }} {{ article.category }}</a>
         </div>
         <div>
@@ -48,7 +48,7 @@
                 <div class="article-footer resp-hsize">
                     <span>
                         <span class="dispensable">COMMENTAIRES UTILISATEURS</span>
-                        <span id="comment-count" class="comment-count" onclick="showComments()">{{ comments | length }}</span>
+                        <span id="comment-count" class="comment-count">{{ comments | length }}</span>
                     </span>
                     <span class="socialsharing">
                         <span class="social-before">PARTAGER CET ARTICLE </span>

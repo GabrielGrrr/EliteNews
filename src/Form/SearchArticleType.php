@@ -13,36 +13,36 @@ class SearchArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('keywords', TextType::class, array(
-                'label' => 'Entrez les mots clés à rechercher dans les titres',
+            ->add('keyword', TextType::class, array(
+                'label' => 'Mots-clés :',
                 'required' => false
             ))
             ->add('contentToo', CheckboxType::class, array(
-                'label' => 'Rechercher également dans le contenu ?',
+                'label' => 'Inclure le contenu ?',
                 'required' => false
             ))
             ->add('IT', CheckboxType::class, array(
-                'label' => 'Catégorie technologie',
+                'label' => 'Technologie',
                 'required' => false
             ))
             ->add('Neuro', CheckboxType::class, array(
-                'label' => 'Catégorie science',
+                'label' => 'Science',
                 'required' => false
             ))
             ->add('Socio', CheckboxType::class, array(
-                'label' => 'Catégorie sociologie',
+                'label' => 'Sociologie',
                 'required' => false
             ))
             ->add('Psycho', CheckboxType::class, array(
-                'label' => 'Catégorie psychologie',
+                'label' => 'Psychologie',
                 'required' => false
             ))
             ->add('cinema', CheckboxType::class, array(
-                'label' => 'Catégorie cinéma',
+                'label' => 'Cinéma',
                 'required' => false
             ))
             ->add('Autres', CheckboxType::class, array(
-                'label' => 'Catégorie divers',
+                'label' => 'Divers',
                 'required' => false
             ));
     }

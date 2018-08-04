@@ -48,6 +48,14 @@ class ArticleController extends Controller
      */
     public function search(ArticleRepository $article_repo, Request $request, string $keyword = null, string $categories = null)
     {
+        /*if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {  
+            $jsonData = array();  
+             .....
+            return new JsonResponse($jsonData);         POUR AJAX
+        }*/
+        $a = $request->query->get('keyword');
+        if($a) $keyword = $a;
+
         $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
         $texthandler = new ContentHandler;
         $form = $this->createForm(SearchArticleType::class);
@@ -55,11 +63,12 @@ class ArticleController extends Controller
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $data = $form->getData();
-            $articles = $article_repo->search($data['keywords'], $texthandler->convertArrayOfEnum($data), $data['contentToo']);
+            $articles = $article_repo->search($data['keyword'], $texthandler->convertArrayOfEnum($data), $data['contentToo']);
         }
         else if (isset($keyword) || isset($categories))
-            $articles = $article_repo->search($keyword, [0 => $categories]);
+            $articles = $article_repo->search($keyword, $categories ? [0 => $categories]: null);
         else
             $articles = $article_repo->listArticles();
             

@@ -5,7 +5,7 @@
         {% for article in articles %}
         <article class="article-listed article-{{ texthandler.translateWeight(article.weight) }}">
             <div class="article-category">
-                <a href="#" class="url-link">
+                <a href="{{ path('article_thorough', { 'keyword' : '*', 'categories' : article.category }) }}" class="url-link">
                     {{ texthandler.reverseCategory(article.category) | raw }}</a>
             </div>
             <div class="article-inside">

@@ -27,15 +27,15 @@
                         <i class="fas fa-home"></i>
                     </a>
                 </li>
-                <li class="search-icon">
-                    <a href="{{ path('article_search') }}" class="url-link">
+                <li >
+                    <a href="{{ path('article_search') }}" id="search-icon" class="url-link">
                         <i class="fas fa-search"></i>
                     </a>
-                    <ul class="search-form-sm">
-                        <form action="#" novalidate>
-                            <label for="searchbar-dpdwn">Rechercher un article :</label>
-                            <input name="searchbar-dpdwn" type="search">
-                            <button type="submit" onclick="{{ path('article_find') }}" class="bouton">
+                    <ul id="search-form-sm">
+                        <form action="{{ path('article_search') }}" method="GET">
+                            <label for="keyword">Rechercher un article :</label>
+                            <input name="keyword" type="search">
+                            <button type="submit" class="bouton">
                                 <i class="fas fa-search"></i>
                             </button>
                         </form>
@@ -64,7 +64,7 @@
                             {% endif %}
 
                             <li>
-                                <a href="#">
+                                <a href="https://github.com/GabrielPoint">
                                     <i class="fab fa-github-square"></i> Github
                                 </a>
                             </li>
@@ -81,10 +81,10 @@
                     </li>
 
                     <li class="menu-itm-xl connexion-icon">
-                        <a href="{{ path('account') }}">
+                        <a href="{{ path('account') }}" id="account-icon">
                             <i class="fas fa-user"></i>
                         </a>
-                        <div class="connexion-dropdown">
+                        <div id="connexion-dropdown">
                             {% if not app.user %}
                             <form action="{{ path('login') }}" method="POST">
                                 <label for="_username">Login :</label>
@@ -117,7 +117,7 @@
                     </li>
                     {% endif %}
                     <li>
-                        <a href="#">
+                        <a href="https://github.com/GabrielPoint">
                             <i class="fab fa-github-square"></i>
                         </a>
                     </li>
@@ -165,9 +165,6 @@
         <p>Quam asperiores corporis illum ratione assumenda, hic ex quo aperiam quibusdam enim labore fugiat, inventore corrupti? Necessitatibus eaque eveniet nemo exercitationem repellat reiciendis amet consequatur corrupti, eum aut quaerat ipsam?</p>
         <p>Nisi sapiente incidunt ea voluptatibus facere placeat aut vero, inventore quidem ex quia doloribus commodi obcaecati alias vitae! Laborum corporis aperiam aspernatur molestiae sint iusto nihil ex non accusantium ab.</p>
         <p>Ipsam soluta, enim neque repellat odio nulla, animi aspernatur obcaecati omnis quo nam cumque eligendi! Esse tempore sapiente minima quos quidem aperiam ullam non, corporis illo odio quas, voluptate tenetur.</p>
-        <p>Quibusdam, nostrum. Ut itaque ipsam tempora praesentium possimus totam nesciunt quisquam dolorem quibusdam vero sapiente asperiores, quis in rerum quidem. Minima qui dignissimos quidem maxime voluptatum corrupti nam sit vitae!</p>
-        <p>Quae recusandae ad minus velit cupiditate, quidem quia veritatis qui officiis hic unde, facilis optio, dolorem sapiente reiciendis labore consequatur distinctio numquam facere reprehenderit est ipsum iste quibusdam? Explicabo, quam.</p>
-        <p>Quasi quisquam officia mollitia accusamus sint ducimus accusantium voluptates eaque at quia, quis voluptatibus provident autem voluptatum, modi iste minima ipsam nam odit quidem laudantium corrupti? Doloribus doloremque magni delectus.</p>
         <p>Dignissimos maxime fugiat eligendi saepe, consectetur voluptate quo consequuntur quasi placeat aut alias animi sequi sint quod repellat eveniet obcaecati rem doloremque aspernatur aperiam vero! Ipsam aut magni possimus similique?</p>
     </footer>
 </body>
