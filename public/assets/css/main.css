@@ -390,6 +390,35 @@ h1, h2, h3, h4, h5, h6 {
     color:var(--main-a-hovercolor);
 }
 
+/* Navigation par liste de puce */
+
+.list-navigation {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.list-navigation a {
+    background: var(--main-bgcolor);
+    margin:10px;
+    padding:8px;
+    font-size : 1.2em;
+    flex-shrink: 2;
+    flex-grow:0;
+    height:1em;
+    line-height:100%;
+}
+
+.list-navigation  span {
+    margin:10px;
+    padding:8px;
+    font-size : 1.2em;
+    flex-shrink: 2;
+    flex-grow:0;
+    height:1em;
+    line-height:100%;
+}
+
 /* Footer */
 
 footer {

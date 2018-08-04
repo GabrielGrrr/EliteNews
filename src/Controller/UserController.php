@@ -82,7 +82,7 @@ class UserController extends Controller
         }
         $commentcount = $this->getDoctrine()->getRepository(User::class)->getCommentCount($user);
         return $this->render('user/account.html.twig', ['user' => $user, 'accountForm' => $form->createView(),
-         "commentCount" => $commentcount? $commentcount : 0 ]);
+         "commentCount" => $commentcount? $commentcount[0]['commentcount'] : 0 ]);
     }
 
     /**

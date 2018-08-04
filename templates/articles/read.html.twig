@@ -48,7 +48,7 @@
                 <div class="article-footer resp-hsize">
                     <span>
                         <span class="dispensable">COMMENTAIRES UTILISATEURS</span>
-                        <span id="comment-count" class="comment-count">{{ comments | length }}</span>
+                        <span id="comment-count" class="comment-count">{{ commentcount }}</span>
                     </span>
                     <span class="socialsharing">
                         <span class="social-before">PARTAGER CET ARTICLE </span>
@@ -101,8 +101,38 @@
                 </div>
             </div>
             {% endfor %}
-            <div class="comment-navigation">
-
+            <div class="list-navigation"> 
+                {% if commentnavigation.end < 12 %}
+                    {% for i in commentnavigation.start .. commentnavigation.end %}
+                        {% if commentnavigation.index == i %}
+                        <span id = "current-page"> {{ i }}</span>
+                        {% else %}
+                        <a href="{{ path('browse_comment', {'id' : article.id , 'index' : i }) }}"> {{ i }}</a>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                {% for i in commentnavigation.start ..  min(3, max(commentnavigation.index - 4, 3)) %}
+                {% if commentnavigation.index == i %}
+                <span id = "current-page"> {{ i }}</span>
+                {% else %}
+                <a href="{{ path('browse_comment', {'id' : article.id , 'index' : i }) }}"> {{ i }}</a>
+                {% endif %}
+                {% endfor %}
+                {% if commentnavigation.index > 7 %}
+                <span class> ... </span>
+                {% endif %}
+                {% for i in max(4, commentnavigation.index - 3) .. min(commentnavigation.end, commentnavigation.index + 3) %}
+                    {% if commentnavigation.index == i %}
+                    <span id = "current-page"> {{ i }}</span>
+                    {% else %}
+                    <a href="{{ path('browse_comment', {'id' : article.id , 'index' : i }) }}"> {{ i }}</a>
+                    {% endif %}
+                {% endfor %}
+                {% if commentnavigation.end > commentnavigation.index +3 %}
+                <span class> ... </span>
+                <a class = "last-page" href="{{ path('browse_comment', {'id' : article.id , 'index' : commentnavigation.end }) }}"> {{ commentnavigation.end }}</span>
+                {% endif %}
+                {% endif %}
             </div>
         </section>
     </article>

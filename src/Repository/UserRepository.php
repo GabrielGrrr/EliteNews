@@ -22,13 +22,12 @@ class UserRepository extends ServiceEntityRepository
     public function getCommentCOunt(User $user)
     {
         $conn = $this->getEntityManager()->getConnection();
-        $sql = 'SELECT COUNT(c.id), u.id as comment_count 
-    FROM app_users u, comment c
-    WHERE c.author_id = u.id
-    AND u.id = '.$user->getId().' 
-    GROUP BY u.id';
+        $sql = 'SELECT COUNT(c.id) as commentcount 
+        FROM  comment c
+        WHERE c.author_id = '.$user->getId();
         $stmt = $conn->prepare($sql);
         $stmt->execute();
+        return $stmt->fetchAll();
     }
 
 //    /**

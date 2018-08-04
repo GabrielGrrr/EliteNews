@@ -22,7 +22,7 @@
                             à {{ article.date_creation | date('H:i') }}, par {{ article.author }}. 
                         </span>
                         <span class="comment-count" href="#">
-                            <a href="{{ path('article_read', {'id' : article.id })}}#comment-count">{{ article.comment_count }}</a>
+                            <a href="{{ path('article_read', {'id' : article.id })}}#current-page">{{ article.comment_count }}</a>
                         </span>
                     </div>
                     <div class="article-content">

@@ -15,6 +15,7 @@ use App\Form\SearchArticleType;
 use App\Service\ContentHandler;
 
 use App\Repository\UserRepository;
+use App\Repository\CommentRepository;
 use App\Repository\ArticleRepository;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,6 +23,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+define('COMMENTS_PAR_PAGE', '20');
 
 class ArticleController extends Controller
 {
@@ -48,11 +51,6 @@ class ArticleController extends Controller
      */
     public function search(ArticleRepository $article_repo, Request $request, string $keyword = null, string $categories = null)
     {
-        /*if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {  
-            $jsonData = array();  
-             .....
-            return new JsonResponse($jsonData);         POUR AJAX
-        }*/
         $a = $request->query->get('keyword');
         if($a) $keyword = $a;
 
@@ -80,10 +78,14 @@ class ArticleController extends Controller
 
     /**
      * @Route("/lire/{id}", name="article_read")
+     * @Route("/lire/{id}/browse/{index}", name="browse_comment")
      * @Route("/lire/{id}/com/{commentid}", name="edit_comment")
      */
-    public function read(Article $article, $commentid = null, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
+    public function read(Article $article, $commentid = null, $index = 1, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
     {
+        $comment_repo= $this->getDoctrine()->getRepository(Comment::class);
+        $comments = $comment_repo->list($article->getThread(), $index -1, COMMENTS_PAR_PAGE);
+
         $texthandler = new ContentHandler;
         $user = NULL;
         $form = NULL;
@@ -91,7 +93,7 @@ class ArticleController extends Controller
         if (!$article) return $this->redirectToRoute('home');
         if ($this->getUser()) {
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
-            $comment = $commentid ? $this->getDoctrine()->getRepository(Comment::class)->find($commentid) : new Comment();
+            $comment = $commentid ? $comment_repo->find($commentid) : new Comment();
 
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
@@ -115,7 +117,7 @@ class ArticleController extends Controller
                     $manager->flush();
             }
         }
-
+        $commentcount = $comment_repo->getCommentPageCount($article->getThread());
         $previousnext = $article_repo->getPreviousNext($article->getId());
         return $this->render('articles/read.html.twig', [
             'article' => $article, 'comments' => $article->getThread()->getComments(),
@@ -123,7 +125,12 @@ class ArticleController extends Controller
             'commentform' => $form === NULL ? NULL : $form->createView(), 
             'previous' => $previousnext[0][0]['previous_row'],
              'next' => $previousnext[1][0]['next_row'],
-             'user' => $user, 'texthandler' => $texthandler, 
+             'user' => $user, 'texthandler' => $texthandler, 'comments' => $comments,
+             'commentcount' => $commentcount,
+             'commentnavigation' => 
+             ['start' => 1, 
+             'index' => $index ? $index : 1, 
+             'end' => ceil($commentcount / COMMENTS_PAR_PAGE)]
         ]);
     }
 

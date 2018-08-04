@@ -123,7 +123,6 @@ class ArticleRepository extends ServiceEntityRepository
         $resultat->execute();
 
     return $resultat->fetchAll();
-    return NULL;
     }
     
 
