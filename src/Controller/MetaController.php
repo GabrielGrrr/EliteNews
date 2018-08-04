@@ -8,6 +8,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MetaController extends Controller
 {
+
+    /**
+     * @Route("/admin", name="admin")
+     */
+    public function admin()
+    {
+    }
+
+
     /**
      * @Route("/about", name="about")
      */

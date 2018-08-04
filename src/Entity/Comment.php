@@ -43,6 +43,10 @@ class Comment
      */
     private $author;
 
+    public function __toString() {
+        return $this->content;
+    }
+
     public function getId()
     {
         return $this->id;

@@ -1,0 +1,22 @@
+easy_admin:
+    site_name: "Bienvenue, <b style='color:#dd0d18ef'>Gabriel</b>"
+    design:
+        brand_color: '#343a40'
+        assets:
+            favicon: '/assets/images/admin_icon.png'
+    entities:
+        Article:
+            class: App\Entity\Article
+            label: 'Articles'
+            list:
+                title: 'Articles publiés dans la BDD'
+        Comment:
+            class: App\Entity\Comment
+            label: 'Commentaires'
+            list:
+                title: 'Commentaires enregistrés dans la BDD'
+        User:
+            class: App\Entity\User
+            label: 'Utilisateurs'
+            list:
+                title: 'Utilisateurs enregistrés dans la BDD'

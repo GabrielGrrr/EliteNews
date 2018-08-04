@@ -80,6 +80,10 @@ class Article
         return $this->id;
     }
 
+    public function __toString() {
+        return $this->titre;
+    }
+
     public static function getEnumCategories()
     {
         return array('IT', 'Psychologie', 'Sociologie', 'Neurologie', 'Cosmologie', 'Physique', 'Sciences', 

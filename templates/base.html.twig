@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %} - GG Weblog</title>
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <link rel="icon" 
+      type="image/png" 
+      href="{{ asset('assets/images/favicon.png') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
@@ -116,6 +119,13 @@
                         </a>
                     </li>
                     {% endif %}
+                    {% if is_granted('ROLE_PUBLISHER') %}
+                    <li>
+                        <a href="{{ path('admin') }}" class="dispensable">
+                            <i class="fas fa-unlock-alt"></i>
+                        </a>
+                    </li>
+                    {% endif %}
                     <li>
                         <a href="https://github.com/GabrielPoint">
                             <i class="fab fa-github-square"></i>
@@ -139,7 +149,7 @@
             <img src="{{ asset('assets/images/sep1.png') }}" class="img-centered" alt="Séparateur">
             <div class="banner-content">
                 <a href="{{ path('home') }}">
-                    <img src="{{ asset('assets/images/banner_resized1300x222.png') }}" class="img-centered" alt="Bannière du site">
+                    <img src="{{ asset('assets/images/banner_1600.png') }}" class="img-centered" alt="Bannière du site">
                 </a>
                 <h1 class="banner-categories">
                     <a href="{{ path('article_thorough', { 'categories' : 'IT', 'keyword' : '*' }) }}" class="url-link">IT</a> -

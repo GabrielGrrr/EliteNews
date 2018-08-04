@@ -54,6 +54,10 @@ class Forum
         $this->threads = new ArrayCollection();
     }
 
+    public function __toString() {
+        return $this->description;
+    }
+
     public function getId()
     {
         return $this->id;

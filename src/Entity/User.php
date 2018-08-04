@@ -137,6 +137,10 @@ class User implements UserInterface
         $this->isActive = FALSE;
     }
 
+    public function __toString() {
+        return $this->login;
+    }
+
     public function getId()
     {
         return $this->id;

@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 define('COMMENTS_PAR_PAGE', '20');
+define('ARTICLES_PAR_PAGE', '20');
 
 class ArticleController extends Controller
 {
@@ -37,7 +38,7 @@ class ArticleController extends Controller
         $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
         $texhandler = new ContentHandler;
 
-        $articles = $article_repo->listArticles(isset($index) && $index > 0 ? $index -1 : 0);
+        $articles = $article_repo->listArticles(isset($index) && $index > 0 ? $index -1 : 0, ARTICLES_PAR_PAGE);
         return $this->render('articles/home.html.twig', [
             'controller_name' => 'ArticleController', 'articles' => $articles, 'texthandler' => $texhandler, 'articles_star' => $article_repo->getSlideArticles(),
             'user' => $user, 'pagenavigation' => [1, $index ? $index : 1, ceil($article_repo->getArticlePageCount())]
@@ -68,7 +69,7 @@ class ArticleController extends Controller
         else if (isset($keyword) || isset($categories))
             $articles = $article_repo->search($keyword, $categories ? [0 => $categories]: null);
         else
-            $articles = $article_repo->listArticles();
+            $articles = $article_repo->listArticles(0, ARTICLES_PAR_PAGE);
             
         return $this->render('articles/search.html.twig', [
              'articles' => $articles, 'texthandler' => $texthandler, 'searchForm' => $form->createView(),

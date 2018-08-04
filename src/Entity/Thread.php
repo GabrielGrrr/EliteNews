@@ -73,6 +73,10 @@ class Thread
         return $this;
     }
 
+    public function __toString() {
+        return $this->titre;
+    }
+
 
     public function getId()
     {
