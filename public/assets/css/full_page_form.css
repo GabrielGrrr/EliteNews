@@ -18,6 +18,13 @@
     margin:5px;
 }
 
+.full-page-form form div>textarea {
+    display: block;
+    position:relative;
+    left:0;
+    margin:5px;
+}
+
 .full-page-form form div textarea {
     width:40%;
     margin-left:auto;

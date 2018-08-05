@@ -13,7 +13,10 @@
     <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Arizonia" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet"> {% block stylesheets %}{% endblock %}
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet"> 
+
+    {% block stylesheets %}
+    {% endblock %}
 
 
 
@@ -164,7 +167,8 @@
         </div>
     </header>
 
-    {% block body %}{% endblock %}
+    {% block body %}
+    {% endblock %}
 
     <footer>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet totam inventore ratione modi voluptatibus cupiditate debitis
@@ -182,6 +186,7 @@
     crossorigin="anonymous"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
 
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+{% endblock %}
 
 </html>

@@ -18,7 +18,7 @@ class ArticleType extends AbstractType
         $builder
             ->add('titre', TextType::class, ['label' => 'Titre :'])
             ->add('category', TextType::class, ['label' => 'Catégorie :'])
-            ->add('content', TextareaType::class, ['label' => 'Contenu :', 'attr' => ['cols' => 50, 'rows' => 10]])
+            ->add('content', TextareaType::class, ['label' => 'Contenu :', 'attr' => ['cols' => 50, 'rows' => 10, 'class' => 'ckeditor']])
             ->add('weight', ChoiceType::class, array(
                 'choices' => array('Mineure' => 0, 'Moyenne' => 1, 'Majeure' => 2), 'label' => 'Importance :'))
             ->add('image', UrlType::class, ['label' => 'Image-accroche (URL) :']);

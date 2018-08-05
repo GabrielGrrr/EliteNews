@@ -95,7 +95,7 @@
                         {% endif %}
                         <span class="comment-id">#{{ comment.id }}</span>
                     </div>
-                    <div class="comment-content">{{ comment.content }}</div>
+                    <div class="comment-content">{{ comment.content | raw }}</div>
                     {% if comment.author.signature is not null %}
                     <div class="comment-signature">{{ comment.author.signature }}</div>
                     {% endif %}
@@ -169,4 +169,11 @@
 
 {% block javascripts %}
 <script src="{{ asset('assets/js/article_read.js') }}"></script> 
+<script src="{{ asset('assets/js/ckeditor_public/adapters/jquery.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/js/ckeditor_public/ckeditor.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function() {
+        $('textarea.ckeditor').ckeditor();
+    });
+</script>
 {% endblock %}

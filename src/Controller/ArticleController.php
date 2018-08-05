@@ -84,12 +84,10 @@ class ArticleController extends Controller
      */
     public function read(Article $article, $commentid = null, $index = 1, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
     {
-        $comment_repo= $this->getDoctrine()->getRepository(Comment::class);
-        $comments = $comment_repo->list($article->getThread(), $index -1, COMMENTS_PAR_PAGE);
-
+        $user = NULL; $commentcount = NULL; $form = NULL; 
+        $edit = false;
         $texthandler = new ContentHandler;
-        $user = NULL;
-        $form = NULL;
+        $comment_repo= $this->getDoctrine()->getRepository(Comment::class);
 
         if (!$article) return $this->redirectToRoute('home');
         if ($this->getUser()) {
@@ -98,7 +96,6 @@ class ArticleController extends Controller
 
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
-
             if ($form->isSubmitted() && $form->isValid()) {
                 if (!$comment->getId()) {
                     $this->denyAccessUnlessGranted('send', $comment);
@@ -113,15 +110,21 @@ class ArticleController extends Controller
                 {
                     $this->denyAccessUnlessGranted('edit', $comment);
                 }
-                    $form = $this->createForm(CommentType::class, new Comment());
+                    $comment->setContent($texthandler->secureAndParse($comment->getContent()));
                     $manager->persist($comment);
                     $manager->flush();
+                    $form = $this->createForm(CommentType::class, new Comment());
+                    $commentcount = $comment_repo->getCommentPageCount($article->getThread());
+                    $index = ceil($commentcount / COMMENTS_PAR_PAGE);
             }
         }
-        $commentcount = $comment_repo->getCommentPageCount($article->getThread());
+
+        $comments = $comment_repo->list($article->getThread(), $index -1, COMMENTS_PAR_PAGE);
+        $commentcount = $commentcount ? $commentcount : $comment_repo->getCommentPageCount($article->getThread());
         $previousnext = $article_repo->getPreviousNext($article->getId());
+
         return $this->render('articles/read.html.twig', [
-            'article' => $article, 'comments' => $article->getThread()->getComments(),
+            'article' => $article,
             'articles_star' => $article_repo->getSlideArticles(), 
             'commentform' => $form === NULL ? NULL : $form->createView(), 
             'previous' => $previousnext[0][0]['previous_row'],

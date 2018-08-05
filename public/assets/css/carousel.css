@@ -19,7 +19,7 @@
     background: none;
     color: #282d31;
     font-size : 2em;
-    mix-blend-mode: hard-light;
+    mix-blend-mode: difference;
 }
 
 .car-bouton:hover {
