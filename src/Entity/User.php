@@ -30,7 +30,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Length( min=8,
+     * @Assert\Length( min=4,
      * minMessage = "Votre login doit faire au moins {{ limit }} caractères.")
      */
     private $login;
@@ -51,12 +51,12 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, options={"default" : "ROLE_USER"}, nullable=true)
      */
     private $user_role;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, options={"default" : "http://via.placeholder.com/90x90"}, nullable=true)
      */
     private $avatar;
 
@@ -82,7 +82,7 @@ class User implements UserInterface
     private $localisation;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0}, nullable=true)
      */
     private $moderation_status;
 
@@ -92,7 +92,7 @@ class User implements UserInterface
     private $date_inscription;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", options={"default" : 0}, nullable=true)
      */
     private $newsletter_subscriber;
 
@@ -199,7 +199,7 @@ class User implements UserInterface
         return $this->user_role;
     }
 
-    public function setUserRole(int $user_role): string
+    public function setUserRole(string $user_role): string
     {
         $this->user_role = $user_role;
 

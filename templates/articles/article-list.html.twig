@@ -22,11 +22,11 @@
                             à {{ article.date_creation | date('H:i') }}, par {{ article.author }}. 
                         </span>
                         <span class="comment-count" href="#">
-                            <a href="{{ path('article_read', {'id' : article.id })}}#current-page">{{ article.comment_count }}</a>
+                            <a href="{{ path('browse_comment', {'id' : article.id })}}">{{ article.comment_count }}</a>
                         </span>
                     </div>
                     <div class="article-content">
-                        {{ texthandler.raccourcir(article.content, article.weight) }}
+                        {{ texthandler.raccourcir(article.content, article.weight) | raw }}
                     </div>
                     <a href="{{ path('article_read', {'id' : article.id })}}"> <div class="bouton article-more">... Lire la suite</div></a>
                 </div>

@@ -30,17 +30,17 @@
     <!-- Header -->
     <header>
         <div class="header-content">
-            <ul class="header-logo">
-                <li>
+            <div class="header-logo">
+                <span>
                     <a href="{{ path('home') }}" class="url-link">
                         <i class="fas fa-home"></i>
                     </a>
-                </li>
-                <li >
+                </span>
+                <span >
                     <a href="{{ path('article_search') }}" id="search-icon" class="url-link">
                         <i class="fas fa-search"></i>
                     </a>
-                    <ul id="search-form-sm">
+                    <span id="search-form-sm">
                         <form action="{{ path('article_search') }}" method="GET">
                             <label for="keyword">Rechercher un article :</label>
                             <input name="keyword" type="search">
@@ -48,10 +48,10 @@
                                 <i class="fas fa-search"></i>
                             </button>
                         </form>
-                    </ul>
-                </li>
+                    </span>
+                </span>
 
-            </ul>
+            </div>
 
             <nav role="navigation">
                 <ul class="header-menu">
@@ -109,9 +109,10 @@
                             Bienvenue, {{ user.login }}
                             <div class="dpdwn-profile">
                             <a href="{{ path('account') }}" class="account">
-                            <img src="{{ user.avatar }}" id="user_avatar" alt="">
                                     <i class="fas fa-user-edit"></i>
-                                    Profil</a>
+                                    Profil
+                            <img src="{{ user.avatar }}" id="user_avatar" alt="">
+                                    </a>
                                 <a href="{{ path('logout') }}" class="logout bouton">Déconnexion</a>
                             </div>
                             {% endif %}

@@ -38,6 +38,8 @@ class UserController extends Controller
             $user->setDateInscription(new \DateTime());
             if($user->getNewsletterSubscriber())$user->setDateSubscription(new \DateTime());
             $hash = $encoder->encodePassword($user, $user->getPassword());
+            $user->setUserRole('ROLE_USER');
+            $user->setModerationStatus(0);
             $user->setPassword($hash);
             $manager->persist($user);
             $manager->flush();

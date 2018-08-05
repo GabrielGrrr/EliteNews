@@ -1,0 +1,18 @@
+
+.full-page-form { 
+    padding-top:0;
+}
+
+.bloc-perso {
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.informations perso {
+    display:inline;
+}
+
+.avatar-perso {
+    display:inline;
+}

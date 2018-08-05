@@ -7,8 +7,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class RegisterType extends AbstractType
@@ -26,7 +27,7 @@ class RegisterType extends AbstractType
                 'second_options' => array('label' => 'Confirmez votre mot de passe : '),
             ))
             ->add('email', RepeatedType::class, array(
-                'type' => TextType::class,
+                'type' => EmailType::class,
                 'invalid_message' => 'Erreur de confirmation de l\'e-mail',
                 'options' => array('attr' => array('class' => 'email-field')),
                 'required' => true,

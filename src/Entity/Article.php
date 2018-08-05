@@ -32,13 +32,13 @@ class Article
     private $content;
 
     /**
-     * @ORM\Column(name="weight", type="integer", options={"default" : 0})
+     * @ORM\Column(name="weight", type="integer", options={"default" : 0}, nullable=true)
      * @Assert\Choice(callback="getEnumWeight", message="L'importance de l'article ne correspond pas (ceci ne devrait pas arriver).")
      */
     private $weight;
 
     /**
-     * @ORM\Column(name="removed", type="boolean", options={"default" : 0})
+     * @ORM\Column(name="removed", type="boolean", options={"default" : 0}, nullable=true)
      */
     private $removed;
 
@@ -48,7 +48,7 @@ class Article
     private $date_creation;
 
     /**
-     * @ORM\Column(name="viewcount", type="integer", options={"default" : 0})
+     * @ORM\Column(name="viewcount", type="integer", options={"default" : 0}, nullable=true)
      */
     private $viewcount;
 

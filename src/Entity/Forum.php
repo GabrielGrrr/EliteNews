@@ -19,6 +19,11 @@ class Forum
     private $id;
 
     /**
+     * @ORM\Column(type="text", nullable=false)
+     */
+    private $titre;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;

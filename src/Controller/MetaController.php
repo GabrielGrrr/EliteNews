@@ -3,6 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ContactType;
+use App\Entity\ContactMessage;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -29,10 +33,22 @@ class MetaController extends Controller
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact()
+    public function contact(ContactMessage $message = null, Request $request, ObjectManager $manager)
     {
+        $message ? $message : $message = new ContactMessage();
+        $confirmMode = false;
+        $form = $this->createForm(ContactType::class, $message);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($message);
+            $manager->flush();
+            $confirmMode = true;
+        }
+
         $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
-        return $this->render('meta/contact.html.twig', ['user' => $user] );
+        return $this->render('meta/contact.html.twig', ['user' => $user, 'contactform' => $form->createView(),
+        'confirmMode' => $confirmMode] );
     }
 
     /**

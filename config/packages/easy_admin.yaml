@@ -20,3 +20,18 @@ easy_admin:
             label: 'Utilisateurs'
             list:
                 title: 'Utilisateurs enregistrés dans la BDD'
+        ContactMessage:
+            class: App\Entity\ContactMessage
+            label: 'Mails'
+            list:
+                title: 'Messages reçus'
+        Forum:
+            class: App\Entity\Forum
+            label: 'Forums'
+            list:
+                title: 'Forums du site'
+        Thread:
+            class: App\Entity\Thread
+            label: 'Sujets'
+            list:
+                title: 'Sujets de forum'

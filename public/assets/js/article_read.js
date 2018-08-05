@@ -17,8 +17,15 @@ $(function() {
     if(window.location.hash) {
         showComments();
         document.getElementById("first-post").scrollIntoView(); }
-    
-        if(parseInt($("#current-page").text(), 10) > 1) {
+
+        var arguments = window.location.pathname.split( '/' );
+        if(document.getElementById("editmode") != null) {
+            showComments();
+            document.getElementById("editmode").scrollIntoView(); alert(1); }
+        else if(document.getElementById("anchor") != null) {
+            showComments();
+            document.getElementById("anchor").scrollIntoView(); }
+        else if(arguments[3] == 'browse') {
             showComments();
             document.getElementById("first-post").scrollIntoView();  }
 });

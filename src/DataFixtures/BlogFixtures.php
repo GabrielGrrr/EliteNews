@@ -81,12 +81,14 @@ class BlogFixtures extends Fixture
         $forum2 = new Forum();
         $forum2->setDescription("Forum dédié à regrouper les threads des articles");
         $forum2->setIsNewsForum(1);
+        $forum->setTitre('Actualités');
         $forum2->setIsRootForum(0);
         $manager->persist($forum2);
 
         $forum1 = new Forum();
         $forum1->setDescription("Forum racine de l'application");
         $forum1->setIsNewsForum(0);
+        $forum->setTitre('Forum racine');
         $forum1->setIsRootForum(1);
         $forum1->addSubforum($forum2);
         $manager->persist($forum1);

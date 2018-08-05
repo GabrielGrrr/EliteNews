@@ -79,20 +79,22 @@ class ArticleController extends Controller
 
     /**
      * @Route("/lire/{id}", name="article_read")
-     * @Route("/lire/{id}/browse/{index}", name="browse_comment")
-     * @Route("/lire/{id}/com/{commentid}", name="edit_comment")
+     * @Route("/lire/{id}/browse/{index}/{commentid}", name="browse_comment")
+     * @Route("/lire/{id}/edit/{index}/{commentid}", name="edit_comment")
      */
     public function read(Article $article, $commentid = null, $index = 1, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
     {
-        $user = NULL; $commentcount = NULL; $form = NULL; 
-        $edit = false;
+        start:
+        $user = NULL; $commentcount = NULL; $form = NULL; $editmode = FALSE;
         $texthandler = new ContentHandler;
         $comment_repo= $this->getDoctrine()->getRepository(Comment::class);
 
         if (!$article) return $this->redirectToRoute('home');
         if ($this->getUser()) {
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
-            $comment = $commentid ? $comment_repo->find($commentid) : new Comment();
+            if($commentid)  { 
+                $editmode = TRUE; $comment = $comment_repo->find($commentid); }
+                else $comment = new Comment();
 
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
@@ -105,17 +107,22 @@ class ArticleController extends Controller
                     $comment->setThread($article->getThread());
                     $comment->setLikeCounter(0);
                     $comment->setAuthor($author);
+
+                    $commentcount = $comment_repo->getCommentPageCount($article->getThread());
+                    $index = ceil($commentcount / COMMENTS_PAR_PAGE);
                 }
                 else
                 {
                     $this->denyAccessUnlessGranted('edit', $comment);
+                    $editmode = false;
                 }
                     $comment->setContent($texthandler->secureAndParse($comment->getContent()));
                     $manager->persist($comment);
                     $manager->flush();
-                    $form = $this->createForm(CommentType::class, new Comment());
-                    $commentcount = $comment_repo->getCommentPageCount($article->getThread());
-                    $index = ceil($commentcount / COMMENTS_PAR_PAGE);
+                    $commentid ? $commentid : $commentid = $comment->getId();
+                    $comment = new Comment();
+                    $form = $this->createForm(CommentType::class, $comment);
+                    return $this->redirectToRoute('browse_comment', ['id' => $article->getId(), 'index' => $index]);
             }
         }
 
@@ -129,8 +136,12 @@ class ArticleController extends Controller
             'commentform' => $form === NULL ? NULL : $form->createView(), 
             'previous' => $previousnext[0][0]['previous_row'],
              'next' => $previousnext[1][0]['next_row'],
-             'user' => $user, 'texthandler' => $texthandler, 'comments' => $comments,
+             'user' => $user, 
+             'texthandler' => $texthandler,
+             'editmode' => $editmode,
+             'comments' => $comments,
              'commentcount' => $commentcount,
+             'anchor' => $commentid ? $commentid : 0,
              'commentnavigation' => 
              ['start' => 1, 
              'index' => $index ? $index : 1, 
@@ -152,22 +163,23 @@ class ArticleController extends Controller
             $this->denyAccessUnlessGranted('send', $article);
             $form = $this->createForm(ArticleType::class, $article);
             $form->handleRequest($request);
-            //$date, 0, $this->getDoctrine()->getRepository(Forum::class)->rootForum(), $article, $author, $article->getTitre()
+
             if ($form->isSubmitted() && $form->isValid()) {
                 if (!$article->getId()) {
                     $date = new \DateTime();
+
                     $thread = new Sujet();
-                    $thread->setArticle($article)->setAuthor($author)->setDateCreation($date)->setForum($this->getDoctrine()->getRepository(Forum::class)->rootForum())
+                    $thread->setArticle($article)->setAuthor($user)->setDateCreation($date)->setForum($this->getDoctrine()->getRepository(Forum::class)->rootForum())
                     ->setTitre($article->getTitre())->setViewcount(0);
+                    $manager->persist($thread);
+                    $article->setThread($thread);
+
                     $article->setDateCreation($date);
                     $article->setAuthor($user);
                     $article->setRemoved(0);
-                    $article->setThread($thread);
                     $article->setViewcount(0);
-                    $manager->persist($thread);
                 }
                 $this->denyAccessUnlessGranted('edit', $article);
-                //VERIFIER LA CORRESPONDANCE DES AUTEURS AVANT LA VALIDATION DE LEDITION
                 
                 $manager->persist($article);
                 $manager->flush();
@@ -193,14 +205,14 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/comment/effacer/{id}/{commentid}", name="remove_comment")
+     * @Route("/comment/effacer/{id}/{commentid}/{index}", name="remove_comment")
      */
-    public function removeComment($id, $commentid, ObjectManager $manager)
+    public function removeComment($id, $commentid, $index, ObjectManager $manager)
     {
         $comment = $this->getDoctrine()->getRepository(Comment::class)->find($commentid);
         $this->denyAccessUnlessGranted('edit', $comment);
         $manager->remove($comment);
         $manager->flush();
-        return $this->redirectToRoute('article_read', [ 'id' => $id]);
+        return $this->redirectToRoute('browse_comment', [ 'id' => $id, 'index' => $index]);
     }
 }
