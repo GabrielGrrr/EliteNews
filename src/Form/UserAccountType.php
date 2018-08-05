@@ -20,7 +20,7 @@ class UserAccountType extends AbstractType
             ->add('subtitle', TextType::class, ['label' => 'Courte description :', 'required' => false])
             ->add('signature', TextType::class, ['label' => 'Signature :', 'required' => false])
             ->add('localisation', TextType::class, ['label' => 'Lieu/Ville :', 'required' => false])
-            ->add('newsletter_subscriber', CheckboxType::class, ['label' => 'Souscrire ) la newsletter :', 'required' => false])
+            ->add('newsletter_subscriber', CheckboxType::class, ['label' => 'Souscrire à la newsletter :', 'required' => false])
         ;
     }
 

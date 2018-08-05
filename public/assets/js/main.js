@@ -43,6 +43,7 @@ function showComments() {
 
 //Slide / dropdown du formulaire de recherche
 $(function(){
+    
     $("#search-icon").mouseenter(function(){
         $("#search-form-sm").slideToggle(300);
     });
@@ -50,8 +51,8 @@ $(function(){
 
 //Slide / dropdown du menu profil
 $(function(){
+    
     $("#account-icon").mouseenter(function(){
         $("#connexion-dropdown").slideToggle(300);
     });
 });
-

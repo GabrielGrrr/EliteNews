@@ -16,6 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity( fields = {"email"},
  * message= "L'email ou le login indiqué est déjà utilisé")
+ * @UniqueEntity( fields = {"login"},
+ * message= "Le login demandé est déjà utilisé")
  */
 class User implements UserInterface
 {
@@ -27,34 +29,26 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\Length( min=8,
+     * minMessage = "Votre login doit faire au moins {{ limit }} caractères.")
      */
     private $login;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length( min=8,
-     * maxMessage = "Votre mot de passe doit faire au moins {{ limit }} caractères.")
+     * minMessage = "Votre mot de passe doit faire au moins {{ limit }} caractères.")
      */
     private $password;
 
     /**
-     * @Assert\EqualTo(propertyPath="password", message="Erreur de confirmation du mot de passe")
-     */
-    public $confirm_password;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Email( mode = "strict",
      *     message = "Email '{{ value }}' invalide.",
      *     checkMX = true )
      */
     private $email;
-
-     /**
-     * @Assert\EqualTo(propertyPath="email", message="Erreur de confirmation de l'e-mail")
-     */
-    public $confirm_email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -75,14 +69,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Length(max=255,
+     * @Assert\Length(max=100,
      * maxMessage ="Le nombre de caractères maximum est de {{ limit }}")
      */
     private $signature;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Length(max=255,
+     * @Assert\Length(max=20,
      * maxMessage ="Le nombre de caractères maximum est de {{ limit }}")
      */
     private $localisation;
@@ -98,9 +92,15 @@ class User implements UserInterface
     private $date_inscription;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $newsletter_subscriber;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Assert\IsTrue(message="Vous devez accepter nos conditions d'usage")
+     */
+    private $termsaccepted;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -175,11 +175,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getConfirmPassword()
-    {
-        return $this->confirm_password;
-    }
-
     
 
     /*public function setConfirmPassword()
@@ -190,11 +185,6 @@ class User implements UserInterface
     public function getEmail(): ?string
     {
         return $this->email;
-    }
-
-    public function getConfirmEmail()
-    {
-        return $this->confirm_email;
     }
 
     public function setEmail(string $email): self
@@ -284,6 +274,18 @@ class User implements UserInterface
     public function setDateInscription(\DateTimeInterface $date_inscription): self
     {
         $this->date_inscription = $date_inscription;
+
+        return $this;
+    }
+
+    public function getTermsAccepted(): ?bool
+    {
+        return $this->termsaccepted;
+    }
+
+    public function setTermsAccepted(bool $termsaccepted): self
+    {
+        $this->termsaccepted = $termsaccepted;
 
         return $this;
     }

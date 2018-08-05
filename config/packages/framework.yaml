@@ -9,6 +9,7 @@ framework:
     session:
         handler_id: ~
 
+    validation: { enable_annotations: true }
     #esi: true
     #fragments: true
     php_errors:
