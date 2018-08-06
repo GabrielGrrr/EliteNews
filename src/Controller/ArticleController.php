@@ -79,12 +79,11 @@ class ArticleController extends Controller
 
     /**
      * @Route("/lire/{id}", name="article_read")
-     * @Route("/lire/{id}/browse/{index}/{commentid}", name="browse_comment")
+     * @Route("/lire/{id}/browse/{index}/{anchor}", name="browse_comment")
      * @Route("/lire/{id}/edit/{index}/{commentid}", name="edit_comment")
      */
-    public function read(Article $article, $commentid = null, $index = 1, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
+    public function read(Article $article, $commentid = null, $anchor = null, $index = 1, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
     {
-        start:
         $user = NULL; $commentcount = NULL; $form = NULL; $editmode = FALSE;
         $texthandler = new ContentHandler;
         $comment_repo= $this->getDoctrine()->getRepository(Comment::class);
@@ -122,7 +121,7 @@ class ArticleController extends Controller
                     $commentid ? $commentid : $commentid = $comment->getId();
                     $comment = new Comment();
                     $form = $this->createForm(CommentType::class, $comment);
-                    return $this->redirectToRoute('browse_comment', ['id' => $article->getId(), 'index' => $index]);
+                    return $this->redirectToRoute('browse_comment', ['id' => $article->getId(), 'index' => $index, 'anchor' => $commentid]);
             }
         }
 
@@ -141,7 +140,7 @@ class ArticleController extends Controller
              'editmode' => $editmode,
              'comments' => $comments,
              'commentcount' => $commentcount,
-             'anchor' => $commentid ? $commentid : 0,
+             'anchor' => $anchor ? $anchor : 0,
              'commentnavigation' => 
              ['start' => 1, 
              'index' => $index ? $index : 1, 

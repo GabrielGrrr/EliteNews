@@ -188,12 +188,16 @@ article.article-viewed.main-section {
 .comment-rightpanel .comment-content {
     margin-top:3px;
     margin-bottom:5px;
-    padding-bottom: 5em;
+    padding-bottom: 3em;
+    padding-left:1em;
+    padding-top:0.5em;
+    padding-right:1em;
 }
 
 .comment-rightpanel .comment-signature {
     position: absolute;
     display:block;
+    font-style: italic;
     bottom:0;
     width: 100%;
     background: var(--main-bgcolor);
@@ -201,13 +205,11 @@ article.article-viewed.main-section {
 }
 
 .comment-rightpanel .comment-signature::before {
-    content: 'Signature : ';
-    font-family: var(--secondary-font);
-    color: #969ba0;
-    font-size: 0.8em;
-    position : absolute;
-    top:-1.3em;
-    left: 0;
+    content: '. . . "';
+}
+
+.comment-rightpanel .comment-signature::after {
+    content: '" . . .';
 }
 
 .comment-form {
@@ -255,7 +257,7 @@ form {
 
     .article-footer span span.comment-count
     {
-        font-size: 5vw;
+        font-size: 3vw;
         padding-left:0.5em;
         padding-right:0.5em;
     }

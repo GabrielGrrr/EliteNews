@@ -21,7 +21,7 @@ $(function() {
         var arguments = window.location.pathname.split( '/' );
         if(document.getElementById("editmode") != null) {
             showComments();
-            document.getElementById("editmode").scrollIntoView(); alert(1); }
+            document.getElementById("editmode").scrollIntoView(); }
         else if(document.getElementById("anchor") != null) {
             showComments();
             document.getElementById("anchor").scrollIntoView(); }

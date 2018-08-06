@@ -36,17 +36,13 @@
                         <i class="fas fa-home"></i>
                     </a>
                 </span>
-                <span >
-                    <a href="{{ path('article_search') }}" id="search-icon" class="url-link">
+                <span>
+                    <span id="search-icon" class="url-link">
                         <i class="fas fa-search"></i>
-                    </a>
+                    </span>
                     <span id="search-form-sm">
-                        <form action="{{ path('article_search') }}" method="GET">
-                            <label for="keyword">Rechercher un article :</label>
+                        <form action="{{ path('article_search') }}" method="GET" id="navsearchform">
                             <input name="keyword" type="search">
-                            <button type="submit" class="bouton">
-                                <i class="fas fa-search"></i>
-                            </button>
                         </form>
                     </span>
                 </span>
@@ -188,6 +184,11 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+    <script
+    src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+    crossorigin="anonymous"></script>
+
 <script src="{{ asset('assets/js/main.js') }}"></script>
 
 {% block javascripts %}

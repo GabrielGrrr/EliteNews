@@ -35,7 +35,19 @@
         <p>Compte en règle.</p>
         {% endif %}
         {% endif %}
-        <a class="bouton" href="{{ path('remove_user', { 'id' : user.id }) }}">Supprimer le compte</a>
+
+                        <span class="openmodal iconbutton hoverable">
+                        <div class="modalbg" >
+                            <div class="modalcontent">
+                                <div class="modalcross hoverable cancelmodal"><i class="fas fa-times"></i></div>
+                                <h1>Confirmer la suppression</h1>
+                               <p> Êtes-vous sûr ? En appuyant sur ce lien, vous confirmez la suppression définitive de votre compte ...</p>
+                                <a href="{{ path('remove_user', { 'id' : user.id }) }}">
+                                    <button class="bouton">Je suis tout plein d'assurance</button></a>
+                                    <button class="bouton cancelmodal">No, Who am-I kidding !</button>
+                            </div>
+                        </div>
+                        Supprimer le compte</span>
         </div>
         
 </section>
