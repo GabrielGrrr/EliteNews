@@ -1,5 +1,5 @@
 #user-infos {
-    color:white;
+    color:var(--main-a-color);
     margin-left:3em;
     position:relative;
     bottom:15em;

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
     <link rel="icon" 
       type="image/png" 
-      href="{{ asset('assets/images/favicon.png') }}">
+      href="{{ asset('assets/images/eliteicon.png') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
@@ -129,19 +129,11 @@
                         </a>
                     </li>
                     {% endif %}
-                    <li>
-                        <a href="https://github.com/GabrielPoint">
-                            <i class="fab fa-github-square"></i>
-                        </a>
+                    <li class="menu-itm-xl">
+                        <a href="{{ path('about') }}">Qui sommes-nous</a>
                     </li>
                     <li class="menu-itm-xl">
-                        <a href="{{ path('projects') }}">Mes travaux</a>
-                    </li>
-                    <li class="menu-itm-xl">
-                        <a href="{{ path('about') }}">A propos</a>
-                    </li>
-                    <li class="menu-itm-xl">
-                        <a href="{{ path('contact') }}">Contact</a>
+                        <a href="{{ path('contact') }}">Nous Contacter</a>
                     </li>
                 </ul>
             </nav>
@@ -152,16 +144,8 @@
             <img src="{{ asset('assets/images/sep1.png') }}" class="img-centered" alt="Séparateur">
             <div class="banner-content">
                 <a href="{{ path('home') }}">
-                    <img src="{{ asset('assets/images/banner_1600.png') }}" class="img-centered" alt="Bannière du site">
+                    <img src="{{ asset('assets/images/EliteBanner.png') }}" class="img-centered" alt="Bannière du site">
                 </a>
-                <h1 class="banner-categories">
-                    <a href="{{ path('article_thorough', { 'categories' : 'IT', 'keyword' : '*' }) }}" class="url-link">IT</a> -
-                    <a href="{{ path('article_thorough', { 'keyword' : '*' , 'categories' : 'Neuro' }) }}" class="url-link">Neuro</a> -
-                    <a href="{{ path('article_thorough', { 'keyword' : '*' , 'categories' : 'Socio' }) }}" class="url-link">Socio</a> -
-                    <a href="{{ path('article_thorough', { 'keyword' : '*' , 'categories' : 'Psycho' }) }}" class="url-link">Psycho</a> -
-                    <a href="{{ path('article_thorough', { 'keyword' : '*' , 'categories' : 'Cinéma' }) }}" class="url-link">Cinéma</a>
-                    <a href="{{ path('article_thorough', { 'keyword' : '*' , 'categories' : 'Autres' }) }}" class="url-link">etc.</a>
-                </h1>
             </div>
             <img src="{{ asset('assets/images/sep1.png') }}" class="img-centered" alt="Séparateur">
         </div>
@@ -169,7 +153,7 @@
 
     {% block body %}
     {% endblock %}
-
+    <div id="footer-separation"></div>
     <footer>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet totam inventore ratione modi voluptatibus cupiditate debitis
         reprehenderit facilis quo autem iure delectus eaque veritatis maiores libero, voluptate architecto sapiente culpa.

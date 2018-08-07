@@ -36,12 +36,13 @@
 
 .article .article-heading {
     font-family: var(--main-font), sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     padding-bottom:10px;
     padding-top : 10px;
     padding-left:10px;
-    background-color: var(--main-bgcolor);
-    color: var(--main-a-hovercolor);
+    margin-top:1em;
+    background-color: var(--secondary-bgcolor);
+    color:var(--secondary-a-color);
 }
 
 .article .article-heading span {
@@ -92,12 +93,12 @@
 }
 
 .article .article-content {
-    background:var(--secondary-bgcolor);
-    color:black;
-    padding: 3px;
     margin-top: 2px;
-    padding-bottom: 1em;
+    padding-bottom: 1.5em;
     padding-top: 1em;
+    padding-right:1em;
+    padding-left:1em;
+    font-family: 'Open Sans', 'sans-serif';
 }
 
 .article-more {

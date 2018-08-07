@@ -42,7 +42,7 @@
     position:relative;
     right:5em;
     margin:5px;
-    color: white;
+    color: var(--main-a-color);
 }
 
 .full-page-form form button {
