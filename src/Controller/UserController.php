@@ -5,12 +5,13 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\LoginType;
 
+use App\Entity\Category;
 use App\Form\RegisterType;
+
 use App\Form\UserAccountType;
-
 use App\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -48,7 +49,8 @@ class UserController extends Controller
         }
 
         return $this->render('user/register.html.twig', 
-        ['registerform' => $form->createView()]);
+        ['registerform' => $form->createView(), 
+        'categories' => $this->getDoctrine()->getRepository(Category::class)->findall()]);
     }
 
     /**
@@ -59,7 +61,8 @@ class UserController extends Controller
         if($authChecker->isGranted('ROLE_USER')) 
             return $this->redirectToRoute('account');
         
-        return $this->render('user/login.html.twig');
+        return $this->render('user/login.html.twig', [ 
+        'categories' => $this->getDoctrine()->getRepository(Category::class)->findall()]);
     }
 
     /**
@@ -84,7 +87,8 @@ class UserController extends Controller
         }
         $commentcount = $this->getDoctrine()->getRepository(User::class)->getCommentCount($user);
         return $this->render('user/account.html.twig', ['user' => $user, 'accountForm' => $form->createView(),
-         "commentCount" => $commentcount? $commentcount[0]['commentcount'] : 0 ]);
+         "commentCount" => $commentcount? $commentcount[0]['commentcount'] : 0, 
+         'categories' => $this->getDoctrine()->getRepository(Category::class)->findall() ]);
     }
 
     /**

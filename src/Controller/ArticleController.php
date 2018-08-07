@@ -17,6 +17,7 @@ use App\Service\ContentHandler;
 use App\Repository\UserRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -33,15 +34,20 @@ class ArticleController extends Controller
      * @Route("/", name="home")
      * @Route("/browse/{index}", name="browse")
      */
-    public function index(ArticleRepository $article_repo, $index = null)
+    public function index(ArticleRepository $article_repo, CategoryRepository $categorepo, $index = null)
     {
         $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
         $texhandler = new ContentHandler;
 
         $articles = $article_repo->listArticles(isset($index) && $index > 0 ? $index -1 : 0, ARTICLES_PAR_PAGE);
         return $this->render('articles/home.html.twig', [
-            'controller_name' => 'ArticleController', 'articles' => $articles, 'texthandler' => $texhandler, 'articles_star' => $article_repo->getSlideArticles(),
-            'user' => $user, 'pagenavigation' => [1, $index ? $index : 1, ceil($article_repo->getArticlePageCount())]
+            'controller_name' => 'ArticleController', 
+            'articles' => $articles, 
+            'texthandler' => $texhandler, 
+            'articles_star' => $article_repo->getSlideArticles(),
+            'user' => $user, 
+            'pagenavigation' => [1, $index ? $index : 1, ceil($article_repo->getArticlePageCount())],
+            'categories' => $categorepo->findAll()
         ]);
     }
 
@@ -50,7 +56,7 @@ class ArticleController extends Controller
      * @Route("/articles/search/{keyword}", name="article_find")
      * @Route("/articles/search/{keyword}/{categories}", name="article_thorough")
      */
-    public function search(ArticleRepository $article_repo, Request $request, string $keyword = null, string $categories = null)
+    public function search(ArticleRepository $article_repo, CategoryRepository $categorepo, Request $request, string $keyword = null, string $categories = null)
     {
         $a = $request->query->get('keyword');
         if($a) $keyword = $a;
@@ -72,8 +78,11 @@ class ArticleController extends Controller
             $articles = $article_repo->listArticles(0, ARTICLES_PAR_PAGE);
             
         return $this->render('articles/search.html.twig', [
-             'articles' => $articles, 'texthandler' => $texthandler, 'searchForm' => $form->createView(),
-             'user' => $user
+             'articles' => $articles, 
+             'texthandler' => $texthandler, 
+             'searchForm' => $form->createView(),
+             'user' => $user,
+             'categories' => $categorepo->findAll()
         ]);
     }
 
@@ -82,7 +91,7 @@ class ArticleController extends Controller
      * @Route("/lire/{id}/browse/{index}/{anchor}", name="browse_comment")
      * @Route("/lire/{id}/edit/{index}/{commentid}", name="edit_comment")
      */
-    public function read(Article $article, $commentid = null, $anchor = null, $index = 1, ArticleRepository $article_repo, Request $request, ObjectManager $manager)
+    public function read(Article $article, $commentid = null, $anchor = null, $index = 1, ArticleRepository $article_repo, CategoryRepository $categorepo, Request $request, ObjectManager $manager)
     {
         $user = NULL; $commentcount = NULL; $form = NULL; $editmode = FALSE;
         $texthandler = new ContentHandler;
@@ -144,7 +153,8 @@ class ArticleController extends Controller
              'commentnavigation' => 
              ['start' => 1, 
              'index' => $index ? $index : 1, 
-             'end' => ceil($commentcount / COMMENTS_PAR_PAGE)]
+             'end' => ceil($commentcount / COMMENTS_PAR_PAGE)],
+             'categories' => $categorepo->findAll()
         ]);
     }
 
@@ -152,7 +162,7 @@ class ArticleController extends Controller
      * @Route("/articles/rediger", name="create_article")
      * @Route("/articles/editer/{id}", name="edit_article")
      */
-    public function formArticle(Article $article = null, Request $request, ObjectManager $manager)
+    public function formArticle(Article $article = null, Request $request, ObjectManager $manager, CategoryRepository $categorepo)
     {
         $user = NULL;
         if($this->getUser()) { 
@@ -187,7 +197,13 @@ class ArticleController extends Controller
             }
         }
 
-        return $this->render('articles/create.html.twig', ['redacform' => $form->createView(), 'editmode' => $article->getId() ? true : false, 'user' => $user ]);
+        return $this->render(
+            'articles/create.html.twig', 
+            ['redacform' => $form->createView(), 
+            'editmode' => $article->getId() ? true : false, 
+            'user' => $user,
+            'categories' => $categorepo->findAll() 
+            ]);
     }
 
     /**

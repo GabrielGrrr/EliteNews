@@ -53,7 +53,8 @@ class Article
     private $viewcount;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Thread", mappedBy="article", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Thread", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $thread;
 
@@ -64,16 +65,17 @@ class Article
     private $author;
 
     /**
-     * @ORM\Column(type="string", length=255, options={"default" : "Autres"})
-     * @Assert\Choice(callback="getEnumCategories", message="La catégorie envoyée n'est pas valide (ceci ne devrait pas arriver).")
-     */
-    private $category;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
      */
     private $image;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
 
     public function getId()
     {
@@ -82,12 +84,6 @@ class Article
 
     public function __toString() {
         return $this->titre;
-    }
-
-    public static function getEnumCategories()
-    {
-        return array('IT', 'Psychologie', 'Sociologie', 'Neurologie', 'Cosmologie', 'Physique', 'Sciences', 
-        'Philosophie', 'Cinéma', 'Littérature', 'Arts', 'Politique', 'Autres');
     }
     
     public static function getEnumWeight()
@@ -176,12 +172,6 @@ class Article
     {
         $this->thread = $thread;
 
-        // set (or unset) the owning side of the relation if necessary
-        $newArticle = $thread === null ? null : $this;
-        if ($newArticle !== $thread->getArticle()) {
-            $thread->setArticle($newArticle);
-        }
-
         return $this;
     }
 
@@ -197,18 +187,6 @@ class Article
         return $this;
     }
 
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getImage(): ?string
     {
         return $this->image;
@@ -217,6 +195,18 @@ class Article
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

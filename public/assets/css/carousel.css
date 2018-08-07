@@ -51,6 +51,6 @@
     color: var(--main-bgcolor);
     top: 35%;
     right:50%;
-    mix-blend-mode: difference;
+    mix-blend-mode: soft-light;
     font-size:3vw;
 }

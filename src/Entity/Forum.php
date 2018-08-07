@@ -19,11 +19,6 @@ class Forum
     private $id;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
-     */
-    private $titre;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
@@ -52,6 +47,11 @@ class Forum
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $isRootForum;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $titre;
 
     public function __construct()
     {
@@ -178,6 +178,18 @@ class Forum
     public function setIsRootForum(?bool $isRootForum): self
     {
         $this->isRootForum = $isRootForum;
+
+        return $this;
+    }
+
+    public function getTitre(): ?string
+    {
+        return $this->titre;
+    }
+
+    public function setTitre(string $titre): self
+    {
+        $this->titre = $titre;
 
         return $this;
     }

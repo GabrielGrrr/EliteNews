@@ -2,8 +2,8 @@
 /* Search Panel */
 
 .search-panel{
-    background : var(--main-bgcolor);
-    color : var(--main-a-color);
+    background : var(--main-a-color);
+    color : var(--main-bgcolor);
     padding-right: 10%;
     padding-left: 10%;
     padding-top: 20px;

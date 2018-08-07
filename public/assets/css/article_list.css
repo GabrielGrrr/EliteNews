@@ -122,6 +122,10 @@
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
+.article-more:hover span {
+    display:inline;
+}
+
 .article-short {
     flex-basis: 20%;
     flex-grow: 1;

@@ -1,5 +1,5 @@
 label {
-    color:white;
+    color:var(--main-a-color);
 }
 
 button {

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,8 +15,10 @@ class CommentController extends Controller
      */
     public function index()
     {
+        $categorepo = new CategoryRepository();
         return $this->render('comment/index.html.twig', [
             'controller_name' => 'CommentController',
+            'categories' => $categorepo->findAll()
         ]);
     }
 
@@ -24,6 +27,7 @@ class CommentController extends Controller
      */
     public function browse_comments(Request $request)
     {
+        $categorepo = new CategoryRepository();
         if ($request->isXmlHttpRequest()) { 
             $request->query->get('showJson');
             $jsonData = array();  

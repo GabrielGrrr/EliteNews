@@ -5,8 +5,8 @@
         {% for article in articles %}
         <article class="article-listed article-{{ texthandler.translateWeight(article.weight) }}">
             <div class="article-category">
-                <a href="{{ path('article_thorough', { 'keyword' : '*', 'categories' : article.category }) }}" class="url-link">
-                    {{ texthandler.reverseCategory(article.category) | raw }}</a>
+                <a href="{{ path('article_thorough', { 'keyword' : '*', 'categories' : article.category_id }) }}" class="url-link">
+                    {{ article.categoryimage | raw }}</a>
             </div>
             <div class="article-inside">
                     <a href="{{ path('article_read', {'id' : article.id })}}">
@@ -28,7 +28,7 @@
                     <div class="article-content">
                         {{ texthandler.raccourcir(article.content, article.weight) | raw }}
                     </div>
-                    <a href="{{ path('article_read', {'id' : article.id })}}"> <div class="bouton article-more">... Lire la suite</div></a>
+                    <a href="{{ path('article_read', {'id' : article.id })}}"> <div class="bouton article-more">... <span class="hidden">Lire la suite</span></div></a>
                 </div>
             </div>
         </article>

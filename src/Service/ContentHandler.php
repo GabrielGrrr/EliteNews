@@ -30,35 +30,6 @@ class ContentHandler
         return substr($content, 0, TAILLE_MAX * $weight);
     }
 
-    //Renvoie l'icône correspondante à une catégorie ... Pour accéder / modifier les énums de catégorie, consulter la classe Article
-    public function reverseCategory($i)
-    {
-        $categories = ['IT', 'Neuro', 'Socio', 'Psycho', 'Cinéma', 'Autres'];
-        $string = '';
-        switch ($i) {
-            case  $categories[0] :
-                $string = '<i class="fas fa-code"></i>';
-                break;
-            case $categories[1]:
-                $string = '<i class="fas fa-flask"></i>';
-                break;
-            case $categories[2]:
-                $string = '<i class="fas fa-users"></i>';
-                break;
-            case $categories[3]:
-                $string = '<i class="fas fa-couch"></i>';
-                break;
-            case $categories[4]:
-                $string = '<i class="fas fa-film"></i>';
-                break;
-            case $categories[5] :
-                $string = '<i class="fas fa-book"></i>';
-                break;
-        }
-
-        return $string;
-    }
-
     //Traduit le poids (au sens webdesign du terme) de l'article sur la page, stocké dans la db en numéraire, en fragment de nom de classe css
     public function translateWeight($weight)
     {

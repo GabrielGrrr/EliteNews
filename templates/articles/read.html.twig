@@ -10,8 +10,8 @@
 
     <article class="article-viewed main-section">
         <div class="article-category">
-            <a href="{{ path('article_thorough', { 'keyword' : '*', 'categories' : article.category }) }}" class="url-link">
-                    {{ texthandler.reverseCategory(article.category) | raw }} {{ article.category }}</a>
+            <a href="{{ path('article_thorough', { 'keyword' : '*', 'categories' : article.category.id }) }}" class="url-link">
+                    {{ article.category.image | raw }} {{ article.category.name }}</a>
         </div>
         <div>
             <div class="article-image">

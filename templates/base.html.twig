@@ -149,6 +149,13 @@
             </div>
             <img src="{{ asset('assets/images/sep1.png') }}" class="img-centered" alt="Séparateur">
         </div>
+        <div id="category-navigation">
+            {% for category in categories %}
+            <span>
+                <a href="{{ path('article_thorough', { 'keyword' : '*', 'categories' : category.id }) }}"><div>{{category.image | raw}}</div><div>{{category.name}}</div></a>
+            </span>
+            {% endfor %}
+        </div>
     </header>
 
     {% block body %}

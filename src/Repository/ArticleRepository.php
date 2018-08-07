@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
@@ -26,10 +27,11 @@ class ArticleRepository extends ServiceEntityRepository
     $conn = $this->getEntityManager()->getConnection();
 
     //Plain old sql ici, pour des raisons d'optimisation
-    $sql = 'SELECT a.id, a.titre, a.category, a.date_creation, a.content, a.weight, a.image, u.login as author, COUNT(c.id) as comment_count 
-    FROM article a, thread t, app_users u, comment c
-    WHERE a.author_id = u.id 
-    AND t.article_id = a.id 
+    $sql = 'SELECT a.id, a.titre, a.category_id, ca.name as categoryname, ca.image as categoryimage, a.date_creation, a.content, a.weight, a.image, u.login as author, COUNT(c.id) as comment_count 
+    FROM article a, thread t, app_users u, comment c, category ca
+    WHERE a.author_id = u.id
+    AND ca.id = a.category_id
+    AND a.thread_id = t.id
     AND c.thread_id = t.id 
     AND a.removed = 0
     GROUP BY a.id
@@ -93,18 +95,19 @@ class ArticleRepository extends ServiceEntityRepository
         if(isset($input)) { $discrim = explode(' ', $input);
         $c = count($discrim); }
         $conn = $this->getEntityManager()->getConnection();
-        $sql = 'SELECT a.id, a.titre, a.category, a.date_creation, a.content, a.weight, a.image, u.login as author, COUNT(c.id) as comment_count 
-        FROM article a, thread t, app_users u, comment c
+        $sql = 'SELECT a.id, a.titre, a.category_id, ca.name as categoryname, ca.image as categoryimage, a.date_creation, a.content, a.weight, a.image, u.login as author, COUNT(c.id) as comment_count 
+        FROM article a, thread t, app_users u, comment c, category ca
         WHERE a.author_id = u.id 
-        AND t.article_id = a.id 
+        AND ca.id = a.category_id
+        AND a.thread_id = t.id
         AND c.thread_id = t.id 
         AND a.removed = 0 ';
         if(isset($categories)) {
             $catIndex = count($categories);
-            $sql .= ' AND (a.category = "'.$categories[0].'" ';;
+            $sql .= ' AND (a.category_id = "'.$categories[0].'" ';;
             if($catIndex > 1) {
                 for ($i = 1; $i < $catIndex; $i++) {
-                    $sql.=' OR a.category = "'.$categories[$i].'" '; }
+                    $sql.=' OR a.category_id = "'.$categories[$i].'" '; }
             }
             $sql .= ') ';
         }

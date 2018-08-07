@@ -5,10 +5,12 @@
     --main-bgcolor: #ffffff;
     --secondary-bgcolor: #000000;
     --main-a-color: rgb(22, 18, 16);
+    --main-link-color: rgb(110, 107, 105);
     --secondary-a-color: rgb(255, 255, 255);
-    --main-a-hovercolor: rgb(92, 90, 88);
+    --main-a-hovercolor: rgb(58, 55, 53);
     --secondary-a-hovercolor: rgb(48, 0, 0);
     --semiopaquewhite : rgba(255, 255, 255, 0.5);
+    --buttonbg : rgb(48, 47, 47);
     --main-font: 'Archivo Narrow', sans-serif;
     --secondary-font: 'Berkshire Swash', serif;
     --color-a-onwhite : #1e4f7c;
@@ -18,15 +20,16 @@
 
 a {
     text-decoration: none;
-    color: var(--main-a-color);
+    color: var(--main-link-color);
 }
 
 a:hover {
-    color: var(--main-a-hovercolor);
+    color: var(--main-a-color);
+    text-shadow: 1px 1px 1px #0000005d;
 }
 
 .bouton {
-    background: var(--main-a-hovercolor);
+    background: var(--buttonbg);
     color: var(--secondary-a-color);
     border: 0.5px solid black;
     text-decoration:none;
@@ -55,11 +58,12 @@ a:hover {
 
 .url-link {
     text-decoration:none;
-    color:var(--main-a-color);
+    color:var(--main-link-color);
+    text-shadow: 1px 1px 1px #0000005d;
 }
 
 .url-link:hover {
-    color: var(--main-a-hovercolor);
+    color: var(--main-a-color);
     cursor: pointer;    
 }
 
@@ -67,6 +71,10 @@ a:hover {
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+
+.hidden {
+    display:none;
 }
 
 img {
@@ -121,14 +129,17 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--main-a-color);
 }
 
+.header-content a, .header-content i, .header-content .url-link {
+    color: var(--main-a-color);
+}
+
+.header-content a:hover  {
+    text-shadow: 1px 1px 1px #00000049;
+}
+
 .header-logo a {
     margin-right: 10px;
     margin-left : 5px;
-    color:var(--main-a-color);
-}
-
-.header-logo a:hover {
-    color: var(--main-a-hovercolor);
 }
 
 .header-content .header-logo {
@@ -347,6 +358,18 @@ h1, h2, h3, h4, h5, h6 {
     color:var(--main-a-hovercolor);
 }
 
+/* CATEGORY LIST */
+
+#category-navigation {
+    display:flex;
+    justify-content:space-evenly;
+}
+
+#category-navigation span {
+    text-align:center;
+
+}
+
 /* MAIN SECTION */
 
 .main-section {
@@ -364,13 +387,13 @@ h1, h2, h3, h4, h5, h6 {
 .simple-message {
     padding-left:3em;
     padding-right:3em;
-    color:white;
+    color:var(--main-a-color);
     padding-top:1em;
 }
 .readable-text {
     font-family: var(--readable-font);
-    background: white;
-    color:black;
+    background: var(--main-bgcolor);
+    color:var(--main-a-color);
     padding:2em;
     font-size:1.1em;
     margin-bottom:2em;

@@ -108,17 +108,17 @@ class User implements UserInterface
     private $date_subscription;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Thread", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="App\Entity\Thread", mappedBy="author", orphanRemoval=false)
      */
     private $threads;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author", orphanRemoval=false)
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="author", orphanRemoval=false)
      */
     private $articles;
 
@@ -286,6 +286,18 @@ class User implements UserInterface
     public function setTermsAccepted(bool $termsaccepted): self
     {
         $this->termsaccepted = $termsaccepted;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

@@ -6,7 +6,6 @@
     padding-bottom : 9px;
     padding-top: 25px;
     font-size : 18px;
-    color: white;
 }
 
 #connexion-form label {
@@ -35,10 +34,6 @@
     margin-bottom:5px;
     margin-left: 10px;
     line-height: 100%;
-}
-
-#connexion-form p a {
-    color:var(--main-a-color);
 }
 
 #connexion-form .icon-form {

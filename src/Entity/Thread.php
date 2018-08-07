@@ -35,11 +35,6 @@ class Thread
     private $forum;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Article", inversedBy="thread", cascade={"persist", "remove"})
-     */
-    private $article;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="threads")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -115,18 +110,6 @@ class Thread
     public function setForum(?Forum $forum): self
     {
         $this->forum = $forum;
-
-        return $this;
-    }
-
-    public function getArticle(): ?Article
-    {
-        return $this->article;
-    }
-
-    public function setArticle(?Article $article): self
-    {
-        $this->article = $article;
 
         return $this;
     }
