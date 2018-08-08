@@ -27,15 +27,14 @@ class ArticleRepository extends ServiceEntityRepository
     $conn = $this->getEntityManager()->getConnection();
 
     //Plain old sql ici, pour des raisons d'optimisation
-    $sql = 'SELECT a.id, a.titre, a.category_id, ca.name as categoryname, ca.image as categoryimage, a.date_creation, a.content, a.weight, a.image, u.login as author, COUNT(c.id) as comment_count 
-    FROM article a, thread t, app_users u, comment c, category ca
-    WHERE a.author_id = u.id
-    AND ca.id = a.category_id
-    AND a.thread_id = t.id
-    AND c.thread_id = t.id 
-    AND a.removed = 0
-    GROUP BY a.id
-    ORDER BY a.date_creation DESC
+    $sql = 'SELECT a.id, a.titre, a.category_id, a.date_creation, a.content, a.weight, a.image, COUNT(c.id) as comment_count, u.login as author, ca.name as categoryname, ca.image as categoryimage
+    FROM article a
+    LEFT JOIN comment c ON a.thread_id = c.thread_id
+    INNER JOIN app_users u ON a.author_id = u.id
+    INNER JOIN category ca ON a.category_id = ca.id
+    WHERE a.removed = 0
+    GROUP BY a.id  
+    ORDER BY `a`.`date_creation`  DESC
     LIMIT '.($offset).', '.$limit;
     $stmt = $conn->prepare($sql);
     $stmt->execute();
@@ -95,13 +94,12 @@ class ArticleRepository extends ServiceEntityRepository
         if(isset($input)) { $discrim = explode(' ', $input);
         $c = count($discrim); }
         $conn = $this->getEntityManager()->getConnection();
-        $sql = 'SELECT a.id, a.titre, a.category_id, ca.name as categoryname, ca.image as categoryimage, a.date_creation, a.content, a.weight, a.image, u.login as author, COUNT(c.id) as comment_count 
-        FROM article a, thread t, app_users u, comment c, category ca
-        WHERE a.author_id = u.id 
-        AND ca.id = a.category_id
-        AND a.thread_id = t.id
-        AND c.thread_id = t.id 
-        AND a.removed = 0 ';
+        $sql = 'SELECT a.id, a.titre, a.category_id, a.date_creation, a.content, a.weight, a.image, COUNT(c.id) as comment_count, u.login as author, ca.name as categoryname, ca.image as categoryimage
+        FROM article a
+        LEFT JOIN comment c ON a.thread_id = c.thread_id
+        INNER JOIN app_users u ON a.author_id = u.id
+        INNER JOIN category ca ON a.category_id = ca.id
+        WHERE a.removed = 0';
         if(isset($categories)) {
             $catIndex = count($categories);
             $sql .= ' AND (a.category_id = "'.$categories[0].'" ';;

@@ -178,7 +178,7 @@ class ArticleController extends Controller
                     $date = new \DateTime();
 
                     $thread = new Sujet();
-                    $thread->setArticle($article)->setAuthor($user)->setDateCreation($date)->setForum($this->getDoctrine()->getRepository(Forum::class)->rootForum())
+                    $thread->setAuthor($user)->setDateCreation($date)->setForum($this->getDoctrine()->getRepository(Forum::class)->rootForum())
                     ->setTitre($article->getTitre())->setViewcount(0);
                     $manager->persist($thread);
                     $article->setThread($thread);

@@ -43,6 +43,11 @@ class Category
         
     }
 
+    public function __toString()
+    {
+        return $this->Name;
+    }
+
     public function getId()
     {
         return $this->id;
