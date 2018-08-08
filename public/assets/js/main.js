@@ -71,15 +71,3 @@ $(function(){
     });
 
 }) ;**/
-
-//JS du panel de contrôle de recherche
-function coche_categorie(categorie_elmt, categorie_name) {
-    if(categorie_elmt.classList.contains('interrupteur-active')) {
-        categorie_elmt.classList.remove('interrupteur-active');
-        categorie_elmt.classList.add('interrupteur-inactive');
-    }
-    else {
-        categorie_elmt.classList.remove('interrupteur-inactive');
-        categorie_elmt.classList.add('interrupteur-active');
-    }
-}

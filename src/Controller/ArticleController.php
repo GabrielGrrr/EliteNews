@@ -15,15 +15,17 @@ use App\Form\SearchArticleType;
 use App\Service\ContentHandler;
 
 use App\Repository\UserRepository;
-use App\Repository\CommentRepository;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 define('COMMENTS_PAR_PAGE', '20');
 define('ARTICLES_PAR_PAGE', '20');
@@ -56,13 +58,22 @@ class ArticleController extends Controller
      * @Route("/articles/search/{keyword}", name="article_find")
      * @Route("/articles/search/{keyword}/{categories}", name="article_thorough")
      */
-    public function search(ArticleRepository $article_repo, CategoryRepository $categorepo, Request $request, string $keyword = null, string $categories = null)
+    public function search(ArticleRepository $article_repo, UrlGeneratorInterface $router, CategoryRepository $categorepo, Request $request, string $keyword = null, string $categories = null)
     {
         $a = $request->query->get('keyword');
         if($a) $keyword = $a;
+        $texthandler = new ContentHandler($router);
+        
+        if ($request->isXmlHttpRequest()) {
+            $response = new Response(
+                $texthandler->formatXHRResponse($article_repo->search($request->get('keywords'), $request->get('categories'))),
+                Response::HTTP_OK,
+                array('content-type' => 'text/html')
+            );
+            return $response;
+        }
 
         $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
-        $texthandler = new ContentHandler;
         $form = $this->createForm(SearchArticleType::class);
 
         $form->handleRequest($request);

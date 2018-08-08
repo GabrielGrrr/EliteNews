@@ -55,6 +55,10 @@ a:hover {
     color:rgb(95, 92, 92);
 }
 
+#message-serveur {
+    color:rgb(201, 38, 38);
+}
+
 
 .url-link {
     text-decoration:none;
@@ -261,8 +265,10 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
-.dpdwn-profile>a {
-    padding: 0; margin:0; display: block;
+.dpdwn-profile>.bouton {
+    color:var(--main-bgcolor);
+    display:block;
+    margin-left:0.5em;
 }
 
 .dpdwn-profile .account {

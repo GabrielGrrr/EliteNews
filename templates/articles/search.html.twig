@@ -9,14 +9,92 @@
 {% block body %}
 
 <section class="search-panel">
-    {{ form_start(searchForm) }}
-    {{ form_widget(searchForm) }}
-    <button type="submit" onclick="" class="bouton search_input">
-            <i class="fas fa-search"></i>
-            </button>
-    {{ form_end(searchForm) }}
+        <form action="" novalidate>
+                <input name="keyword" type="text" id="search_article_keyword">
+                <div id="message-serveur"></div>
+                </form>
+                <div class="category-list">
+                Filtrez par catégories :<br/>
+                {% for category in categories %}
+            <div class="category-bouton interrupteur-active" onclick="coche_categorie(this)" id="{{ category.id }}">
+                {{category.image | raw}}
+            </div>
+            {% endfor %}
+                </div>
 </section>
 
 {% include 'articles/article-list.html.twig' %}
 
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/js/search.js') }}"></script> 
+<script>
+$("#search_article_keyword").keyup(function(event) {
+    clearTimeout($.data(this, 'timer'));
+    if (event.keyCode == 13) {
+        search(true);
+    }
+    else if(event.keyCode == 8 && $("#search_article_keyword" == ""))
+    {
+        search(true);
+    }
+    else
+      $(this).data('timer', setTimeout(search, 1000));
+});
+
+$("#search_article_keyword").bind('keypress keydown keyup', function(event) {
+    if (event.keyCode == 13)event.preventDefault();
+});
+
+//JS du panel de contrôle de recherche
+function coche_categorie(categorie_elmt) {
+    if(categorie_elmt.classList.contains('interrupteur-active')) {
+        categorie_elmt.classList.remove('interrupteur-active');
+        categorie_elmt.classList.add('interrupteur-inactive');
+        search(true);
+    }
+    else {
+        categorie_elmt.classList.remove('interrupteur-inactive');
+        categorie_elmt.classList.add('interrupteur-active');
+        search(true);
+    }
+}
+
+function search(inputEnter) {
+    var inputcontent = $("#search_article_keyword").val();
+    if (!inputEnter && inputcontent.length < 4) return; //Pas d'input enter, pas plus de 2 caractères
+    if(inputcontent == "" || inputcontent == null) inputcontent = '*';
+
+    var categories = [];
+    $(".category-bouton.interrupteur-active").each(function(index, elmt) {
+        categories.push($(this).attr('id'));
+    });
+
+    //if(!$(".category-bouton.interrupteur-inactive").length)
+     //   categories = null;
+
+    $.ajax({
+        url:"{{ (path('article_search')) }}",
+        type: "POST",
+        dataType: "html",
+        data: {
+            'keywords': inputcontent,
+            'categories' : categories
+        },
+        async: true,
+        success: function (data)
+        {
+            $('#message-serveur').text("");
+            $('#article-list').html(data);
+
+        },
+        error: function (data)
+        {
+            $('#message-serveur').text("Votre requête n'a pas pu aboutir");
+
+        }
+    });
+}
+</script>
 {% endblock %}

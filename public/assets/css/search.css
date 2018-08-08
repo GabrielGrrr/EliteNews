@@ -14,7 +14,7 @@
 }
 
 .category-list {
-    font-size: 30px;
+    font-size: 2vw;
     align-self: center;
     margin-bottom:1em;
 }
@@ -40,13 +40,25 @@ form div div input[type=text] {
     margin-bottom:5px;
 }
 
-form button {
-    margin-left:30%;
-    margin-top:1.2em;
-    padding:1em;
+#search_article_keyword {
+    width:20em;
 }
 
-@media screen and(max-width: 800px)
-{
-    
+@media screen and (min-width: 1300px) {
+
+    .category-list {
+        font-size: 1.5em;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    #search_article_keyword {
+        width:15em;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #search_article_keyword {
+        width:10em;
+    }
 }

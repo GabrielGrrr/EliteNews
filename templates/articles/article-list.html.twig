@@ -1,6 +1,6 @@
 {% block stylesheets %} <link rel="stylesheet" href="{{ asset('assets/css/article_list.css') }}"> {% endblock %}
 
-<section class="article-list">
+<section class="article-list" id="article-list">
 
         {% for article in articles %}
         <article class="article-listed article-{{ texthandler.translateWeight(article.weight) }}">
