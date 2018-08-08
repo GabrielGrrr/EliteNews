@@ -55,6 +55,7 @@ class ArticleRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('a')
             ->andWhere('a.weight = 2')
+            ->andWhere('a.removed = 0')
             ->orderBy('a.date_creation', 'DESC')
             ->setMaxResults(5)
             ->getQuery();

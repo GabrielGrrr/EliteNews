@@ -424,6 +424,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Modal */
 
 .openmodal {
+    mix-blend-mode:normal;
 }
 
 .modalbg {
@@ -440,6 +441,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .modalcontent {
+    mix-blend-mode:normal;
     position:relative;
     background-color: var(--main-bgcolor);
     animation: animatetop 0.4s;
