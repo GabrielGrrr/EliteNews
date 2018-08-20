@@ -1,55 +1,40 @@
-{% extends 'base.html.twig' %}
-
-{% block title %} Contact {% endblock %}
-{% block stylesheets %} 
-<link rel="stylesheet" href="{{ asset('assets/css/full_page_form.css') }}"> 
+{% extends 'base.html.twig' %} {% block title %} Contact {% endblock %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/full_page_form.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/ckeditor_bugfix.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/about.css') }}">
-{% endblock %}
-
-{% block body %}
+<link rel="stylesheet" href="{{ asset('assets/css/about.css') }}"> {% endblock %} {% block body %}
 <section class="full-page-form main-section">
-<div id="contact-informations">
+    <div id="contact-informations">
         <h1 class="headingband">Contact</h1>
         <div class="readable-text bloc-perso">
-            
+
             <img class="avatar-perso" src="{{ asset('assets/images/avatar.jpg') }}" alt="Avatar personnel">
             <span class="informations-perso">
-                Je suis Gabriel G., développeur tout-terrain actuellement à la recherche d'un emploi en informatique.<br/>
-                Vous pouvez me contacter en remplissant le formulaire de contact suivant :</span>
+                Je suis Gabriel G., développeur tout-terrain actuellement à la recherche d'un emploi en informatique.
+                <br/> Vous pouvez me contacter en remplissant le formulaire de contact suivant :</span>
         </div>
-</div>
+    </div>
 
-            {% if confirmMode %}
-            <h1 class="headingband">Message envoyé avec succès ! </h1>
-            <div class="readable-text">
-            <p>Félicitations, je vous répondrai dans les meilleurs délais ! :-)</p>
-            </div>
-            {% else %}
-            <h1 class="headingband">Formulaire de contact</h1>
-            {{ form_start(contactform) }}
-            {{ form_row(contactform.nom, {'attr' : {'placeholder' : "Ex: Validovna" }}) }}
-            {{ form_row(contactform.prenom, {'attr' : {'placeholder' : "Ex: Tatiana" }}) }}
-            {{ form_row(contactform.email, {'attr' : {'placeholder' : "Ex: moi@ici.com" }}) }}
-            {{ form_row(contactform.sujet, {'attr' : {'placeholder' : "Ex: Vend Renault 5" }}) }}
-            {{ form_row(contactform.compagnie, {'attr' : {'placeholder' : "Nom de votre entreprise" }}) }}
-            {{ form_row(contactform.phone, {'attr' : {'placeholder' : "Ex: 06.xx.xx.xx.12" }}) }}
-            {{ form_row(contactform.contenu, { 'attr' : {'placeholder' : "Votre message" }}) }}
-            <button type="submit" class="bouton">
-                Contacter
-            </button>
-            {{ form_end(contactform) }}
-            {% endif %}
-</section>>
-    
-    {% endblock %}
-
-    {% block javascripts %}
+    {% if confirmMode %}
+    <h1 class="headingband">Message envoyé avec succès ! </h1>
+    <div class="readable-text">
+        <p>Félicitations, je vous répondrai dans les meilleurs délais ! :-)</p>
+    </div>
+    {% else %}
+    <h1 class="headingband">Formulaire de contact</h1>
+    {{ form_start(contactform) }} {{ form_row(contactform.nom, {'attr' : {'placeholder' : "Ex: Validovna" }}) }} {{ form_row(contactform.prenom,
+    {'attr' : {'placeholder' : "Ex: Tatiana" }}) }} {{ form_row(contactform.email, {'attr' : {'placeholder' : "Ex: moi@ici.com"
+    }}) }} {{ form_row(contactform.sujet, {'attr' : {'placeholder' : "Ex: Vend Renault 5" }}) }} {{ form_row(contactform.compagnie,
+    {'attr' : {'placeholder' : "Nom de votre entreprise" }}) }} {{ form_row(contactform.phone, {'attr' : {'placeholder' :
+    "Ex: 06.xx.xx.xx.12" }}) }} {{ form_row(contactform.contenu, { 'attr' : {'placeholder' : "Votre message" }}) }}
+    <button type="submit" class="bouton">
+        Contacter
+    </button>
+    {{ form_end(contactform) }} {% endif %}
+</section>> {% endblock %} {% block javascripts %}
 <script src="{{ asset('assets/js/ckeditor/adapters/jquery.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/ckeditor_public/ckeditor.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
-    $(function() {
+    $(function () {
         $('textarea.ckeditor').ckeditor();
-      });
-</script>
-{% endblock %}
+    });
+</script> {% endblock %}

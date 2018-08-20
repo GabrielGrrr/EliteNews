@@ -1,20 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Accueil{% endblock %} {% block body %} {% include 'articles/carousel.html.twig'
+%} {% include 'articles/article-list.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
-
-{% block body %}
-
-{% include 'articles/carousel.html.twig' %}
-
-{% include 'articles/article-list.html.twig' %}
-
-<div class="list-navigation"> 
-        {% for i in pagenavigation.0 .. pagenavigation.2 %}
-            {% if pagenavigation.1 == i %}
-            <span class = "current-page"> {{ i }}</span>
-            {% else %}
-            <a href="{{ path('browse', {'index' : i }) }}"> {{ i }}</a>
-            {% endif %}
-        {% endfor %}
+<div class="list-navigation">
+    {% for i in pagenavigation.0 .. pagenavigation.2 %} {% if pagenavigation.1 == i %}
+    <span class="current-page"> {{ i }}</span>
+    {% else %}
+    <a href="{{ path('browse', {'index' : i }) }}"> {{ i }}</a>
+    {% endif %} {% endfor %}
 </div>
 {% endblock %}

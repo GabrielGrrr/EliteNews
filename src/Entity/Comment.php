@@ -43,7 +43,8 @@ class Comment
      */
     private $author;
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->content;
     }
 
@@ -52,60 +53,60 @@ class Comment
         return $this->id;
     }
 
-    public function getContent(): ?string
+    public function getContent() : ? string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(string $content) : self
     {
         $this->content = $content;
 
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTimeInterface
+    public function getDateCreation() : ? \DateTimeInterface
     {
         return $this->date_creation;
     }
 
-    public function setDateCreation(\DateTimeInterface $date_creation): self
+    public function setDateCreation(\DateTimeInterface $date_creation) : self
     {
         $this->date_creation = $date_creation;
 
         return $this;
     }
 
-    public function getLikeCounter(): ?int
+    public function getLikeCounter() : ? int
     {
         return $this->like_counter;
     }
 
-    public function setLikeCounter(int $like_counter): self
+    public function setLikeCounter(int $like_counter) : self
     {
         $this->like_counter = $like_counter;
 
         return $this;
     }
 
-    public function getThread(): ?Thread
+    public function getThread() : ? Thread
     {
         return $this->thread;
     }
 
-    public function setThread(?Thread $thread): self
+    public function setThread(? Thread $thread) : self
     {
         $this->thread = $thread;
 
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor() : ? User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    public function setAuthor(? User $author) : self
     {
         $this->author = $author;
 

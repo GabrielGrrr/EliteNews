@@ -59,7 +59,8 @@ class Forum
         $this->threads = new ArrayCollection();
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->description;
     }
 
@@ -68,24 +69,24 @@ class Forum
         return $this->id;
     }
 
-    public function getDescription(): ?string
+    public function getDescription() : ? string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(? string $description) : self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getParent(): Forum
+    public function getParent() : Forum
     {
         return $this->parent;
     }
 
-    public function setParent(Forum $parent): self
+    public function setParent(Forum $parent) : self
     {
         if (!isset($this->parent)) {
             $this->parent = $parent;
@@ -97,12 +98,12 @@ class Forum
     /**
      * @return Collection|Forum[]
      */
-    public function getSubforums(): Collection
+    public function getSubforums() : Collection
     {
         return $this->subforums;
     }
 
-    public function addSubforum(Forum $subforum): self
+    public function addSubforum(Forum $subforum) : self
     {
         if (!$this->subforums->contains($subforum)) {
             $this->subforums[] = $subforum;
@@ -112,7 +113,7 @@ class Forum
         return $this;
     }
 
-    public function removeSubforum(Forum $subforum): self
+    public function removeSubforum(Forum $subforum) : self
     {
         if ($this->subforums->contains($subforum)) {
             $this->subforums->removeElement($subforum);
@@ -130,12 +131,12 @@ class Forum
     /**
      * @return Collection|Thread[]
      */
-    public function getThreads(): Collection
+    public function getThreads() : Collection
     {
         return $this->threads;
     }
 
-    public function addThread(Thread $thread): self
+    public function addThread(Thread $thread) : self
     {
         if (!$this->threads->contains($thread)) {
             $this->threads[] = $thread;
@@ -145,7 +146,7 @@ class Forum
         return $this;
     }
 
-    public function removeThread(Thread $thread): self
+    public function removeThread(Thread $thread) : self
     {
         if ($this->threads->contains($thread)) {
             $this->threads->removeElement($thread);
@@ -158,36 +159,36 @@ class Forum
         return $this;
     }
 
-    public function getIsNewsForum(): ?bool
+    public function getIsNewsForum() : ? bool
     {
         return $this->isNewsForum;
     }
 
-    public function setIsNewsForum(?bool $isNewsForum): self
+    public function setIsNewsForum(? bool $isNewsForum) : self
     {
         $this->isNewsForum = $isNewsForum;
 
         return $this;
     }
 
-    public function getIsRootForum(): ?bool
+    public function getIsRootForum() : ? bool
     {
         return $this->isRootForum;
     }
 
-    public function setIsRootForum(?bool $isRootForum): self
+    public function setIsRootForum(? bool $isRootForum) : self
     {
         $this->isRootForum = $isRootForum;
 
         return $this;
     }
 
-    public function getTitre(): ?string
+    public function getTitre() : ? string
     {
         return $this->titre;
     }
 
-    public function setTitre(string $titre): self
+    public function setTitre(string $titre) : self
     {
         $this->titre = $titre;
 

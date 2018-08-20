@@ -68,7 +68,8 @@ class Thread
         return $this;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->titre;
     }
 
@@ -78,48 +79,48 @@ class Thread
         return $this->id;
     }
 
-    public function getDateCreation(): ?\DateTimeInterface
+    public function getDateCreation() : ? \DateTimeInterface
     {
         return $this->date_creation;
     }
 
-    public function setDateCreation(\DateTimeInterface $date_creation): self
+    public function setDateCreation(\DateTimeInterface $date_creation) : self
     {
         $this->date_creation = $date_creation;
 
         return $this;
     }
 
-    public function getViewcount(): ?int
+    public function getViewcount() : ? int
     {
         return $this->viewcount;
     }
 
-    public function setViewcount(int $viewcount): self
+    public function setViewcount(int $viewcount) : self
     {
         $this->viewcount = $viewcount;
 
         return $this;
     }
 
-    public function getForum(): ?Forum
+    public function getForum() : ? Forum
     {
         return $this->forum;
     }
 
-    public function setForum(?Forum $forum): self
+    public function setForum(? Forum $forum) : self
     {
         $this->forum = $forum;
 
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor() : ? User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    public function setAuthor(? User $author) : self
     {
         $this->author = $author;
 
@@ -129,12 +130,12 @@ class Thread
     /**
      * @return Collection|Comment[]
      */
-    public function getComments(): Collection
+    public function getComments() : Collection
     {
         return $this->comments;
     }
 
-    public function addComment(Comment $comment): self
+    public function addComment(Comment $comment) : self
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
@@ -144,7 +145,7 @@ class Thread
         return $this;
     }
 
-    public function removeComment(Comment $comment): self
+    public function removeComment(Comment $comment) : self
     {
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
@@ -157,12 +158,12 @@ class Thread
         return $this;
     }
 
-    public function getTitre(): ?string
+    public function getTitre() : ? string
     {
         return $this->titre;
     }
 
-    public function setTitre(string $titre): self
+    public function setTitre(string $titre) : self
     {
         $this->titre = $titre;
 

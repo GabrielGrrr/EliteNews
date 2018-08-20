@@ -56,84 +56,84 @@ class ContactMessage
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNom() : ? string
     {
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(string $nom) : self
     {
         $this->nom = $nom;
 
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getPrenom() : ? string
     {
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): self
+    public function setPrenom(string $prenom) : self
     {
         $this->prenom = $prenom;
 
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getEmail() : ? string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email) : self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getSujet(): ?string
+    public function getSujet() : ? string
     {
         return $this->sujet;
     }
 
-    public function setSujet(string $sujet): self
+    public function setSujet(string $sujet) : self
     {
         $this->sujet = $sujet;
 
         return $this;
     }
 
-    public function getCompagnie(): ?string
+    public function getCompagnie() : ? string
     {
         return $this->compagnie;
     }
 
-    public function setCompagnie(string $compagnie): self
+    public function setCompagnie(string $compagnie) : self
     {
         $this->compagnie = $compagnie;
 
         return $this;
     }
 
-    public function getPhone(): ?string
+    public function getPhone() : ? string
     {
         return $this->phone;
     }
 
-    public function setPhone(?string $phone): self
+    public function setPhone(? string $phone) : self
     {
         $this->phone = $phone;
 
         return $this;
     }
 
-    public function getContenu(): ?string
+    public function getContenu() : ? string
     {
         return $this->contenu;
     }
 
-    public function setContenu(string $contenu): self
+    public function setContenu(string $contenu) : self
     {
         $this->contenu = $contenu;
 

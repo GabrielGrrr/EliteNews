@@ -27,17 +27,17 @@ class UserController extends Controller
      */
     public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, AuthorizationCheckerInterface $authChecker)
     {
-        if($authChecker->isGranted('ROLE_USER')) 
+        if ($authChecker->isGranted('ROLE_USER'))
             return $this->redirectToRoute('account');
-        
+
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $user->setDateInscription(new \DateTime());
-            if($user->getNewsletterSubscriber())$user->setDateSubscription(new \DateTime());
+            if ($user->getNewsletterSubscriber()) $user->setDateSubscription(new \DateTime());
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setUserRole('ROLE_USER');
             $user->setModerationStatus(0);
@@ -48,9 +48,13 @@ class UserController extends Controller
             return $this->redirectToRoute('reg_success');
         }
 
-        return $this->render('user/register.html.twig', 
-        ['registerform' => $form->createView(), 
-        'categories' => $this->getDoctrine()->getRepository(Category::class)->findall()]);
+        return $this->render(
+            'user/register.html.twig',
+            [
+                'registerform' => $form->createView(),
+                'categories' => $this->getDoctrine()->getRepository(Category::class)->findall()
+            ]
+        );
     }
 
     /**
@@ -58,24 +62,27 @@ class UserController extends Controller
      */
     public function login(AuthorizationCheckerInterface $authChecker)
     {
-        if($authChecker->isGranted('ROLE_USER')) 
+        if ($authChecker->isGranted('ROLE_USER'))
             return $this->redirectToRoute('account');
-        
-        return $this->render('user/login.html.twig', [ 
-        'categories' => $this->getDoctrine()->getRepository(Category::class)->findall()]);
+
+        return $this->render('user/login.html.twig', [
+            'categories' => $this->getDoctrine()->getRepository(Category::class)->findall()
+        ]);
     }
 
     /**
      * @Route("/logout", name="logout")
      */
-    public function logout() {}
+    public function logout()
+    {
+    }
 
     /**
      * @Route("/account", name="account")
      */
     public function account(AuthorizationCheckerInterface $authChecker, Request $request, ObjectManager $manager)
     {
-        if(!$authChecker->isGranted('ROLE_USER')) 
+        if (!$authChecker->isGranted('ROLE_USER'))
             return $this->redirectToRoute('login');
 
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
@@ -86,9 +93,11 @@ class UserController extends Controller
             $manager->flush();
         }
         $commentcount = $this->getDoctrine()->getRepository(User::class)->getCommentCount($user);
-        return $this->render('user/account.html.twig', ['user' => $user, 'accountForm' => $form->createView(),
-         "commentCount" => $commentcount? $commentcount[0]['commentcount'] : 0, 
-         'categories' => $this->getDoctrine()->getRepository(Category::class)->findall() ]);
+        return $this->render('user/account.html.twig', [
+            'user' => $user, 'accountForm' => $form->createView(),
+            "commentCount" => $commentcount ? $commentcount[0]['commentcount'] : 0,
+            'categories' => $this->getDoctrine()->getRepository(Category::class)->findall()
+        ]);
     }
 
     /**
@@ -104,17 +113,15 @@ class UserController extends Controller
      */
     public function remove_user($id, ObjectManager $manager, Request $request)
     {
-        if(!$this->isGranted('ROLE_USER')) 
+        if (!$this->isGranted('ROLE_USER'))
             return $this->redirectToRoute('login');
-        
+
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
-        if($user == $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $id]))
-        {
+        if ($user == $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $id])) {
             $request->getSession()->invalidate();
             $manager->remove($user);
             $manager->flush();
             return $this->redirectToRoute('unreg_success');
-        }
-        else throw new \AccessDeniedHttpException ('Vous n\'avez pas de droits sur ce compte.');
+        } else throw new \AccessDeniedHttpException('Vous n\'avez pas de droits sur ce compte.');
     }
 }

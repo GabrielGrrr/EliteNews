@@ -25,14 +25,14 @@ class ForumRepository extends ServiceEntityRepository
 
     public function rootForum()
     {
-        if(isset($root)) return $root;
+        if (isset($root)) return $root;
         $root = $this->findOneBy(['isRootForum' => 1]);
         return $root;
     }
 
     public function newsForum()
     {
-        if(isset($news)) return $news;
+        if (isset($news)) return $news;
         $news = $this->findOneBy(['isNewsForum' => 1]);
         return $news;
     }
@@ -52,7 +52,7 @@ class ForumRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+     */
 
     /*
     public function findOneBySomeField($value): ?Forum
@@ -64,5 +64,5 @@ class ForumRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+     */
 }

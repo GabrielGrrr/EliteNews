@@ -54,7 +54,7 @@ class BlogFixtures extends Fixture
         for ($i = 0; $i < $count; $i++) {
             $user = new User();
             $user->setLogin($faker->firstName . $faker->unique()->lastName());
-            $user->setAvatar('https://randomuser.me/api/portraits/women/'.mt_rand(1, 99).'.jpg');
+            $user->setAvatar('https://randomuser.me/api/portraits/women/' . mt_rand(1, 99) . '.jpg');
             $user->setDateInscription($faker->dateTimeAD('now', 'Europe/Paris'));
 
             //50% de chance qu'un user souscrive à la newsletter, those chances are good ^^
@@ -205,24 +205,24 @@ class BlogFixtures extends Fixture
     {
         //On génère des images relatives au poids (randomisé) de l'article. Elles sont elles-même randomisées, malheureusement selon un facteur temporel
         for ($i = 0; $i < $nbArticles; $i++) {
-            $weight = mt_rand(0,2);
+            $weight = mt_rand(0, 2);
             $image = "";
             switch ($weight) {
                 case 0:
-                $image = "https://picsum.photos/".(mt_rand(4,6)*100)."/350?random";
-                break;
+                    $image = "https://picsum.photos/" . (mt_rand(4, 6) * 100) . "/350?random";
+                    break;
                 case 1:
-                $image = "https://picsum.photos/".(mt_rand(6,8)*100)."/400?random";
-                break;
+                    $image = "https://picsum.photos/" . (mt_rand(6, 8) * 100) . "/400?random";
+                    break;
                 case 2:
-                $image = "https://picsum.photos/".(mt_rand(9,11)*100)."/150?random";
-                break;
+                    $image = "https://picsum.photos/" . (mt_rand(9, 11) * 100) . "/150?random";
+                    break;
             }
 
             $content = '';
-            $paragraphs = $faker->paragraphs(mt_rand(6,12));
-            foreach ($paragraphs as $paragraph) { 
-                $content .= '<p>'.$paragraph.'</p>';
+            $paragraphs = $faker->paragraphs(mt_rand(6, 12));
+            foreach ($paragraphs as $paragraph) {
+                $content .= '<p>' . $paragraph . '</p>';
             } 
 
             //L'auteur est un user pris au hasard
@@ -263,15 +263,15 @@ class BlogFixtures extends Fixture
     }
 
     public function generateComments(ObjectManager $manager, Faker\Generator $faker, $count, $commentators, $nbUser, Thread $thread)
-    { 
+    {
 
         for ($i = 0; $i < $count; $i++) {
-            
+
             $content = '';
-            $paragraphs = $faker->paragraphs(mt_rand(3,5));
-            foreach ($paragraphs as $paragraph) { 
-                $content .= '<p>'.$paragraph.'</p>';
-            } 
+            $paragraphs = $faker->paragraphs(mt_rand(3, 5));
+            foreach ($paragraphs as $paragraph) {
+                $content .= '<p>' . $paragraph . '</p>';
+            }
 
             $comment = new Comment();
             $comment->setAuthor($commentators[array_rand($commentators)]);

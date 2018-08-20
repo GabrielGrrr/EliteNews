@@ -1,25 +1,27 @@
-{% block stylesheets %} <link rel="stylesheet" href="{{ asset('assets/css/article_list.css') }}"> {% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/article_list.css') }}"> {% endblock %}
 
 <section class="article-list" id="article-list">
 
-        {% for article in articles %}
-        <article class="article-listed article-{{ texthandler.translateWeight(article.weight) }}">
-            <div class="article-category">
-                <a href="{{ path('article_thorough', { 'keyword' : '*', 'categories' : article.category_id }) }}" class="url-link">
-                    {{ article.categoryimage | raw }}</a>
-            </div>
-            <div class="article-inside">
-                    <a href="{{ path('article_read', {'id' : article.id })}}">
-                        <div class="article-image">
-                    <img src="{{ article.image }}"  alt="">
+    {% for article in articles %}
+    <article class="article-listed article-{{ texthandler.translateWeight(article.weight) }}">
+        <div class="article-category">
+            <a href="{{ path('article_thorough', { 'keyword' : '*', 'categories' : article.category_id }) }}" class="url-link">
+                {{ article.categoryimage | raw }}</a>
+        </div>
+        <div class="article-inside">
+            <a href="{{ path('article_read', {'id' : article.id })}}">
+                <div class="article-image">
+                    <img src="{{ article.image }}" alt="">
 
                 </div>
                 <div class="article">
                     <a href="{{ path('article_read', {'id' : article.id })}}">
-                    <h1 class="headingband">{{ article.titre }}</h1></a>
+                        <h1 class="headingband">{{ article.titre }}</h1>
+                    </a>
                     <div class="article-heading">
-                        <span class="list-authordate">Écrit le {{ article.date_creation | date('d/m/Y') }} 
-                            à {{ article.date_creation | date('H:i') }}, par {{ article.author }}. 
+                        <span class="list-authordate">Écrit le {{ article.date_creation | date('d/m/Y') }} à {{ article.date_creation | date('H:i') }},
+                            par {{ article.author }}.
                         </span>
                         <span class="comment-count" href="#">
                             <a href="{{ path('browse_comment', {'id' : article.id })}}">{{ article.comment_count }}</a>
@@ -28,10 +30,14 @@
                     <div class="article-content">
                         {{ texthandler.raccourcir(article.content, article.weight) | raw }}
                     </div>
-                    <a href="{{ path('article_read', {'id' : article.id })}}"> <div class="bouton article-more">... <span class="hidden">Lire la suite</span></div></a>
+                    <a href="{{ path('article_read', {'id' : article.id })}}">
+                        <div class="bouton article-more">...
+                            <span class="hidden">Lire la suite</span>
+                        </div>
+                    </a>
                 </div>
-            </div>
-        </article>
-        {% endfor %}
-    
-    </section>
+        </div>
+    </article>
+    {% endfor %}
+
+</section>

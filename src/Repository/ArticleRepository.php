@@ -24,10 +24,10 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function listArticles($offset = 0, $limit) : array
     {
-    $conn = $this->getEntityManager()->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
 
     //Plain old sql ici, pour des raisons d'optimisation
-    $sql = 'SELECT a.id, a.titre, a.category_id, a.date_creation, a.content, a.weight, a.image, COUNT(c.id) as comment_count, u.login as author, ca.name as categoryname, ca.image as categoryimage
+        $sql = 'SELECT a.id, a.titre, a.category_id, a.date_creation, a.content, a.weight, a.image, COUNT(c.id) as comment_count, u.login as author, ca.name as categoryname, ca.image as categoryimage
     FROM article a
     LEFT JOIN comment c ON a.thread_id = c.thread_id
     INNER JOIN app_users u ON a.author_id = u.id
@@ -35,19 +35,19 @@ class ArticleRepository extends ServiceEntityRepository
     WHERE a.removed = 0
     GROUP BY a.id  
     ORDER BY `a`.`date_creation`  DESC
-    LIMIT '.($offset).', '.$limit;
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    LIMIT ' . ($offset) . ', ' . $limit;
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
 
-    return $stmt->fetchAll();
+        return $stmt->fetchAll();
     }
 
     public function getArticlePageCount()
     {
         return ($this->createQueryBuilder('a')
-        ->select('COUNT(a)')
-         ->getQuery()
-        ->getSingleScalarResult() / ARTICLES_PAR_PAGE);
+            ->select('COUNT(a)')
+            ->getQuery()
+            ->getSingleScalarResult() / ARTICLES_PAR_PAGE);
     }
 
     //Faire une rqst personnalisée plus tard pour minimiser les appels base quand on boucle dans la vue
@@ -70,30 +70,32 @@ class ArticleRepository extends ServiceEntityRepository
         $sql = 'SELECT max(a.id) as previous_row
         FROM article a
         WHERE a.removed = 0
-        AND a.id < '.$id;
+        AND a.id < ' . $id;
         $previous = $conn->prepare($sql);
         $previous->execute();
 
         $sql = 'SELECT min(a.id) as next_row
         FROM article a
         WHERE a.removed = 0
-        AND a.id > '.$id;
+        AND a.id > ' . $id;
         $next = $conn->prepare($sql);
         $next->execute();
 
-    return [$previous->fetchAll(), $next->fetchall()];
+        return [$previous->fetchAll(), $next->fetchall()];
     }
 
     //A optimiser, à la fois SQL et code (obtenir compteurs et validation en ammont?) et prendre en compte regexp
     //Ajouter options sélection inclusive ou exclusive
     public function search($input, $categories, $contentToo = null)
     {
-        if($input == '*') $input = NULL;
-        $discrim = NULL;
-        $c = NULL;
-        
-        if(isset($input)) { $discrim = explode(' ', $input);
-        $c = count($discrim); }
+        if ($input == '*') $input = null;
+        $discrim = null;
+        $c = null;
+
+        if (isset($input)) {
+            $discrim = explode(' ', $input);
+            $c = count($discrim);
+        }
         $conn = $this->getEntityManager()->getConnection();
         $sql = 'SELECT a.id, a.titre, a.category_id, a.date_creation, a.content, a.weight, a.image, COUNT(c.id) as comment_count, u.login as author, ca.name as categoryname, ca.image as categoryimage
         FROM article a
@@ -101,30 +103,33 @@ class ArticleRepository extends ServiceEntityRepository
         INNER JOIN app_users u ON a.author_id = u.id
         INNER JOIN category ca ON a.category_id = ca.id
         WHERE a.removed = 0';
-        if(isset($categories)) {
+        if (isset($categories)) {
             $catIndex = count($categories);
-            $sql .= ' AND (a.category_id = "'.$categories[0].'" ';;
-            if($catIndex > 1) {
+            $sql .= ' AND (a.category_id = "' . $categories[0] . '" ';;
+            if ($catIndex > 1) {
                 for ($i = 1; $i < $catIndex; $i++) {
-                    $sql.=' OR a.category_id = "'.$categories[$i].'" '; }
+                    $sql .= ' OR a.category_id = "' . $categories[$i] . '" ';
+                }
             }
             $sql .= ') ';
         }
 
-        if($c)  { $sql .= ' AND a.titre like "%'.$discrim[0].'%" ';
-            for($i = 1; $i < $c; $i++) 
-                $sql .= ' OR a.titre like "%'.$discrim[0].'%" '; }
-        if($contentToo)
-            for($i = 0; $i++; $i < $c)
-            $sql .= ' OR a.content like "%'.$discrim[0].'%" ';
+        if ($c) {
+            $sql .= ' AND a.titre like "%' . $discrim[0] . '%" ';
+            for ($i = 1; $i < $c; $i++)
+                $sql .= ' OR a.titre like "%' . $discrim[0] . '%" ';
+        }
+        if ($contentToo)
+            for ($i = 0; $i++; $i < $c)
+            $sql .= ' OR a.content like "%' . $discrim[0] . '%" ';
 
-            $sql .= ' GROUP BY a.id
+        $sql .= ' GROUP BY a.id
             ORDER BY a.date_creation DESC ';
-        
+
         $resultat = $conn->prepare($sql);
         $resultat->execute();
 
-    return $resultat->fetchAll();
+        return $resultat->fetchAll();
     }
     
 

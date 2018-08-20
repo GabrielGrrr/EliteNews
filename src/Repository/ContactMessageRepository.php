@@ -34,7 +34,7 @@ class ContactMessageRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+     */
 
     /*
     public function findOneBySomeField($value): ?ContactMessage
@@ -46,5 +46,5 @@ class ContactMessageRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+     */
 }

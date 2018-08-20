@@ -1,44 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %} Créer un nouvel article {% endblock %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/full_page_form.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/ckeditor_bugfix.css') }}"> {% endblock %} {% block body %}
 
-{% block title %} Créer un nouvel article {% endblock %}
-
-{% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('assets/css/full_page_form.css') }}"> 
-<link rel="stylesheet" href="{{ asset('assets/css/ckeditor_bugfix.css') }}">
-
-{% endblock %}
-
-{% block body %}
-
-  <!-- Formulaire de rédaction des articles -->
-  <section class="full-page-form main-section">
-    <h1 class="headingband">Créer un nouvel article</h1>
-    <div class="formarticle">
-    {{ form_start(redacform) }}
-    {{ form_row(redacform.titre, {'attr' : {'placeholder' : "Titre de l'article" }}) }}
-    {{ form_row(redacform.category, {'attr' : {'placeholder' : "Catégorie de l'article" }}) }}
-    {{ form_row(redacform.weight, {'attr' : {'placeholder' : "Importance de l'article" }}) }}
-    {{ form_row(redacform.image, {'attr' : {'placeholder' : "Image de l'article"  }}) }}
-    {{ form_row(redacform.content, {'attr' : {'placeholder' : "Contenu de l'article" }}) }}
+<!-- Formulaire de rédaction des articles -->
+<section class="full-page-form main-section">
+  <h1 class="headingband">Créer un nouvel article</h1>
+  <div class="formarticle">
+    {{ form_start(redacform) }} {{ form_row(redacform.titre, {'attr' : {'placeholder' : "Titre de l'article" }}) }} {{ form_row(redacform.category,
+    {'attr' : {'placeholder' : "Catégorie de l'article" }}) }} {{ form_row(redacform.weight, {'attr' : {'placeholder' : "Importance
+    de l'article" }}) }} {{ form_row(redacform.image, {'attr' : {'placeholder' : "Image de l'article" }}) }} {{ form_row(redacform.content,
+    {'attr' : {'placeholder' : "Contenu de l'article" }}) }}
     <button type="submit" class="bouton">
-      {% if editmode %}
-      Enregistrer
-      {% else %}
-      Publier
-      {% endif %}
+      {% if editmode %} Enregistrer {% else %} Publier {% endif %}
     </button>
     {{ form_end(redacform) }}
-      </div>
+  </div>
 </section>
 
-{% endblock %}
-
-{% block javascripts %}
+{% endblock %} {% block javascripts %}
 <script src="{{ asset('assets/js/ckeditor/adapters/jquery.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
-    $(function() {
-        $('textarea.ckeditor').ckeditor();
-      });
-</script>
-{% endblock %}
+  $(function () {
+    $('textarea.ckeditor').ckeditor();
+  });
+</script> {% endblock %}

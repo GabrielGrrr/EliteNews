@@ -20,7 +20,8 @@ class ContentHandler
         $this->router = $router;
     }
 
-    public function secureAndParse(string $text){
+    public function secureAndParse(string $text)
+    {
         return $this->bbCodeParser(htmlspecialchars($text, ENT_QUOTES, 'UTF-8'));
     }
     //Raccourcit un article
@@ -40,31 +41,31 @@ class ContentHandler
 
     public function formatXHRResponse($articles)
     {
-        $response ='';
+        $response = '';
         foreach ($articles as $article) {
-        $response.='<article class="article-listed article-'.$this->translateWeight($article['weight']).'">
+            $response .= '<article class="article-listed article-' . $this->translateWeight($article['weight']) . '">
             <div class="article-category">
-                <a href="'.$this->router->generate('article_thorough', ['keyword' => '*', 'categories' => $article['category_id']]).'" class="url-link">
-                    '.$article['categoryimage'].'</a>
+                <a href="' . $this->router->generate('article_thorough', ['keyword' => '*', 'categories' => $article['category_id']]) . '" class="url-link">
+                    ' . $article['categoryimage'] . '</a>
             </div>
             <div class="article-inside">
-                    <a href="'.$this->router->generate('article_read', ['id' => $article['id']]).'">
+                    <a href="' . $this->router->generate('article_read', ['id' => $article['id']]) . '">
                         <div class="article-image">
-                    <img src="'.$article['image'].'"  alt="">
+                    <img src="' . $article['image'] . '"  alt="">
 
                 </div>
                 <div class="article">
-                    <a href="'.$this->router->generate('article_read', ['id' => $article['id']]).'">
-                    <h1 class="headingband">'.$article['titre'].'</h1></a>
+                    <a href="' . $this->router->generate('article_read', ['id' => $article['id']]) . '">
+                    <h1 class="headingband">' . $article['titre'] . '</h1></a>
                     <div class="article-heading">
-                        <span class="list-authordate">Écrit le '.$article['date_creation'].', par '.$article['author'].' 
+                        <span class="list-authordate">Écrit le ' . $article['date_creation'] . ', par ' . $article['author'] . ' 
                         </span>
                         <span class="comment-count" href="#">
-                            <a href="'.$this->router->generate('browse_comment', ['id' => $article['id']]).'">'.$article['comment_count'].'</a>
+                            <a href="' . $this->router->generate('browse_comment', ['id' => $article['id']]) . '">' . $article['comment_count'] . '</a>
                         </span>
                     </div>
-                    <div class="article-content">'.$this->raccourcir($article['content'], $article['weight']).'</div>
-                    <a href="'.$this->router->generate('article_read', ['id' => $article['id']]).'"> <div class="bouton article-more">... <span class="hidden">Lire la suite</span></div></a>
+                    <div class="article-content">' . $this->raccourcir($article['content'], $article['weight']) . '</div>
+                    <a href="' . $this->router->generate('article_read', ['id' => $article['id']]) . '"> <div class="bouton article-more">... <span class="hidden">Lire la suite</span></div></a>
                 </div>
             </div>
         </article>';
@@ -72,17 +73,17 @@ class ContentHandler
         return $response;
     }
 
-    
+
     public function convertArrayOfEnum($tableau)
     {
-        $resultat = NULL;
+        $resultat = null;
 
-        if($tableau['IT']) $resultat[] = 'IT';
-        if($tableau['Neuro']) $resultat[] = 'Neuro';
-        if($tableau['Socio']) $resultat[] = 'Socio';
-        if($tableau['Psycho']) $resultat[] = 'Psycho';
-        if($tableau['cinema']) $resultat[] = 'Cinéma';
-        if($tableau['Autres']) $resultat[] = 'Autres';
+        if ($tableau['IT']) $resultat[] = 'IT';
+        if ($tableau['Neuro']) $resultat[] = 'Neuro';
+        if ($tableau['Socio']) $resultat[] = 'Socio';
+        if ($tableau['Psycho']) $resultat[] = 'Psycho';
+        if ($tableau['cinema']) $resultat[] = 'Cinéma';
+        if ($tableau['Autres']) $resultat[] = 'Autres';
 
         return $resultat;
     }
@@ -108,33 +109,48 @@ class ContentHandler
 
     //this one's not mine, pas l'habitude de copier du code mais j'ai pas pu trouver de package pour du bb avec symfony et j'ai vraiment pas envie
     //de réinventer la roue pour cette fonction
-    public function bbcodeParser($string) {
+    public function bbcodeParser($string)
+    {
         $tags = 'b|i|size|color|center|quote|url|img';
-        while (preg_match_all('`\[('.$tags.')=?(.*?)\](.+?)\[/\1\]`', $string, $matches)) foreach ($matches[0] as $key => $match) {
+        while (preg_match_all('`\[(' . $tags . ')=?(.*?)\](.+?)\[/\1\]`', $string, $matches)) foreach ($matches[0] as $key => $match) {
             list($tag, $param, $innertext) = array($matches[1][$key], $matches[2][$key], $matches[3][$key]);
             switch ($tag) {
-                case 'b': $replacement = "<strong>$innertext</strong>"; break;
-                case 'i': $replacement = "<em>$innertext</em>"; break;
-                case 'size': $replacement = "<span style=\"font-size: $param;\">$innertext</span>"; break;
-                case 'color': $replacement = "<span style=\"color: $param;\">$innertext</span>"; break;
-                case 'center': $replacement = "<div class=\"centered\">$innertext</div>"; break;
-                case 'quote': $replacement = "<blockquote>$innertext</blockquote>" . $param? "<cite>$param</cite>" : ''; break;
-                case 'url': $replacement = '<a href="' . ($param? $param : $innertext) . "\">$innertext</a>"; break;
+                case 'b':
+                    $replacement = "<strong>$innertext</strong>";
+                    break;
+                case 'i':
+                    $replacement = "<em>$innertext</em>";
+                    break;
+                case 'size':
+                    $replacement = "<span style=\"font-size: $param;\">$innertext</span>";
+                    break;
+                case 'color':
+                    $replacement = "<span style=\"color: $param;\">$innertext</span>";
+                    break;
+                case 'center':
+                    $replacement = "<div class=\"centered\">$innertext</div>";
+                    break;
+                case 'quote':
+                    $replacement = "<blockquote>$innertext</blockquote>" . $param ? "<cite>$param</cite>" : '';
+                    break;
+                case 'url':
+                    $replacement = '<a href="' . ($param ? $param : $innertext) . "\">$innertext</a>";
+                    break;
                 case 'img':
                     list($width, $height) = preg_split('`[Xx]`', $param);
-                    $replacement = "<img src=\"$innertext\" " . (is_numeric($width)? "width=\"$width\" " : '') . (is_numeric($height)? "height=\"$height\" " : '') . '/>';
-                break;
+                    $replacement = "<img src=\"$innertext\" " . (is_numeric($width) ? "width=\"$width\" " : '') . (is_numeric($height) ? "height=\"$height\" " : '') . '/>';
+                    break;
                 case 'video':
                     $videourl = parse_url($innertext);
                     parse_str($videourl['query'], $videoquery);
-                    if (strpos($videourl['host'], 'youtube.com') !== FALSE) $replacement = '<embed src="http://www.youtube.com/v/' . $videoquery['v'] . '" type="application/x-shockwave-flash" width="425" height="344"></embed>';
-                    if (strpos($videourl['host'], 'google.com') !== FALSE) $replacement = '<embed src="http://video.google.com/googleplayer.swf?docid=' . $videoquery['docid'] . '" width="400" height="326" type="application/x-shockwave-flash"></embed>';
-                break;
+                    if (strpos($videourl['host'], 'youtube.com') !== false) $replacement = '<embed src="http://www.youtube.com/v/' . $videoquery['v'] . '" type="application/x-shockwave-flash" width="425" height="344"></embed>';
+                    if (strpos($videourl['host'], 'google.com') !== false) $replacement = '<embed src="http://video.google.com/googleplayer.swf?docid=' . $videoquery['docid'] . '" width="400" height="326" type="application/x-shockwave-flash"></embed>';
+                    break;
             }
             $string = str_replace($match, $replacement, $string);
         }
         return $string;
-    } 
+    }
 }
 
 

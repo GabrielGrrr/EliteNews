@@ -40,7 +40,7 @@ class Category
 
     public function __construct()
     {
-        
+
     }
 
     public function __toString()
@@ -53,48 +53,48 @@ class Category
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName() : ? string
     {
         return $this->Name;
     }
 
-    public function setName(string $Name): self
+    public function setName(string $Name) : self
     {
         $this->Name = $Name;
 
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription() : ? string
     {
         return $this->Description;
     }
 
-    public function setDescription(string $Description): self
+    public function setDescription(string $Description) : self
     {
         $this->Description = $Description;
 
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage() : ? string
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(string $image) : self
     {
         $this->image = $image;
 
         return $this;
     }
 
-    public function getIsIcon(): ?bool
+    public function getIsIcon() : ? bool
     {
         return $this->is_icon;
     }
 
-    public function setIsIcon(?bool $is_icon): self
+    public function setIsIcon(? bool $is_icon) : self
     {
         $this->is_icon = $is_icon;
 

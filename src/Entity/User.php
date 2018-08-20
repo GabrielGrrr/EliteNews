@@ -122,9 +122,9 @@ class User implements UserInterface
      */
     private $articles;
 
-   /**
-    * @ORM\Column(name="is_active", type="boolean")
-    */
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
     private $isActive;
 
     public function __construct()
@@ -134,10 +134,11 @@ class User implements UserInterface
         $this->articles = new ArrayCollection();
         $this->user_role = 'ROLE_USER';
         $this->moderation_status = 0;
-        $this->isActive = FALSE;
+        $this->isActive = false;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->login;
     }
 
@@ -146,29 +147,29 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getLogin(): ?string
+    public function getLogin() : ? string
     {
         return $this->login;
     }
 
-    public function getUserName(): ?string
+    public function getUserName() : ? string
     {
         return $this->email;
     }
 
-    public function setLogin(string $login): self
+    public function setLogin(string $login) : self
     {
         $this->login = $login;
 
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPassword() : ? string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password) : self
     {
         $this->password = $password;
 
@@ -182,144 +183,144 @@ class User implements UserInterface
         return $this->confirm_password;
     }*/
 
-    public function getEmail(): ?string
+    public function getEmail() : ? string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email) : self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getUserRole(): ?string
+    public function getUserRole() : ? string
     {
         return $this->user_role;
     }
 
-    public function setUserRole(string $user_role): string
+    public function setUserRole(string $user_role) : string
     {
         $this->user_role = $user_role;
 
         return $this;
     }
 
-    public function getAvatar(): ?string
+    public function getAvatar() : ? string
     {
         return $this->avatar;
     }
 
-    public function setAvatar(?string $avatar): self
+    public function setAvatar(? string $avatar) : self
     {
         $this->avatar = $avatar;
 
         return $this;
     }
 
-    public function getSubtitle(): ?string
+    public function getSubtitle() : ? string
     {
         return $this->subtitle;
     }
 
-    public function setSubtitle(?string $subtitle): self
+    public function setSubtitle(? string $subtitle) : self
     {
         $this->subtitle = $subtitle;
 
         return $this;
     }
 
-    public function getSignature(): ?string
+    public function getSignature() : ? string
     {
         return $this->signature;
     }
 
-    public function setSignature(?string $signature): self
+    public function setSignature(? string $signature) : self
     {
         $this->signature = $signature;
 
         return $this;
     }
 
-    public function getLocalisation(): ?string
+    public function getLocalisation() : ? string
     {
         return $this->localisation;
     }
 
-    public function setLocalisation(?string $localisation): self
+    public function setLocalisation(? string $localisation) : self
     {
         $this->localisation = $localisation;
 
         return $this;
     }
 
-    public function getModerationStatus(): ?int
+    public function getModerationStatus() : ? int
     {
         return $this->moderation_status;
     }
 
-    public function setModerationStatus(int $moderation_status): self
+    public function setModerationStatus(int $moderation_status) : self
     {
         $this->moderation_status = $moderation_status;
 
         return $this;
     }
 
-    public function getDateInscription(): ?\DateTimeInterface
+    public function getDateInscription() : ? \DateTimeInterface
     {
         return $this->date_inscription;
     }
 
-    public function setDateInscription(\DateTimeInterface $date_inscription): self
+    public function setDateInscription(\DateTimeInterface $date_inscription) : self
     {
         $this->date_inscription = $date_inscription;
 
         return $this;
     }
 
-    public function getTermsAccepted(): ?bool
+    public function getTermsAccepted() : ? bool
     {
         return $this->termsaccepted;
     }
 
-    public function setTermsAccepted(bool $termsaccepted): self
+    public function setTermsAccepted(bool $termsaccepted) : self
     {
         $this->termsaccepted = $termsaccepted;
 
         return $this;
     }
 
-    public function getIsActive(): ?bool
+    public function getIsActive() : ? bool
     {
         return $this->isActive;
     }
 
-    public function setIsActive(bool $isActive): self
+    public function setIsActive(bool $isActive) : self
     {
         $this->isActive = $isActive;
 
         return $this;
     }
 
-    public function getNewsletterSubscriber(): ?bool
+    public function getNewsletterSubscriber() : ? bool
     {
         return $this->newsletter_subscriber;
     }
 
-    public function setNewsletterSubscriber(bool $newsletter_subscriber): self
+    public function setNewsletterSubscriber(bool $newsletter_subscriber) : self
     {
         $this->newsletter_subscriber = $newsletter_subscriber;
 
         return $this;
     }
 
-    public function getDateSubscription(): ?\DateTimeInterface
+    public function getDateSubscription() : ? \DateTimeInterface
     {
         return $this->date_subscription;
     }
 
-    public function setDateSubscription(?\DateTimeInterface $date_subscription): self
+    public function setDateSubscription(? \DateTimeInterface $date_subscription) : self
     {
         $this->date_subscription = $date_subscription;
 
@@ -328,12 +329,12 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-        
+
     }
 
     public function getSalt()
     {
-        
+
     }
 
     public function getRoles()
@@ -356,7 +357,7 @@ class User implements UserInterface
     /** @see \Serializable::unserialize() */
     public function unserialize($serialized)
     {
-        list (
+        list(
             $this->id,
             $this->email,
             $this->password,
@@ -368,12 +369,12 @@ class User implements UserInterface
     /**
      * @return Collection|Thread[]
      */
-    public function getThreads(): Collection
+    public function getThreads() : Collection
     {
         return $this->threads;
     }
 
-    public function addThread(Thread $thread): self
+    public function addThread(Thread $thread) : self
     {
         if (!$this->threads->contains($thread)) {
             $this->threads[] = $thread;
@@ -383,7 +384,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeThread(Thread $thread): self
+    public function removeThread(Thread $thread) : self
     {
         if ($this->threads->contains($thread)) {
             $this->threads->removeElement($thread);
@@ -399,12 +400,12 @@ class User implements UserInterface
     /**
      * @return Collection|Comment[]
      */
-    public function getComments(): Collection
+    public function getComments() : Collection
     {
         return $this->comments;
     }
 
-    public function addComment(Comment $comment): self
+    public function addComment(Comment $comment) : self
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
@@ -414,7 +415,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeComment(Comment $comment): self
+    public function removeComment(Comment $comment) : self
     {
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
@@ -430,12 +431,12 @@ class User implements UserInterface
     /**
      * @return Collection|Article[]
      */
-    public function getArticles(): Collection
+    public function getArticles() : Collection
     {
         return $this->articles;
     }
 
-    public function addArticle(Article $article): self
+    public function addArticle(Article $article) : self
     {
         if (!$this->articles->contains($article)) {
             $this->articles[] = $article;
@@ -445,7 +446,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeArticle(Article $article): self
+    public function removeArticle(Article $article) : self
     {
         if ($this->articles->contains($article)) {
             $this->articles->removeElement($article);

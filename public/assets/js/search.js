@@ -27,7 +27,7 @@ function search(force) {
     });
 }*/
 
-    /*var categories = document.getElementsByClassName("category-bouton interrupteur-active");
+/*var categories = document.getElementsByClassName("category-bouton interrupteur-active");
     var searchfield = $(this);
     $.ajax({
         url:'{{ (path(/search)) }}',

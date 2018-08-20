@@ -28,10 +28,10 @@ class CommentController extends Controller
     public function browse_comments(Request $request)
     {
         $categorepo = new CategoryRepository();
-        if ($request->isXmlHttpRequest()) { 
+        if ($request->isXmlHttpRequest()) {
             $request->query->get('showJson');
-            $jsonData = array();  
-            
+            $jsonData = array();
+
             return new JsonResponse($jsonData);        // POUR AJAX
         }
         $comments = $this->getRepository(Comment::class)->list($thread_id, $index);

@@ -38,16 +38,16 @@ class ArticleController extends Controller
      */
     public function index(ArticleRepository $article_repo, CategoryRepository $categorepo, $index = null)
     {
-        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        $this->getUser() ? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]) : $user = null;
         $texhandler = new ContentHandler;
 
-        $articles = $article_repo->listArticles(isset($index) && $index > 0 ? $index -1 : 0, ARTICLES_PAR_PAGE);
+        $articles = $article_repo->listArticles(isset($index) && $index > 0 ? $index - 1 : 0, ARTICLES_PAR_PAGE);
         return $this->render('articles/home.html.twig', [
-            'controller_name' => 'ArticleController', 
-            'articles' => $articles, 
-            'texthandler' => $texhandler, 
+            'controller_name' => 'ArticleController',
+            'articles' => $articles,
+            'texthandler' => $texhandler,
             'articles_star' => $article_repo->getSlideArticles(),
-            'user' => $user, 
+            'user' => $user,
             'pagenavigation' => [1, $index ? $index : 1, ceil($article_repo->getArticlePageCount())],
             'categories' => $categorepo->findAll()
         ]);
@@ -61,9 +61,9 @@ class ArticleController extends Controller
     public function search(ArticleRepository $article_repo, UrlGeneratorInterface $router, CategoryRepository $categorepo, Request $request, string $keyword = null, string $categories = null)
     {
         $a = $request->query->get('keyword');
-        if($a) $keyword = $a;
+        if ($a) $keyword = $a;
         $texthandler = new ContentHandler($router);
-        
+
         if ($request->isXmlHttpRequest()) {
             $response = new Response(
                 $texthandler->formatXHRResponse($article_repo->search($request->get('keywords'), $request->get('categories'))),
@@ -73,27 +73,26 @@ class ArticleController extends Controller
             return $response;
         }
 
-        $this->getUser()? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]): $user = NULL;
+        $this->getUser() ? $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]) : $user = null;
         $form = $this->createForm(SearchArticleType::class);
 
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $data = $form->getData();
             $articles = $article_repo->search($data['keyword'], $texthandler->convertArrayOfEnum($data), $data['contentToo']);
-        }
-        else if (isset($keyword) || isset($categories))
-            $articles = $article_repo->search($keyword, $categories ? [0 => $categories]: null);
+        } else if (isset($keyword) || isset($categories))
+            $articles = $article_repo->search($keyword, $categories ? [0 => $categories] : null);
         else
             $articles = $article_repo->listArticles(0, ARTICLES_PAR_PAGE);
-            
+
         return $this->render('articles/search.html.twig', [
-             'articles' => $articles, 
-             'texthandler' => $texthandler, 
-             'searchForm' => $form->createView(),
-             'user' => $user,
-             'categories' => $categorepo->findAll()
+            'articles' => $articles,
+            'texthandler' => $texthandler,
+            'searchForm' => $form->createView(),
+            'user' => $user,
+            'categories' => $categorepo->findAll()
         ]);
     }
 
@@ -104,16 +103,20 @@ class ArticleController extends Controller
      */
     public function read(Article $article, $commentid = null, $anchor = null, $index = 1, ArticleRepository $article_repo, CategoryRepository $categorepo, Request $request, ObjectManager $manager)
     {
-        $user = NULL; $commentcount = NULL; $form = NULL; $editmode = FALSE;
+        $user = null;
+        $commentcount = null;
+        $form = null;
+        $editmode = false;
         $texthandler = new ContentHandler;
-        $comment_repo= $this->getDoctrine()->getRepository(Comment::class);
+        $comment_repo = $this->getDoctrine()->getRepository(Comment::class);
 
         if (!$article) return $this->redirectToRoute('home');
         if ($this->getUser()) {
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
-            if($commentid)  { 
-                $editmode = TRUE; $comment = $comment_repo->find($commentid); }
-                else $comment = new Comment();
+            if ($commentid) {
+                $editmode = true;
+                $comment = $comment_repo->find($commentid);
+            } else $comment = new Comment();
 
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
@@ -129,43 +132,43 @@ class ArticleController extends Controller
 
                     $commentcount = $comment_repo->getCommentPageCount($article->getThread());
                     $index = ceil($commentcount / COMMENTS_PAR_PAGE);
-                }
-                else
-                {
+                } else {
                     $this->denyAccessUnlessGranted('edit', $comment);
                     $editmode = false;
                 }
-                    $comment->setContent($texthandler->secureAndParse($comment->getContent()));
-                    $manager->persist($comment);
-                    $manager->flush();
-                    $commentid ? $commentid : $commentid = $comment->getId();
-                    $comment = new Comment();
-                    $form = $this->createForm(CommentType::class, $comment);
-                    return $this->redirectToRoute('browse_comment', ['id' => $article->getId(), 'index' => $index, 'anchor' => $commentid]);
+                $comment->setContent($texthandler->secureAndParse($comment->getContent()));
+                $manager->persist($comment);
+                $manager->flush();
+                $commentid ? $commentid : $commentid = $comment->getId();
+                $comment = new Comment();
+                $form = $this->createForm(CommentType::class, $comment);
+                return $this->redirectToRoute('browse_comment', ['id' => $article->getId(), 'index' => $index, 'anchor' => $commentid]);
             }
         }
 
-        $comments = $comment_repo->list($article->getThread(), $index -1, COMMENTS_PAR_PAGE);
+        $comments = $comment_repo->list($article->getThread(), $index - 1, COMMENTS_PAR_PAGE);
         $commentcount = $commentcount ? $commentcount : $comment_repo->getCommentPageCount($article->getThread());
         $previousnext = $article_repo->getPreviousNext($article->getId());
 
         return $this->render('articles/read.html.twig', [
             'article' => $article,
-            'articles_star' => $article_repo->getSlideArticles(), 
-            'commentform' => $form === NULL ? NULL : $form->createView(), 
+            'articles_star' => $article_repo->getSlideArticles(),
+            'commentform' => $form === null ? null : $form->createView(),
             'previous' => $previousnext[0][0]['previous_row'],
-             'next' => $previousnext[1][0]['next_row'],
-             'user' => $user, 
-             'texthandler' => $texthandler,
-             'editmode' => $editmode,
-             'comments' => $comments,
-             'commentcount' => $commentcount,
-             'anchor' => $anchor ? $anchor : 0,
-             'commentnavigation' => 
-             ['start' => 1, 
-             'index' => $index ? $index : 1, 
-             'end' => ceil($commentcount / COMMENTS_PAR_PAGE)],
-             'categories' => $categorepo->findAll()
+            'next' => $previousnext[1][0]['next_row'],
+            'user' => $user,
+            'texthandler' => $texthandler,
+            'editmode' => $editmode,
+            'comments' => $comments,
+            'commentcount' => $commentcount,
+            'anchor' => $anchor ? $anchor : 0,
+            'commentnavigation' =>
+                [
+                'start' => 1,
+                'index' => $index ? $index : 1,
+                'end' => ceil($commentcount / COMMENTS_PAR_PAGE)
+            ],
+            'categories' => $categorepo->findAll()
         ]);
     }
 
@@ -175,8 +178,8 @@ class ArticleController extends Controller
      */
     public function formArticle(Article $article = null, Request $request, ObjectManager $manager, CategoryRepository $categorepo)
     {
-        $user = NULL;
-        if($this->getUser()) { 
+        $user = null;
+        if ($this->getUser()) {
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
 
             if (!$article) $article = new Article();
@@ -190,7 +193,7 @@ class ArticleController extends Controller
 
                     $thread = new Sujet();
                     $thread->setAuthor($user)->setDateCreation($date)->setForum($this->getDoctrine()->getRepository(Forum::class)->rootForum())
-                    ->setTitre($article->getTitre())->setViewcount(0);
+                        ->setTitre($article->getTitre())->setViewcount(0);
                     $manager->persist($thread);
                     $article->setThread($thread);
 
@@ -200,7 +203,7 @@ class ArticleController extends Controller
                     $article->setViewcount(0);
                 }
                 $this->denyAccessUnlessGranted('edit', $article);
-                
+
                 $manager->persist($article);
                 $manager->flush();
 
@@ -209,12 +212,14 @@ class ArticleController extends Controller
         }
 
         return $this->render(
-            'articles/create.html.twig', 
-            ['redacform' => $form->createView(), 
-            'editmode' => $article->getId() ? true : false, 
-            'user' => $user,
-            'categories' => $categorepo->findAll() 
-            ]);
+            'articles/create.html.twig',
+            [
+                'redacform' => $form->createView(),
+                'editmode' => $article->getId() ? true : false,
+                'user' => $user,
+                'categories' => $categorepo->findAll()
+            ]
+        );
     }
 
     /**
@@ -239,6 +244,6 @@ class ArticleController extends Controller
         $this->denyAccessUnlessGranted('edit', $comment);
         $manager->remove($comment);
         $manager->flush();
-        return $this->redirectToRoute('browse_comment', [ 'id' => $id, 'index' => $index]);
+        return $this->redirectToRoute('browse_comment', ['id' => $id, 'index' => $index]);
     }
 }

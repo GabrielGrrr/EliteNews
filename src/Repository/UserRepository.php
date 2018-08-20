@@ -24,7 +24,7 @@ class UserRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
         $sql = 'SELECT COUNT(c.id) as commentcount 
         FROM  comment c
-        WHERE c.author_id = '.$user->getId();
+        WHERE c.author_id = ' . $user->getId();
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();

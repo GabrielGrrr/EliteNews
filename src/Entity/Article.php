@@ -82,129 +82,130 @@ class Article
         return $this->id;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->titre;
     }
-    
+
     public static function getEnumWeight()
     {
         return array(0, 1, 2);
     }
 
-    public function getTitre(): ?string
+    public function getTitre() : ? string
     {
         return $this->titre;
     }
 
-    public function setTitre(string $titre): self
+    public function setTitre(string $titre) : self
     {
         $this->titre = $titre;
 
         return $this;
     }
 
-    public function getContent(): ?string
+    public function getContent() : ? string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(string $content) : self
     {
         $this->content = $content;
 
         return $this;
     }
 
-    public function getWeight(): ?int
+    public function getWeight() : ? int
     {
         return $this->weight;
     }
 
-    public function setWeight(int $weight): self
+    public function setWeight(int $weight) : self
     {
         $this->weight = $weight;
 
         return $this;
     }
 
-    public function getRemoved(): ?bool
+    public function getRemoved() : ? bool
     {
         return $this->removed;
     }
 
-    public function setRemoved(bool $removed): self
+    public function setRemoved(bool $removed) : self
     {
         $this->removed = $removed;
 
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTimeInterface
+    public function getDateCreation() : ? \DateTimeInterface
     {
         return $this->date_creation;
     }
 
-    public function setDateCreation(\DateTimeInterface $date_creation): self
+    public function setDateCreation(\DateTimeInterface $date_creation) : self
     {
         $this->date_creation = $date_creation;
 
         return $this;
     }
 
-    public function getViewcount(): ?int
+    public function getViewcount() : ? int
     {
         return $this->viewcount;
     }
 
-    public function setViewcount(int $viewcount): self
+    public function setViewcount(int $viewcount) : self
     {
         $this->viewcount = $viewcount;
 
         return $this;
     }
 
-    public function getThread(): ?Thread
+    public function getThread() : ? Thread
     {
         return $this->thread;
     }
 
-    public function setThread(?Thread $thread): self
+    public function setThread(? Thread $thread) : self
     {
         $this->thread = $thread;
 
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor() : ? User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    public function setAuthor(? User $author) : self
     {
         $this->author = $author;
 
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage() : ? string
     {
         return $this->image;
     }
 
-    public function setImage(?string $image): self
+    public function setImage(? string $image) : self
     {
         $this->image = $image;
 
         return $this;
     }
 
-    public function getCategory(): ?Category
+    public function getCategory() : ? Category
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): self
+    public function setCategory(? Category $category) : self
     {
         $this->category = $category;
 

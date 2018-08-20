@@ -31,17 +31,17 @@ class CommentRepository extends ServiceEntityRepository
             ->setFirstResult($offset * $limit)
             ->getQuery()->execute();
 
-            return $qb;
+        return $qb;
     }
 
     public function getCommentPageCount(Thread $thread)
     {
         return ($this->createQueryBuilder('c')
-        ->select('COUNT(c)')
-        ->andWhere('c.thread = :thread')
-        ->setParameter('thread', $thread)
-         ->getQuery()
-        ->getSingleScalarResult());
+            ->select('COUNT(c)')
+            ->andWhere('c.thread = :thread')
+            ->setParameter('thread', $thread)
+            ->getQuery()
+            ->getSingleScalarResult());
     }
 
 //    /**
@@ -59,7 +59,7 @@ class CommentRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+     */
 
     /*
     public function findOneBySomeField($value): ?Comment
@@ -71,5 +71,5 @@ class CommentRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+     */
 }

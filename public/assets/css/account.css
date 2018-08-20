@@ -1,21 +1,21 @@
 #user-infos {
-    color:var(--main-a-color);
-    margin-left:3em;
-    position:relative;
-    bottom:15em;
-    width: 12em;
+  color: var(--main-a-color);
+  margin-left: 3em;
+  position: relative;
+  bottom: 15em;
+  width: 12em;
 }
 
 #user-avatar {
-    margin-left:2em;
-    margin-right:0;
-    padding-bottom: 0;
-    max-width: 90px;
-    min-width : 90px;
+  margin-left: 2em;
+  margin-right: 0;
+  padding-bottom: 0;
+  max-width: 90px;
+  min-width: 90px;
 }
 
 @media screen and (max-width: 800px) {
-    #user-infos{
-        display:none;
-    }
+  #user-infos {
+    display: none;
+  }
 }

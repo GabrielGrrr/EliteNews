@@ -1,78 +1,74 @@
-
-
 #connexion-form {
-    background: var(--main-bgcolor);
-    color: var(--main-a-color);
-    padding-bottom : 9px;
-    padding-top: 25px;
-    font-size : 18px;
+  background: var(--main-bgcolor);
+  color: var(--main-a-color);
+  padding-bottom: 9px;
+  padding-top: 25px;
+  font-size: 18px;
 }
 
 #connexion-form label {
-    display : block;
-    position: relative;
-    left: 35%;
-    margin-top : 20px;
+  display: block;
+  position: relative;
+  left: 35%;
+  margin-top: 20px;
 }
 
 #connexion-form form input {
-    display : block;
-    position: relative;
-    left: 35%;
+  display: block;
+  position: relative;
+  left: 35%;
 }
 
 #connexion-form button {
-    display : block;
-    position: relative;
-    left: 35%;
-    margin-top:20px;
+  display: block;
+  position: relative;
+  left: 35%;
+  margin-top: 20px;
 }
 
 #connexion-form p {
-    display : block;
-    padding:0;
-    margin-bottom:5px;
-    margin-left: 10px;
-    line-height: 100%;
+  display: block;
+  padding: 0;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  line-height: 100%;
 }
 
 #connexion-form .icon-form {
-    display:inline;
-    position:relative;
-    bottom: 2.6em;
-    left:1em;
-    font-size: 5em;
+  display: inline;
+  position: relative;
+  bottom: 2.6em;
+  left: 1em;
+  font-size: 5em;
 }
 
-@media screen and (max-width: 800px)
-{
-    #connexion-form label {
-        left: 60%;
-    }
-    
-    #connexion-form form input {
-        left: 60%;
-    }
-    
-    #connexion-form button {
-        left: 60%;
-    }
+@media screen and (max-width: 800px) {
+  #connexion-form label {
+    left: 60%;
+  }
+
+  #connexion-form form input {
+    left: 60%;
+  }
+
+  #connexion-form button {
+    left: 60%;
+  }
 }
 
 @media screen and (max-width: 400px) {
-    #connexion-form .icon-form {
-        display : none;
+  #connexion-form .icon-form {
+    display: none;
+  }
+  #connexion-form label {
+    left: 40%;
+  }
 
-    }
-    #connexion-form label {
-        left: 40%;
-    }
-    
-    #connexion-form form input {
-        left: 40%;
-    }
-    
-    #connexion-form button {
-        left: 40%;
-    }
+  #connexion-form form input {
+    left: 40%;
+  }
+
+  #connexion-form button {
+    left: 40%;
+  }
 }

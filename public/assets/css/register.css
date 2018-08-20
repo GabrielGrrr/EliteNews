@@ -1,21 +1,21 @@
 label {
-    color:var(--main-a-color);
+  color: var(--main-a-color);
 }
 
 button {
-    margin-left:auto;
-    margin-right:auto;
-    width:20%;
-    display:block;
-    margin-top:2em;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+  display: block;
+  margin-top: 2em;
 }
 
 .full-page-form {
-    background: var(--main-bgcolor);
-    padding:3em;
+  background: var(--main-bgcolor);
+  padding: 3em;
 }
 
 .full-page-form h1 {
-    margin-bottom: 1.5em;
-    margin-top:0;
+  margin-bottom: 1.5em;
+  margin-top: 0;
 }
