@@ -21,6 +21,11 @@ class BlogFixtures extends Fixture
 {
 
     private $encoder;
+    private $imageSuppliers = [
+        "https://loremflickr.com/",
+        "http://placekitten.com/",
+        "https://picsum.photos/"
+    ];
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
@@ -209,13 +214,13 @@ class BlogFixtures extends Fixture
             $image = "";
             switch ($weight) {
                 case 0:
-                    $image = "https://picsum.photos/" . (mt_rand(4, 6) * 100) . "/350?random";
+                    $image = $this->imageSuppliers[array_rand($this->imageSuppliers)] . (mt_rand(4, 6) * 100) . "/350?random=" . $i;
                     break;
                 case 1:
-                    $image = "https://picsum.photos/" . (mt_rand(6, 8) * 100) . "/400?random";
+                    $image = $this->imageSuppliers[array_rand($this->imageSuppliers)] . (mt_rand(6, 8) * 100) . "/400?random=" . $i;
                     break;
                 case 2:
-                    $image = "https://picsum.photos/" . (mt_rand(9, 11) * 100) . "/150?random";
+                    $image = $this->imageSuppliers[array_rand($this->imageSuppliers)] . (mt_rand(9, 11) * 100) . "/150?random=" . $i;
                     break;
             }
 

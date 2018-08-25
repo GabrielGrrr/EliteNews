@@ -87,7 +87,7 @@
         <section id="comments-section">
             <spand id="first-post"></spand>
             {% for comment in comments %}
-            <div {% if comment.id==a nchor %} id="anchor" {% endif %} class="single-comment">
+            <div {% if comment.id==anchor %} id="anchor" {% endif %} class="single-comment">
                 <div class="comment-leftpanel">
                     <span class="login">{{ comment.author.login }}</span>
                     <span class="subtitle">{{ comment.author.subtitle }}</span>
@@ -137,8 +137,8 @@
             {% endfor %}
             <div class="list-navigation">
                 {% if commentnavigation.end
-                < 12 %} {% for i in commentnavigation.start .. commentnavigation.end %} {% if
-                    commentnavigation.index==i %} <span id="current-page"> {{ i }}</span>
+                < 12 %} {% for i in commentnavigation.start .. commentnavigation.end %} {% if commentnavigation.index==i %} <span id="current-page">
+                    {{ i }}</span>
                     {% else %}
                     <a href="{{ path('browse_comment', {'id' : article.id , 'index' : i }) }}"> {{ i }}</a>
                     {% endif %} {% endfor %} {% else %} {% for i in commentnavigation.start .. min(3, max(commentnavigation.index - 4, 3)) %}
