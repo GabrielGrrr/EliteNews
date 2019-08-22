@@ -137,7 +137,8 @@
             {% endfor %}
             <div class="list-navigation">
                 {% if commentnavigation.end
-                < 12 %} {% for i in commentnavigation.start .. commentnavigation.end %} {% if commentnavigation.index==i %} <span id="current-page">
+                < 12 %} {% for i in commentnavigation.start .. commentnavigation.end %} {% if
+                    commentnavigation.index==i %} <span id="current-page">
                     {{ i }}</span>
                     {% else %}
                     <a href="{{ path('browse_comment', {'id' : article.id , 'index' : i }) }}"> {{ i }}</a>
@@ -154,9 +155,8 @@
                     {% else %}
                     <a href="{{ path('browse_comment', {'id' : article.id , 'index' : i }) }}"> {{ i }}</a>
                     {% endif %} {% endfor %} {% if commentnavigation.end > commentnavigation.index +3 %}
-                    <span class> ... </span>
-                    <a class="last-page" href="{{ path('browse_comment', {'id' : article.id , 'index' : commentnavigation.end }) }}"> {{ commentnavigation.end }}</span>
-                        {% endif %} {% endif %}
+                    <span class="tripledot"> ... </span>
+                    <a class="last-page" href="{{ path('browse_comment', {'id' : article.id , 'index' : commentnavigation.end }) }}"> {{ commentnavigation.end }} {% endif %} {% endif %}
             </div>
         </section>
         {% endif %}

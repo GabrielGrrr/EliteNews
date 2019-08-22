@@ -23,7 +23,6 @@ class BlogFixtures extends Fixture
     private $encoder;
     private $imageSuppliers = [
         "https://loremflickr.com/",
-        "http://placekitten.com/",
         "https://picsum.photos/"
     ];
 
